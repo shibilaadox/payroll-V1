@@ -9,7 +9,7 @@ class Project extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'project', 'project_type' ,'project_name','client','project_phase','project_amount','start_date','end_date','project_location','description','employee','status','salary'
+        'project', 'project_type' ,'project_name','client','project_amount','start_date','end_date','project_location','description','status','salary'
     ];
     
     public function clients()

@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\Client;
+use App\Models\EmployeeProject;
 use DataTables;
+use DateTime;
 
 class ProjectController extends Controller
 {
@@ -53,11 +55,28 @@ class ProjectController extends Controller
             $input['end_date'] = $request->end_date;
             $input['project_location'] = $request->project_location;
             $input['description'] = $request->description;
-            $input['employee'] = $request->employee;
             $input['status'] = $request->project_status;
-            $input['salary'] = $request->salary;
             
-            Project::updateOrCreate(['id' => $request->project_id] ,$input);
+            
+            $data_project = Project::updateOrCreate(['id' => $request->project_id] ,$input);
+
+            $jsonData = $request->employee_payment;
+    
+            $decodedData = json_decode($jsonData, true);
+
+            $monthNum  = date('m');
+            $dateObj   = DateTime::createFromFormat('!m', $monthNum);
+            $monthName = $dateObj->format('F'); // March
+
+            foreach ($decodedData as $item) {
+    
+                $inputs['user_id'] = $item["Employee"];
+                $inputs['project_id'] = $data_project->id;
+                $inputs['payment'] = $item["Payment"];
+                $inputs['mode'] = $item["Mode"];
+                $inputs['month'] = $monthName;
+                EmployeeProject::updateOrCreate(['id' => $request->project_id] ,$inputs);
+            }
 
             return response()->json(['code' => '200', 'status' => 'Project added successfully']);
         } catch (Throwable $e) {

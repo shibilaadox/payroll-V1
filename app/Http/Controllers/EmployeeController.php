@@ -21,7 +21,7 @@ class EmployeeController extends Controller
     public function index()
     {
 
-        $data['users'] = User::with('userdetails')->where('status',1)->get();
+        $data['users'] = User::with('userdetails')->where('user_type','Employee')->where('status',1)->get();
         return view('backend.employee.index', ['data' => $data]);
     }
 

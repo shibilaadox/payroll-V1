@@ -118,7 +118,7 @@
     <script src="https://releases.transloadit.com/uppy/v2.4.1/uppy.min.js"></script>
     <script src="{{ asset('assets/js/bootstrap-select.min.js') }}"></script>
  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
 
   <!--<script src="{{ asset('assets/js/main.js') }}"></script>-->
     <script src="{{ asset('assets/js/assetmanagment.js') }}"></script>
@@ -166,7 +166,7 @@
     }
 
     function remove(id, url) {
-        Swal.fire({
+       /* Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
             type: 'warning',
@@ -210,7 +210,40 @@
                         // 'error'
                     )
                 }
-            });
+            });*/
+
+            swal({
+              title: `Are you sure you want to delete this record?`,
+              text: "If you delete this, it will be gone forever.",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+                let _url = `${url}/${id}`;
+                let _token = $('meta[name="csrf-token"]').attr('content');
+
+                $.ajax({
+                    url: _url,
+                    type: 'DELETE',
+                    data: {
+                        _token: _token
+                    },
+                    success: function(response) {
+                        $("#row_" + id).remove();
+                        swal(
+                            'Deleted!',
+                            'Deleted Successfully.',
+                            'success'
+                        ).then(function() {
+                            location.reload();
+                        });
+
+                    }
+                });
+            }
+          });
 
     }
     $("div#emdadUploader").on('show.bs.modal', function() {

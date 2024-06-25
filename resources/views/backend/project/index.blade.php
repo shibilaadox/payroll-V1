@@ -124,7 +124,7 @@
                                     <?php } ?>
                                 </select>
                             </div>
-                            <div class="form-group col-md-12">
+                            <!--<div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Project Phases:</label>
                                 <select class="form-control" id="project_phase" name="project_phase" required>
                                     <option value="">Select</option>
@@ -133,7 +133,7 @@
                                     <option value="Proposal">Proposal</option>
                                 </select>
 
-                            </div>
+                            </div>-->
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Project Amount:</label>
                                 <input type="text" class="form-control" id="project_amount" name="project_amount" placeholder="Enter name">
@@ -163,18 +163,50 @@
 
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Assigned To:</label>
-                                <select class="form-control" id="employee" name="employee">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                    <th scope="col" style="font-size:12px;">Employee</th>
+                                    <th scope="col" style="font-size:12px;">Mode</th>
+                                    <th scope="col" style="font-size:12px;">Payment</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody id="payment_row">
+                                    <tr>
+                        <td>
+                        <select class="form-control" id="employee" name="employee[]">
                                     <option value="">Select</option>
                                     <?php foreach($data['users'] as $row){?>
                                     <option value={{$row->id}}>{{$row->firstname}}</option>
                                     <?php } ?>
                                 </select>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="actual_name" class="ul-form__label">Payment:</label>
-                                <input type="text" class="form-control" id="salary" name="salary" placeholder="Enter payment of employee">
+                        </td>
+                        <td>
+                        <select class="form-control" id="mode" name="mode[]">
+                                    <option value="">Select</option>
+                                    
+                                    <option value="Monthly">Monthly</option>
+                                    <option value="Monthly">Hourly</option>
+                                </select>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="payment[]" id="payment">
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-default btn-icon m-1 attr" id="payment_add">
+                                <span class="ul-btn__icon"><i class="i-Add"
+                                        style="font-size: 20px;"></i></span>
+                            </button>
+                        </td>
+                        <input type="hidden" class="form-control" name="employee_payment" id="employee_payment">
+                    </tr>
+                </tbody>
+             </table>
+
 
                             </div>
+
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Project Status:</label>
                                 <select class="form-control" id="project_status" name="project_status" required>
@@ -312,6 +344,70 @@
         minYear: 1901,
         maxYear: parseInt(moment().format('YYYY'),10)
     }); 
+
+    $("#payment_add").click(function() {
+        var html =
+            '<tr><td><select class="form-control" id="employee" name="employee[]">'+
+                                    '<option value="">Select</option>'+
+                                    <?php foreach($data['users'] as $row){?>
+                                    '<option value={{$row->id}}>{{$row->firstname}}</option>'+
+                                    <?php } ?>
+                                '</select>'+
+                        '</td>'+
+                        '<td>'+
+                        '<select class="form-control" id="mode" name="mode[]">'+
+                                    '<option value="">Select</option>'+
+                                    
+                                    '<option value="Monthly">Monthly</option>'+
+                                    '<option value="Monthly">Hourly</option>'+
+                                '</select>'+
+                        '</td>'+
+                        '<td>'+
+                            '<input type="text" class="form-control" name="payment[]" id="payment">'+
+                        '</td>'+
+                        
+                        
+            '<td>  <button type="button"  class="btn btn-sm btn-default btn-icon m-1 attr payment_delete">' +
+            '<span class="ul-btn__icon"><i class="i-Close-Window" style="font-size: 20px;"></i></span>' +
+            '</button></td></tr>';
+        $("#payment_row").append(html);
+
+    });
+
+    $('body').on('click', '.payment_delete', function() {
+        $(this).closest("tr").remove();
+       
+    });
+
+    $("#saveBtn").mouseover(function() {
+
+
+yourArray_payment = [];
+
+var employees = document.getElementsByName('employee[]');
+var modes = document.getElementsByName('mode[]');
+var payments = document.getElementsByName('payment[]');
+
+
+
+for (var i = 0; i <employees.length; i++) {
+    var employee=employees[i];
+    var mode=modes[i];
+    var payment=payments[i];
+    var payment_employee = new EmployeePayment(employee.value,mode.value ,payment.value);
+    yourArray_payment.push(payment_employee);
+    $("#employee_payment").val(JSON.stringify(yourArray_payment));
+    
+}
+});
+
+function EmployeePayment(employee, mode ,payment) {
+    this.Employee = employee;
+    this.Mode = mode;
+    this.Payment = payment;
+   
+    }
+
     
    
     </script>

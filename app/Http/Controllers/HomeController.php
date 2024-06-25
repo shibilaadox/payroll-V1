@@ -28,11 +28,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data['total_employees'] = User::where('status',0)->where('user_type','Employee')->count();
+        $data['total_employees'] = User::where('status',1)->where('user_type','Employee')->count();
         $data['total_departments'] = Department::count();
         $data['total_present'] = Status::where('date', date('Y-m-d'))->count();
         $data['total_absent'] = $data['total_employees'] - $data['total_present'];
-        $data['new_users'] = User::where('status',0)->get();
+        $data['new_users'] = User::where('status',1)->get();
         
         $total_present_emp = Status::where('date', date('Y-m-d'))->get();
         $present_id = array();
@@ -43,7 +43,7 @@ class HomeController extends Controller
             $i++;
         }
         
-        $data['present_employees'] = User::where('status',0)->whereIn('id',$present_id)->get();
+        $data['present_employees'] = User::where('status',1)->whereIn('id',$present_id)->get();
         
         $total_emp = User::where('status',0)->where('user_type','Employee')->get();
         $total_emp_id = array();
@@ -54,7 +54,7 @@ class HomeController extends Controller
             $i++;
         }
         
-        $data['total_absent_emp'] = User::where('status',0)->whereIn('id',$total_emp_id)->whereNotIn('id',$present_id)->groupBy('id')->get();
+        $data['total_absent_emp'] = User::where('status',1)->whereIn('id',$total_emp_id)->whereNotIn('id',$present_id)->groupBy('id')->get();
         
         for ($i = 0; $i <= 5; $i++) 
         {

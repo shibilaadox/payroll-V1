@@ -78,7 +78,6 @@ use App\Models\Paymentstatus; ?>
             </div>
 
 
-
         </div>
     </form>
 
@@ -103,13 +102,22 @@ use App\Models\Paymentstatus; ?>
                     <span class="font-small">
                         <span id="ember1577" class="tooltip-container ember-view"> 26 Base Days
                         </span><br><br>
+
+                        <?php
+
+                        $data = [
+                            'total' => 10,
+                            'net_pay_total' => 50000,
+                        ];
+                        ?>
+
                         <div class="row mb-12">
                             <div class="col-md-6 mb-6">
-                                <h4> </h4>
+                                <h4> <?php echo '' . number_format($data['total']); ?> </h4>
                                 <div class="text-uppercase font-ms payrun-label">Projects</div>
                             </div>
                             <div class="col-md-6 mb-6">
-                                <h4> </h4>
+                                <h4> <?php echo '₹' . number_format($data['net_pay_total'], 2); ?> </h4>
                                 <div class="text-uppercase font-ms payrun-label">Project Budget</div>
                             </div>
                         </div>
@@ -198,7 +206,7 @@ use App\Models\Paymentstatus; ?>
                                     $i = 1;
                                 @endphp
                                 @foreach ($projects as $project)
-                                    @if ($i > 10)
+                                    @if ($i > 20)
                                     @break
                                 @endif
 

@@ -9,6 +9,7 @@ use App\Models\Client;
 use App\Models\EmployeeProject;
 use DataTables;
 use DateTime;
+use Throwable;
 
 class ProjectController extends Controller
 {
@@ -56,12 +57,12 @@ class ProjectController extends Controller
             $input['project_location'] = $request->project_location;
             $input['description'] = $request->description;
             $input['status'] = $request->project_status;
-            
-            
+
+
             $data_project = Project::updateOrCreate(['id' => $request->project_id] ,$input);
 
             $jsonData = $request->employee_payment;
-    
+
             $decodedData = json_decode($jsonData, true);
 
             $monthNum  = date('m');
@@ -69,7 +70,7 @@ class ProjectController extends Controller
             $monthName = $dateObj->format('F'); // March
 
             foreach ($decodedData as $item) {
-    
+
                 $inputs['user_id'] = $item["Employee"];
                 $inputs['project_id'] = $data_project->id;
                 $inputs['payment'] = $item["Payment"];

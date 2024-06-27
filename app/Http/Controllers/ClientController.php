@@ -24,6 +24,8 @@ class ClientController extends Controller
                     $btn = '<button class="btn btn-success" onclick="edit_client('.$row->id.')" type="button"><i class="nav-icon i-Pen-2 font-weight-bold"></i></button>';
                     $btn = $btn . '<button class="btn btn-danger ml-3" onclick="delete_client('.$row->id.')" type="button"><i class="nav-icon i-Close-Window font-weight-bold"></i></button>';
 
+                    $btn .= '<a href="' . route('client.details', $row->id) . '" class="btn btn-primary ml-3" type="button">Details</a>';
+
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -56,7 +58,7 @@ class ClientController extends Controller
             $input['email'] = $request->email;
             $input['phone'] = $request->phone;
             $input['address'] = $request->address;
-            
+
             Client::updateOrCreate(['id' => $request->client_id] ,$input);
 
             return response()->json(['code' => '200', 'status' => 'Client added successfully']);

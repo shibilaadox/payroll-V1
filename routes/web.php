@@ -4,12 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\LocationController; 
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ClientDetailsController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\PayrollController;
@@ -49,7 +50,7 @@ Route::view('sessions/signIn', 'sessions.signIn')->name('signIn');
 Route::view('sessions/signUp', 'sessions.signUp')->name('signUp');
 Route::view('sessions/forgot', 'sessions.forgot')->name('forgot');
 
- 
+
 // Auth::routes();
 Auth::routes();
 
@@ -58,7 +59,7 @@ Auth::routes();
 Route::resource('roles', RolesController::class)->middleware(['auth', 'verified']);
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -86,6 +87,7 @@ Route::resource('leaves', LeaveController::class);
 
 //Client routes
 Route::resource('clients', ClientController::class);
+Route::get('/client/{id}/details', [ClientDetailsController::class, 'showDetails'])->name('client.details');
 
 //Project routes
 Route::resource('projects', ProjectController::class);

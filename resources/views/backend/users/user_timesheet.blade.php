@@ -10,6 +10,9 @@
             <a class="btn btn-bold btn-label-brand btn-sm" data-toggle="modal" data-target="#modal_excel"
                         style="float:right;margin-right: 1%;margin-bottom: 2%"> <button
                             class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">Upload Timesheet</button></a>
+                            <a class="btn btn-bold btn-label-brand btn-sm" data-toggle="modal" data-target="#modal_excel_hourly"
+                        style="float:right;margin-right: 1%;margin-bottom: 2%"> <button
+                            class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">Upload Hourly Timesheet</button></a>
 
                 <h4 class="mb-3 fs-22 font-weight-bold">User's Work Timesheet
                     
@@ -71,6 +74,40 @@
             <div class="modal-content">
 
                 <form action="{{ route('import.excel') }}" method="POST" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"> Upload File </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+
+                        <div class="form-group">
+                            
+
+                            <input type="file" name='file' id="file">
+                            
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="submit_excel" name="upload">Submit</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_excel_hourly" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+
+                <form action="{{ route('import_hourly.excel') }}" method="POST" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel"> Upload File </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">

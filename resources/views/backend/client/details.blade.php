@@ -135,7 +135,8 @@ use App\Models\Paymentstatus; ?>
                         echo date('M', mktime(0, 0, 0, $_GET['month'] + 1));
                     } else {
                         echo date('M , Y');
-                    } ?></div>
+                    }
+                    echo ' ' . date('Y');?></div>
 
 
                 </div>
@@ -151,6 +152,7 @@ use App\Models\Paymentstatus; ?>
                         <td class="text-right">5</td>
 
                     </tr>
+
                     <tr>
                         <td class="payrun-label">Workload</td>
                         <td class="text-right">2</td>

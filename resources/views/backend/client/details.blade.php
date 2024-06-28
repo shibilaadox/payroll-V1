@@ -90,7 +90,7 @@ use App\Models\Paymentstatus; ?>
             <div class="card o-hidden">
 
                 <div class="card-body">
-                    <span class="font-mm">Period:</span> <span class="font-semibold font-mm"><?php
+                     <span class="font-semibold font-mm"><?php
                     if (isset($_GET['month']) && $_GET['month'] != '') {
                         $current_month = date('M', mktime(0, 0, 0, $_GET['month']));
                     } else {
@@ -98,10 +98,9 @@ use App\Models\Paymentstatus; ?>
                         $current_month = Date('F', strtotime($currentMonth . ' last month'));
                     }
 
-                    echo $current_month . ' ' . date('Y'); ?></span> |
+                    echo $current_month . ' ' . date('Y'); ?></span>
                     <span class="font-small">
-                        <span id="ember1577" class="tooltip-container ember-view"> 26 Base Days
-                        </span><br><br>
+                        <br><br>
 
                         <?php
 
@@ -150,6 +149,7 @@ use App\Models\Paymentstatus; ?>
                     <tr>
                         <td class="payrun-label">Upcoming Tasks</td>
                         <td class="text-right">5</td>
+
                     </tr>
                     <tr>
                         <td class="payrun-label">Workload</td>

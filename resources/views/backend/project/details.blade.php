@@ -1,11 +1,13 @@
+
 @extends('layouts.master')
 <?php use App\Models\Leave;
 use App\Models\Deduction;
 use App\Models\Paymentstatus; ?>
 @section('main-content')
+
     <div class="breadcrumb">
 
-        <h2>{{ $client->name }}</h2>
+        <h2>{{ $project->name }}</h2>
 
     </div>
 
@@ -114,11 +116,11 @@ use App\Models\Paymentstatus; ?>
                         <div class="row mb-12">
                             <div class="col-md-6 mb-6">
                                 <h4> <?php echo '' . number_format($data['total']); ?> </h4>
-                                <div class="text-uppercase font-ms payrun-label">Projects</div>
+                                <div class="text-uppercase font-ms payrun-label">Employees</div>
                             </div>
                             <div class="col-md-6 mb-6">
+                                <div class="text-uppercase font-ms payrun-label">Total Cost</div>
                                 <h4> <?php echo '₹' . number_format($data['net_pay_total'], 2); ?> </h4>
-                                <div class="text-uppercase font-ms payrun-label">Project Budget</div>
                             </div>
                         </div>
 
@@ -131,7 +133,7 @@ use App\Models\Paymentstatus; ?>
 
                 <div class="card-body">
                     <div class="text-uppercase payrun-label font-small">PROJECT LAUNCH DATE</div>
-                    <div style="font-size: 28px" class="font-light">20</div>
+                    <div style="font-size: 28px" class="font-light">60</div>
                     <div class="text-uppercase font-small"><?php if (isset($_GET['month']) && $_GET['month'] != '') {
                         echo date('M', mktime(0, 0, 0, $_GET['month'] + 1));
                     } else {
@@ -144,20 +146,21 @@ use App\Models\Paymentstatus; ?>
             </div>
         </div>
         <div class="col-md-4 mb-4">
-            <h4 class="font-xmedium">Task Details</h4>
+            <h4 class="font-xmedium">Task by Status</h4>
             <table class="table noborder-table">
                 <tbody>
                     <tr>
-                        <td class="payrun-label">Upcoming Tasks</td>
-                        <td class="text-right">5</td>
+                        <td class="payrun-label">Finished</td>
                     </tr>
                     <tr>
-                        <td class="payrun-label">Workload</td>
-                        <td class="text-right">2</td>
+                        <td class="payrun-label">Planned</td>
                     </tr>
                     <tr>
-                        <td class="payrun-label">Overdue Tasks</td>
-                        <td class="text-right">2</td>
+                        <td class="payrun-label">On Track</td>
+                    </tr>
+                    <tr>
+                        <td class="payrun-label">Delayed</td>
+
                     </tr>
 
                 </tbody>
@@ -169,13 +172,8 @@ use App\Models\Paymentstatus; ?>
 
     <div>
 
-        <h1>Client Details</h1>
-        <p>Name: {{ $client->name }}</p>
-        <p>Email: {{ $client->email }}</p>
+        <h1>Employee Details</h1>
 
-        <div class="form-group col-md-12">
-            <label for="client" class="ul-form__label">Projects :</label>
-        </div>
 
         <div class="table-responsive">
             <div id="comma_decimal_table_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
@@ -184,65 +182,31 @@ use App\Models\Paymentstatus; ?>
                     <div class="col-sm-12">
                         <table id="project_datatable" class="display table table-striped table-bordered dataTable"
                             style="width: 100%;" role="grid" aria-describedby="comma_decimal_table_info">
-                            <thead>
+                            <thead class="text-center">
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Project Name</th>
-                                    <th scope="col">Client</th>
-                                    <th scope="col">Project Type</th>
-                                    <th scope="col">Project Phases</th>
-                                    <th scope="col">Project Status</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Assigned To</th>
+                                    <th scope="col">Employee ID</th>
+                                    <th scope="col">Project ID</th>
+                                    <th scope="col">Month</th>
                                     <th scope="col">Payment</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">Mode</th>
                                 </tr>
                             </thead>
 
-
                             <tbody>
-                                @php
-                                    $i = 1;
-                                @endphp
-                                @foreach ($projects as $project)
-                                    @if ($i > 20)
-                                    @break
-                                @endif
 
+                                @php
+                                        $i = 1;
+                                    @endphp
                                 <tr>
                                     <th scope="row">{{ $i++ }}</th>
-                                    <td>{{ $project->project_name }}</td>
-                                    <td>{{ $client->name }}</td>
-                                    <td><?php echo $project->project . ' - ' . $project->project_type; ?></td>
-                                    <td>{{ $project->project_phase }}</td>
-                                    <td>{{ $project->status }}</td>
-                                    <td><?php echo $project->start_date . ' to ' . $project->end_date; ?></td>
-                                    <td>{{ $project->description }}</td>
-                                    <td>
-                                        @foreach ($project->employees as $employee)
-                                            {{ $project->employees->firstname }}
-
-                                            {{ $project->employees->lastname }}
-                                        @endforeach
-                                    </td>
-                                    <td>{{ $project->salary }}</td>
-                                    <td>
-                                        <a class="text-success mr-2" onclick="edit_project('{{ $project->id }}')">
-                                            <i class="nav-icon i-Pen-2 font-weight-bold fs-16"></i>
-                                        </a>
-                                        <a class="text-danger mr-2" onclick="delete_project('{{ $project->id }}')"
-                                            title="Delete Project">
-                                            <i class="nav-icon i-Close-Window font-weight-bold fs-16"></i>
-                                        </a>
-                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
-
-                                @php
-                                    $i++;
-                                @endphp
-                            @endforeach
-                        </tbody>
+                            </tbody>
 
 
                     </table>

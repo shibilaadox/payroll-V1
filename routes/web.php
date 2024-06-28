@@ -18,6 +18,7 @@ use App\Http\Controllers\DeductionController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ExcelImportController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\ProjectDetailsController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -92,6 +93,7 @@ Route::get('/client/{id}/details', [ClientDetailsController::class, 'showDetails
 
 //Project routes
 Route::resource('projects', ProjectController::class);
+Route::get('/project/{id}/details', [ProjectDetailsController::class, 'show'])->name('project.details');
 
 //FileUpload routes
 Route::resource('upload', UploadController::class);

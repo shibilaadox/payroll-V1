@@ -1,8 +1,9 @@
 @extends('layouts.master')
- 
+
 @section('page-css')
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endsection
 
 @section('main-content')
@@ -53,12 +54,15 @@
                                             <td>{{ $row->description }}</td>
                                             <td>{{ $row->employees->firstname }}</td>
                                             <td>{{ $row->salary }}</td>
-                                            <td>
-                                                <a class="text-success mr-2" onclick="edit_project('{{$row->id}}')">
+                                            <td class="d-flex justify-content-between align-items-center">
+                                                <a class="text-success" onclick="edit_project('{{$row->id}}')">
                                                     <i class="nav-icon i-Pen-2 font-weight-bold fs-16"></i>
                                                 </a>
-                                                <a class="text-danger mr-2" onclick="delete_project('{{$row->id}}')" title="Delete Project">
+                                                <a class="text-danger" onclick="delete_project('{{$row->id}}')" title="Delete Project">
                                                     <i class="nav-icon i-Close-Window font-weight-bold fs-16"></i>
+                                                </a>
+                                                <a href="{{ route('project.details', $row->id) }}" class="text-primary">
+                                                    <i style="font-size: 17px" class="fa-solid fa-circle-info"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -185,7 +189,7 @@
                         <td>
                         <select class="form-control" id="mode" name="mode[]">
                                     <option value="">Select</option>
-                                    
+
                                     <option value="Monthly">Monthly</option>
                                     <option value="Monthly">Hourly</option>
                                 </select>
@@ -218,7 +222,7 @@
                                 </select>
 
                             </div>
-                           
+
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -267,18 +271,18 @@
                     }
                 },
                 error: function(response) {
-                    
+
                 }
 
             });
 
         });
 
-        
+
         //Edit Function
 
         function edit_project(id) {
-            
+
             $.get("{{ route('projects.index') }}" + '/' + id + '/edit', function(data) {
                 $("#saveBtn").val("Edit-Category");
                 $("#project-modal").modal('show');
@@ -296,11 +300,11 @@
                 $("#employee").val(data.employee);
                 $("#project_status").val(data.status);
                 /*var res = data.project_phase.split(",");
-    
+
                 res.forEach(element =>{
-     
+
                         $('#project_phase option[value='+element+']').attr('selected','selected').change();
-        
+
                 });*/
             });
         }
@@ -314,7 +318,7 @@
         $('#project_datatable').DataTable();
 
         $('document').ready(function() {
-            
+
             $('.select_class').select2();
             // csrf token
             $.ajaxSetup({
@@ -333,7 +337,7 @@
         showDropdowns: true,
         minYear: 1901,
         maxYear: parseInt(moment().format('YYYY'),10)
-    }); 
+    });
 
     $('#end_date').daterangepicker({
         singleDatePicker: true,
@@ -343,7 +347,7 @@
         showDropdowns: true,
         minYear: 1901,
         maxYear: parseInt(moment().format('YYYY'),10)
-    }); 
+    });
 
     $("#payment_add").click(function() {
         var html =
@@ -357,7 +361,7 @@
                         '<td>'+
                         '<select class="form-control" id="mode" name="mode[]">'+
                                     '<option value="">Select</option>'+
-                                    
+
                                     '<option value="Monthly">Monthly</option>'+
                                     '<option value="Monthly">Hourly</option>'+
                                 '</select>'+
@@ -365,8 +369,8 @@
                         '<td>'+
                             '<input type="text" class="form-control" name="payment[]" id="payment">'+
                         '</td>'+
-                        
-                        
+
+
             '<td>  <button type="button"  class="btn btn-sm btn-default btn-icon m-1 attr payment_delete">' +
             '<span class="ul-btn__icon"><i class="i-Close-Window" style="font-size: 20px;"></i></span>' +
             '</button></td></tr>';
@@ -376,7 +380,7 @@
 
     $('body').on('click', '.payment_delete', function() {
         $(this).closest("tr").remove();
-       
+
     });
 
     $("#saveBtn").mouseover(function() {
@@ -397,7 +401,7 @@ for (var i = 0; i <employees.length; i++) {
     var payment_employee = new EmployeePayment(employee.value,mode.value ,payment.value);
     yourArray_payment.push(payment_employee);
     $("#employee_payment").val(JSON.stringify(yourArray_payment));
-    
+
 }
 });
 
@@ -405,10 +409,10 @@ function EmployeePayment(employee, mode ,payment) {
     this.Employee = employee;
     this.Mode = mode;
     this.Payment = payment;
-   
+
     }
 
-    
-   
+
+
     </script>
 @endsection

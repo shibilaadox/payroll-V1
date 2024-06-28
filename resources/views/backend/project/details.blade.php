@@ -92,7 +92,7 @@ use App\Models\Paymentstatus; ?>
             <div class="card o-hidden">
 
                 <div class="card-body">
-                    <span class="font-mm">Period:</span> <span class="font-semibold font-mm"><?php
+                     <span class="font-semibold font-mm"><?php
                     if (isset($_GET['month']) && $_GET['month'] != '') {
                         $current_month = date('M', mktime(0, 0, 0, $_GET['month']));
                     } else {
@@ -100,10 +100,9 @@ use App\Models\Paymentstatus; ?>
                         $current_month = Date('F', strtotime($currentMonth . ' last month'));
                     }
 
-                    echo $current_month . ' ' . date('Y'); ?></span> |
+                    echo $current_month . ' ' . date('Y'); ?></span>
                     <span class="font-small">
-                        <span id="ember1577" class="tooltip-container ember-view"> 26 Base Days
-                        </span><br><br>
+                        <br><br>
 
                         <?php
 
@@ -132,40 +131,16 @@ use App\Models\Paymentstatus; ?>
             <div class="card o-hidden">
 
                 <div class="card-body">
-                    <div class="text-uppercase payrun-label font-small">PROJECT LAUNCH DATE</div>
-                    <div style="font-size: 28px" class="font-light">60</div>
-                    <div class="text-uppercase font-small"><?php if (isset($_GET['month']) && $_GET['month'] != '') {
-                        echo date('M', mktime(0, 0, 0, $_GET['month'] + 1));
-                    } else {
-                        echo date('M , Y');
-                    } ?></div>
+                    <div class="text-uppercase payrun-label font-small text-center">PROJECT LAUNCH DATE</div>
+                    <div style="font-size: 20px" class="font-light text-center">After 60 Working Days</div>
+
 
 
                 </div>
 
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <h4 class="font-xmedium">Task by Status</h4>
-            <table class="table noborder-table">
-                <tbody>
-                    <tr>
-                        <td class="payrun-label">Finished</td>
-                    </tr>
-                    <tr>
-                        <td class="payrun-label">Planned</td>
-                    </tr>
-                    <tr>
-                        <td class="payrun-label">On Track</td>
-                    </tr>
-                    <tr>
-                        <td class="payrun-label">Delayed</td>
-
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>
+        
     </div>
 
     <div class="separator-breadcrumb border-top"></div>

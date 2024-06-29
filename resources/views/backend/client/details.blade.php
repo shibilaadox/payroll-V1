@@ -143,28 +143,7 @@ use App\Models\Paymentstatus; ?>
 
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <h4 class="font-xmedium">Task Details</h4>
-            <table class="table noborder-table">
-                <tbody>
-                    <tr>
-                        <td class="payrun-label">Upcoming Tasks</td>
-                        <td class="text-right">5</td>
-
-                    </tr>
-
-                    <tr>
-                        <td class="payrun-label">Workload</td>
-                        <td class="text-right">2</td>
-                    </tr>
-                    <tr>
-                        <td class="payrun-label">Overdue Tasks</td>
-                        <td class="text-right">2</td>
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>
+       
     </div>
 
     <div class="separator-breadcrumb border-top"></div>

@@ -94,7 +94,8 @@ Route::get('/client/{id}/details', [ClientDetailsController::class, 'showDetails
 //Project routes
 Route::resource('projects', ProjectController::class);
 Route::get('/project/{id}/details', [ProjectDetailsController::class, 'show'])->name('project.details');
-Route::get('/project/{id}', [App\Http\Controllers\ProjectDetailsController::class, 'show'])->name('project.details');
+// Route::get('/project/{id}', [App\Http\Controllers\ProjectDetailsController::class, 'show'])->name('project.details');
+Route::get('/project/{id}', [ProjectDetailsController::class, 'show'])->name('project.details');
 
 
 //FileUpload routes

@@ -80,30 +80,30 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <table id="project_datatable" class="display table table-striped table-bordered dataTable"
-                               style="width: 100%;" role="grid" aria-describedby="comma_decimal_table_info">
-                            <thead class="text-center">
+                           style="width: 100%;" role="grid" aria-describedby="comma_decimal_table_info">
+                        <thead class="text-center">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Employee ID</th>
+                                <th scope="col">Project ID</th>
+                                <th scope="col">Month</th>
+                                <th scope="col">Payment</th>
+                                <th scope="col">Mode</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($employeeProjects as $index => $employeeProject)
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Employee ID</th>
-                                    <th scope="col">Project ID</th>
-                                    <th scope="col">Month</th>
-                                    <th scope="col">Payment</th>
-                                    <th scope="col">Mode</th>
+                                    <th scope="row">{{ $index + 1 }}</th>
+                                    <td>{{ $employeeProject->user_id }}</td>
+                                    <td>{{ $employeeProject->project_id }}</td>
+                                    <td>{{ $employeeProject->month }}</td>
+                                    <td>{{ $employeeProject->payment }}</td>
+                                    <td>{{ $employeeProject->mode }}</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($employeeProjects as $index => $employeeProject)
-                                    <tr>
-                                        <th scope="row">{{ $index + 1 }}</th>
-                                        <td>{{ $employeeProject->user_id }}</td>
-                                        <td>{{ $employeeProject->project_id }}</td>
-                                        <td>{{ $employeeProject->month }}</td>
-                                        <td>{{ $employeeProject->payment }}</td>
-                                        <td>{{ $employeeProject->mode }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                            @endforeach
+                        </tbody>
+                    </table>
                     </div>
                 </div>
             </div>

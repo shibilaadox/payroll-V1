@@ -62,8 +62,8 @@
                                                     <i class="nav-icon i-Close-Window font-weight-bold fs-16"></i>
                                                 </a>
                                                 <a href="{{ route('project.details', $row->id) }}" class="text-primary">
-                                                    <i style="font-size: 17px" class="fa-solid fa-circle-info"></i>
-                                                </a>
+        <i style="font-size: 17px" class="fa-solid fa-circle-info"></i>
+    </a>
                                             </td>
                                         </tr>
                                     @endforeach

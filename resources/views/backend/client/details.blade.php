@@ -102,21 +102,21 @@ use App\Models\Paymentstatus; ?>
                     <span class="font-small">
                         <br><br>
 
-                        {{-- <?php
+                        <?php
 
-                        // $totalAmount = [
-                        //     'total' => 10,
-                        //     'number_format' => 50000,
-                        // ];
-                        ?> --}}
+                        $data = [
+                            'total' => 10,
+                            'net_pay_total' => 50000,
+                        ];
+                        ?>
 
                         <div class="row mb-12">
                             <div class="col-md-6 mb-6">
-                                <h4> {{ number_format($projects->count()) }} </h4>
+                                <h4> <?php echo '' . number_format($data['total']); ?> </h4>
                                 <div class="text-uppercase font-ms payrun-label">Projects</div>
                             </div>
                             <div class="col-md-6 mb-6">
-                                <h4>₹{{ number_format($totalAmount, 2) }} </h4>
+                                <h4> <?php echo '₹' . number_format($data['net_pay_total'], 2); ?> </h4>
                                 <div class="text-uppercase font-ms payrun-label">Project Budget</div>
                             </div>
                         </div>
@@ -136,14 +136,35 @@ use App\Models\Paymentstatus; ?>
                     } else {
                         echo date('M , Y');
                     }
-                    ?></div>
+                    echo ' ' . date('Y');?></div>
 
 
                 </div>
 
             </div>
         </div>
+        <div class="col-md-4 mb-4">
+            <h4 class="font-xmedium">Task Details</h4>
+            <table class="table noborder-table">
+                <tbody>
+                    <tr>
+                        <td class="payrun-label">Upcoming Tasks</td>
+                        <td class="text-right">5</td>
 
+                    </tr>
+
+                    <tr>
+                        <td class="payrun-label">Workload</td>
+                        <td class="text-right">2</td>
+                    </tr>
+                    <tr>
+                        <td class="payrun-label">Overdue Tasks</td>
+                        <td class="text-right">2</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="separator-breadcrumb border-top"></div>
@@ -187,6 +208,9 @@ use App\Models\Paymentstatus; ?>
                                     $i = 1;
                                 @endphp
                                 @foreach ($projects as $project)
+                                    @if ($i > 20)
+                                    @break
+                                @endif
 
                                 <tr>
                                     <th scope="row">{{ $i++ }}</th>

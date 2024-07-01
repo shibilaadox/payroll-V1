@@ -90,7 +90,7 @@ use App\Models\Paymentstatus; ?>
             <div class="card o-hidden">
 
                 <div class="card-body">
-                     <span class="font-semibold font-mm"><?php
+                    <span class="font-semibold font-mm"><?php
                     if (isset($_GET['month']) && $_GET['month'] != '') {
                         $current_month = date('M', mktime(0, 0, 0, $_GET['month']));
                     } else {
@@ -103,7 +103,6 @@ use App\Models\Paymentstatus; ?>
                         <br><br>
 
                         {{-- <?php
-
                         // $totalAmount = [
                         //     'total' => 10,
                         //     'number_format' => 50000,
@@ -120,9 +119,7 @@ use App\Models\Paymentstatus; ?>
                                 <div class="text-uppercase font-ms payrun-label">Project Budget</div>
                             </div>
                         </div>
-
                 </div>
-
             </div>
         </div>
         <div class="col-md-2 mb-2">
@@ -130,13 +127,9 @@ use App\Models\Paymentstatus; ?>
 
                 <div class="card-body">
                     <div class="text-uppercase payrun-label font-small">PROJECT LAUNCH DATE</div>
-                    <div style="font-size: 28px" class="font-light">20</div>
-                    <div class="text-uppercase font-small"><?php if (isset($_GET['month']) && $_GET['month'] != '') {
-                        echo date('M', mktime(0, 0, 0, $_GET['month'] + 1));
-                    } else {
-                        echo date('M , Y');
-                    }
-                    ?></div>
+                    <div style="font-size: 28px" class="font-light">
+                        {{ $projects->first() ? date('M d, Y', strtotime($projects->first()->start_date)) : 'No Projects' }}
+                    </div>
 
 
                 </div>
@@ -187,48 +180,47 @@ use App\Models\Paymentstatus; ?>
                                     $i = 1;
                                 @endphp
                                 @foreach ($projects as $project)
+                                    <tr>
+                                        <th scope="row">{{ $i++ }}</th>
+                                        <td>{{ $project->project_name }}</td>
+                                        <td>{{ $client->name }}</td>
+                                        <td><?php echo $project->project . ' - ' . $project->project_type; ?></td>
+                                        <td>{{ $project->project_phase }}</td>
+                                        <td>{{ $project->status }}</td>
+                                        <td><?php echo $project->start_date . ' to ' . $project->end_date; ?></td>
+                                        <td>{{ $project->description }}</td>
+                                        <td>
+                                            @foreach ($project->employees as $employee)
+                                                {{ $project->employees->firstname }}
 
-                                <tr>
-                                    <th scope="row">{{ $i++ }}</th>
-                                    <td>{{ $project->project_name }}</td>
-                                    <td>{{ $client->name }}</td>
-                                    <td><?php echo $project->project . ' - ' . $project->project_type; ?></td>
-                                    <td>{{ $project->project_phase }}</td>
-                                    <td>{{ $project->status }}</td>
-                                    <td><?php echo $project->start_date . ' to ' . $project->end_date; ?></td>
-                                    <td>{{ $project->description }}</td>
-                                    <td>
-                                        @foreach ($project->employees as $employee)
-                                            {{ $project->employees->firstname }}
+                                                {{ $project->employees->lastname }}
+                                            @endforeach
+                                        </td>
+                                        <td>{{ $project->salary }}</td>
+                                        <td>
+                                            <a class="text-success mr-2" onclick="edit_project('{{ $project->id }}')">
+                                                <i class="nav-icon i-Pen-2 font-weight-bold fs-16"></i>
+                                            </a>
+                                            <a class="text-danger mr-2" onclick="delete_project('{{ $project->id }}')"
+                                                title="Delete Project">
+                                                <i class="nav-icon i-Close-Window font-weight-bold fs-16"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
 
-                                            {{ $project->employees->lastname }}
-                                        @endforeach
-                                    </td>
-                                    <td>{{ $project->salary }}</td>
-                                    <td>
-                                        <a class="text-success mr-2" onclick="edit_project('{{ $project->id }}')">
-                                            <i class="nav-icon i-Pen-2 font-weight-bold fs-16"></i>
-                                        </a>
-                                        <a class="text-danger mr-2" onclick="delete_project('{{ $project->id }}')"
-                                            title="Delete Project">
-                                            <i class="nav-icon i-Close-Window font-weight-bold fs-16"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-
-                                @php
-                                    $i++;
-                                @endphp
-                            @endforeach
-                        </tbody>
+                                    @php
+                                        $i++;
+                                    @endphp
+                                @endforeach
+                            </tbody>
 
 
-                    </table>
+                        </table>
 
+                    </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
-</div>
 @endsection

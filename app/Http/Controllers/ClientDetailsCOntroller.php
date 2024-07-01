@@ -8,6 +8,7 @@ use App\Models\Project;
 class ClientDetailsController extends Controller
 {
 
+
     public function showDetails($id)
     {
         $client = Client::find($id);
@@ -23,8 +24,6 @@ class ClientDetailsController extends Controller
 
         return view('backend.client.details', compact('client', 'clients', 'projects', 'totalAmount'));
     }
-
-
 
 }
 

@@ -17,9 +17,11 @@ class ClientDetailsController extends Controller
         }
 
         $clients = Client::all();
-        $projects = Project::all();
+        $projects = Project::where('client', $id)->get();
 
-        return view('backend.client.details', compact('client', 'clients', 'projects'));
+        $totalAmount = $projects->sum('salary');
+
+        return view('backend.client.details', compact('client', 'clients', 'projects', 'totalAmount'));
     }
 
 

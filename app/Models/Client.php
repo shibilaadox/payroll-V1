@@ -12,4 +12,11 @@ class Client extends Model
         'name', 'email' ,'phone','address'
     ];
 
+
+
+public function projects()
+{
+    return $this->hasMany(Project::class);
+}
+
 }

@@ -50,12 +50,12 @@
                     <br><br>
                     <div class="row mb-12">
                         <div class="col-md-6 mb-6">
-                            <h4> {{ number_format(10) }} </h4>
+                            <h4> {{ $totalEmployees }} </h4>
                             <div class="text-uppercase font-ms payrun-label">Employees</div>
                         </div>
                         <div class="col-md-6 mb-6">
                             <div class="text-uppercase font-ms payrun-label">Total Cost</div>
-                            <h4> ₹{{ number_format(50000, 2) }} </h4>
+                            <h4> {{ number_format($totalCost, 2) }} </h4>
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
             <div class="card o-hidden">
                 <div class="card-body">
                     <div class="text-uppercase payrun-label font-small text-center">PROJECT LAUNCH DATE</div>
-                    <div style="font-size: 20px" class="font-light text-center">After 60 Working Days</div>
+                    <div style="font-size: 20px" class="font-light text-center"> {{ date('F d, Y', strtotime($secondSaturday)) }} </div>
                 </div>
             </div>
         </div>

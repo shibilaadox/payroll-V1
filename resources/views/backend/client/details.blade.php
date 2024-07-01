@@ -136,7 +136,7 @@ use App\Models\Paymentstatus; ?>
             </div>
         </div>
 
-        <div class="col-md-4 mb-4">
+        <div class="col-md-4 mb-4 ml-5">
             <h4 class="font-xmedium">Task Details</h4>
             <table class="table noborder-table">
                 <tbody>

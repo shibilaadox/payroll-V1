@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Project;
+use Illuminate\Http\Request;
 
 class ClientDetailsController extends Controller
 {
@@ -22,7 +23,11 @@ class ClientDetailsController extends Controller
 
         $totalAmount = $projects->sum('salary');
 
-        return view('backend.client.details', compact('client', 'clients', 'projects', 'totalAmount'));
+        $completedProjects = $projects->where('status', 'Completed')->count();
+        $ongoingProjects = $projects->where('status', 'Ongoing')->count();
+        $onHoldProjects = $projects->where('status', 'Hold')->count();
+
+        return view('backend.client.details', compact('client', 'clients', 'projects', 'totalAmount', 'completedProjects', 'ongoingProjects', 'onHoldProjects'));
     }
 
 }

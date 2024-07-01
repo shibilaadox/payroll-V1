@@ -131,10 +131,30 @@ use App\Models\Paymentstatus; ?>
                         {{ $projects->first() ? date('M d, Y', strtotime($projects->first()->start_date)) : 'No Projects' }}
                     </div>
 
-
                 </div>
 
             </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <h4 class="font-xmedium">Task Details</h4>
+            <table class="table noborder-table">
+                <tbody>
+                    <tr>
+                        <td class="payrun-label">Completed</td>
+                        <td class="text-right">{{ $completedProjects }}</td>
+                    </tr>
+                    <tr>
+                        <td class="payrun-label">Ongoing</td>
+                        <td class="text-right">{{ $ongoingProjects }}</td>
+                    </tr>
+                    <tr>
+                        <td class="payrun-label">Hold</td>
+                        <td class="text-right">{{ $onHoldProjects }}</td>
+                    </tr>
+
+                </tbody>
+            </table>
         </div>
 
     </div>

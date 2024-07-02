@@ -102,30 +102,20 @@ use App\Models\Paymentstatus; ?>
                     <span class="font-small">
                         <br><br>
 
-<<<<<<< HEAD
-                        <?php
-
-                        $data = [
-                            'total' => 10,
-                            'net_pay_total' => 50000,
-                        ];
-                        ?>
-=======
                         {{-- <?php
                         // $totalAmount = [
                         //     'total' => 10,
                         //     'number_format' => 50000,
                         // ];
                         ?> --}}
->>>>>>> 8df2260e20a9a87c0a26a6dbf7c9da0b1c56230c
 
                         <div class="row mb-12">
                             <div class="col-md-6 mb-6">
-                                <h4> <?php echo '' . number_format($data['total']); ?> </h4>
+                                <h4> {{ number_format($projects->count()) }} </h4>
                                 <div class="text-uppercase font-ms payrun-label">Projects</div>
                             </div>
                             <div class="col-md-6 mb-6">
-                                <h4> <?php echo '₹' . number_format($data['net_pay_total'], 2); ?> </h4>
+                                <h4>₹{{ number_format($totalAmount, 2) }} </h4>
                                 <div class="text-uppercase font-ms payrun-label">Project Budget</div>
                             </div>
                         </div>
@@ -137,44 +127,15 @@ use App\Models\Paymentstatus; ?>
 
                 <div class="card-body">
                     <div class="text-uppercase payrun-label font-small">PROJECT LAUNCH DATE</div>
-<<<<<<< HEAD
-                    <div style="font-size: 28px" class="font-light">20</div>
-                    <div class="text-uppercase font-small"><?php if (isset($_GET['month']) && $_GET['month'] != '') {
-                        echo date('M', mktime(0, 0, 0, $_GET['month'] + 1));
-                    } else {
-                        echo date('M , Y');
-                    }
-                    echo ' ' . date('Y');?></div>
-
-=======
                     <div style="font-size: 28px" class="font-light">
                         {{ $projects->first() ? date('M d, Y', strtotime($projects->first()->start_date)) : 'No Projects' }}
                     </div>
->>>>>>> 8df2260e20a9a87c0a26a6dbf7c9da0b1c56230c
 
                 </div>
 
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <h4 class="font-xmedium">Task Details</h4>
-            <table class="table noborder-table">
-                <tbody>
-                    <tr>
-                        <td class="payrun-label">Upcoming Tasks</td>
-                        <td class="text-right">5</td>
 
-<<<<<<< HEAD
-                    </tr>
-
-                    <tr>
-                        <td class="payrun-label">Workload</td>
-                        <td class="text-right">2</td>
-                    </tr>
-                    <tr>
-                        <td class="payrun-label">Overdue Tasks</td>
-                        <td class="text-right">2</td>
-=======
         <div class="col-md-4 mb-4 ml-5">
             <h4 class="font-xmedium">Task Details</h4>
             <table class="table noborder-table">
@@ -190,16 +151,12 @@ use App\Models\Paymentstatus; ?>
                     <tr>
                         <td class="payrun-label">Hold</td>
                         <td class="text-right">{{ $onHoldProjects }}</td>
->>>>>>> 8df2260e20a9a87c0a26a6dbf7c9da0b1c56230c
                     </tr>
 
                 </tbody>
             </table>
         </div>
-<<<<<<< HEAD
-=======
 
->>>>>>> 8df2260e20a9a87c0a26a6dbf7c9da0b1c56230c
     </div>
 
     <div class="separator-breadcrumb border-top"></div>
@@ -243,11 +200,6 @@ use App\Models\Paymentstatus; ?>
                                     $i = 1;
                                 @endphp
                                 @foreach ($projects as $project)
-<<<<<<< HEAD
-                                    @if ($i > 20)
-                                    @break
-                                @endif
-=======
                                     <tr>
                                         <th scope="row">{{ $i++ }}</th>
                                         <td>{{ $project->project_name }}</td>
@@ -260,7 +212,6 @@ use App\Models\Paymentstatus; ?>
                                         <td>
                                             @foreach ($project->employees as $employee)
                                                 {{ $project->employees->firstname }}
->>>>>>> 8df2260e20a9a87c0a26a6dbf7c9da0b1c56230c
 
                                                 {{ $project->employees->lastname }}
                                             @endforeach

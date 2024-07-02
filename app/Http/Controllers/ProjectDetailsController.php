@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\EmployeeProject;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProjectDetailsController extends Controller
@@ -14,21 +15,24 @@ class ProjectDetailsController extends Controller
     public function index(){
         $data['projects'] = Project::all();
         $data['projects'] = Project::with('clients')->with('employees')->get();
+
+        return view('backend.project.index', $data);
     }
 
     public function show($id)
     {
         $project = Project::findOrFail($id);
-        $employeeProjects = EmployeeProject::where('project_id', $id)->get();
+
+        $employeeProjects = EmployeeProject::where('project_id', $id)
+        ->with('user', 'project')
+        ->get();
 
         $totalEmployees = $employeeProjects->count();
         $totalCost = $employeeProjects->sum(function($employeeProject){
             return (float) $employeeProject->payment;
         });
 
-        // $month = request('month') ? (int) request('month') : date('m', strtotime('last month'));
-        // $year = date('Y');
-        // $secondSaturday = $this->getSecondSaturday($year, $month);
+        // $users = User::where('status', 1)->select('id', 'name')->get();
 
         $month = request('month') ? request('month') : date('m', strtotime('last month'));
         $year = date('Y');
@@ -37,13 +41,6 @@ class ProjectDetailsController extends Controller
         return view('backend.project.details', compact('project', 'employeeProjects', 'totalEmployees', 'totalCost', 'secondSaturday'));
     }
 
-    // private function getSecondSaturday($year, $month)
-    // {
-    //     $firstDayOfMonth = strtotime("$year-$month-01");
-    //     $firstSaturday = strtotime('next Saturday', $firstDayOfMonth);
-    //     $secondSaturday = strtotime('next Saturday', $firstSaturday);
-    //     return date('Y-m-d', $secondSaturday);
-    // }
 
 
 

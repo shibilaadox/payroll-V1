@@ -1,5 +1,5 @@
 @extends('layouts.master')
- 
+
 
 @section('main-content')
     <div class="col-md-12 mb-4">
@@ -10,8 +10,7 @@
                             New User</button></div>
                 </h4>
                 <br>
-               
-
+                
                 <div class="table-responsive">
                     <div id="comma_decimal_table_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
 
@@ -29,45 +28,45 @@
                                                 rowspan="1" colspan="1" aria-sort="ascending"
                                                 aria-label="Name: activate to sort column descending"
                                                 style="width: 181.002px;">Name</th>
-                                            <th class="sorting" tabindex="0" aria-controls="user_datatable"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Position: activate to sort column ascending"
+                                            <th class="sorting" tabindex="0" aria-controls="user_datatable" rowspan="1"
+                                                colspan="1" aria-label="Position: activate to sort column ascending"
                                                 style="width: 270.002px;">Email</th>
-                                            <th class="sorting" tabindex="0" aria-controls="user_datatable"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Position: activate to sort column ascending"
+                                            <th class="sorting" tabindex="0" aria-controls="user_datatable" rowspan="1"
+                                                colspan="1" aria-label="Position: activate to sort column ascending"
                                                 style="width: 270.002px;">Role</th>
-                                            <th class="sorting" tabindex="0" aria-controls="user_datatable"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Position: activate to sort column ascending"
+                                            <th class="sorting" tabindex="0" aria-controls="user_datatable" rowspan="1"
+                                                colspan="1" aria-label="Position: activate to sort column ascending"
                                                 style="width: 270.002px;">Actions</th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <?php $i=1;foreach ($user as $key => $row){?>
-  <tr>
-  <td>{{ $i}}</td>
-    <td>{{ $row->name }}</td>
-    <td>{{ $row->email }}</td>
-    <td>
-      @if(!empty($row->getRoleNames()))
-        @foreach($row->getRoleNames() as $v)
-           <label class="badge badge-secondary text-white">{{ $v }}</label>
-        @endforeach
-      @endif
-    </td>
-    <td>
-    <a class="text-success mr-2" onclick="edit_user('{{$row->id}}')" title="Edit user">
+                                        <?php $i=1;foreach ($user as $key => $row){?>
+                                        <tr>
+                                            <td>{{ $i }}</td>
+                                            <td>{{ $row->name }}</td>
+                                            <td>{{ $row->email }}</td>
+                                            <td>
+                                                @if (!empty($row->getRoleNames()))
+                                                    @foreach ($row->getRoleNames() as $v)
+                                                        <label
+                                                            class="badge badge-secondary text-white">{{ $v }}</label>
+                                                    @endforeach
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a class="text-success mr-2" onclick="edit_user('{{ $row->id }}')"
+                                                    title="Edit user">
                                                     <i class="nav-icon i-Pen-2 font-weight-bold fs-16"></i>
-                                        </a>
-                                        
-                                        <a class="text-danger mr-2" onclick="delete_user('{{$row->id}}')" title="Delete user">
+                                                </a>
+
+                                                <a class="text-danger mr-2" onclick="delete_user('{{ $row->id }}')"
+                                                    title="Delete user">
                                                     <i class="nav-icon i-Close-Window font-weight-bold fs-16"></i>
-                                        </a>
-    </td>
-  </tr>
- <?php $i++;} ?>                
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <?php $i++;} ?>
                                     </tbody>
 
                                 </table>
@@ -98,27 +97,30 @@
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Name:</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="Enter name" required>
 
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="short_name" class="ul-form__label">Email:</label>
-                                <input type="text" class="form-control" id="email" name="email" placeholder="Enter email" required>
+                                <input type="text" class="form-control" id="email" name="email"
+                                    placeholder="Enter email" required>
                                 <input type="hidden" name="user_id" id="user_id" value="">
                             </div>
 
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Password:</label>
-                                <input type="text" class="form-control" id="password" name="password" placeholder="Enter password">
+                                <input type="text" class="form-control" id="password" name="password"
+                                    placeholder="Enter password">
 
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Role:</label>
-                                <select class="form-control"  name="roles" id="roles">
-                        @foreach ($roles as $role)
-                            <option value="{{ $role }}">{{ $role }}</option>
-                        @endforeach
-                    </select>
+                                <select class="form-control" name="roles" id="roles">
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role }}">{{ $role }}</option>
+                                    @endforeach
+                                </select>
 
                             </div>
                         </div>
@@ -135,7 +137,6 @@
 
 @section('page-js')
     <script type="text/javascript">
-
         //open model
         function add_user() {
             $('#user-modal').modal('show');
@@ -158,28 +159,28 @@
                 processData: false,
                 success: function(response) {
                     // console.log(response.code);
-                    
-
-                        $('#user-modal').modal('hide');
-                      
-                        location.reload();
 
 
-                    
+                    $('#user-modal').modal('hide');
+
+                    location.reload();
+
+
+
                 },
                 error: function(response) {
-                    
+
                 }
 
             });
 
         });
 
-        
+
         //Edit Function
 
         function edit_user(id) {
-            
+
             $.get("{{ route('users.index') }}" + '/' + id + '/edit', function(data) {
                 $("#saveBtn").val("Edit-User");
                 $("#user-modal").modal('show');
@@ -191,30 +192,32 @@
         }
 
         function delete_user(id) {
-           
-           
+
+
             event.preventDefault();
             let _token = $('meta[name="csrf-token"]').attr('content');
-            
+
             $.ajax({
                 url: "<?php echo url('update_status'); ?>",
                 type: "GET",
-                data: {id:id},
+                data: {
+                    id: id
+                },
                 cache: false,
-                
-                success: function(response) {
-                   
-                   
-                       location.reload();
 
-                    
+                success: function(response) {
+
+
+                    location.reload();
+
+
                 },
                 error: function(response) {
 
                 }
 
             });
-            
+
         }
 
         $('document').ready(function() {
@@ -230,7 +233,5 @@
             $('#user_datatable').DataTable();
 
         });
-
-       
     </script>
 @endsection

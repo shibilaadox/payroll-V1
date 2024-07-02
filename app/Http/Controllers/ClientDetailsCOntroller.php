@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 class ClientDetailsController extends Controller
 {
 
+    public function index(){
+        $data['projects'] = Project::all();
+        $data['projects'] = Project::with('clients')->with('employees')->get();
+
+        return view('backend.project.index', $data);
+    }
+
 
     public function showDetails($id)
     {
@@ -28,6 +35,16 @@ class ClientDetailsController extends Controller
         $onHoldProjects = $projects->where('status', 'Hold')->count();
 
         return view('backend.client.details', compact('client', 'clients', 'projects', 'totalAmount', 'completedProjects', 'ongoingProjects', 'onHoldProjects'));
+    }
+
+    public function show($id)
+    {
+        // Assuming you're passing client-specific projects
+        $client = Client::findOrFail($id);
+        $projects = Project::where('client_id', $id)->get();
+
+        // Pass the data to the view
+        return view('backend.client.details', compact('client', 'projects'));
     }
 
 }

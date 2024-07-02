@@ -2,6 +2,11 @@
 <?php use App\Models\Leave;
 use App\Models\Deduction;
 use App\Models\Paymentstatus; ?>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
 @section('main-content')
     <div class="breadcrumb">
 
@@ -188,8 +193,6 @@ use App\Models\Paymentstatus; ?>
                                     <th scope="col">Project Status</th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Description</th>
-                                    <th scope="col">Assigned To</th>
-                                    <th scope="col">Payment</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -209,15 +212,15 @@ use App\Models\Paymentstatus; ?>
                                         <td>{{ $project->status }}</td>
                                         <td><?php echo $project->start_date . ' to ' . $project->end_date; ?></td>
                                         <td>{{ $project->description }}</td>
-                                        <td>
+                                        {{-- <td>
                                             @foreach ($project->employees as $employee)
                                                 {{ $project->employees->firstname }}
 
                                                 {{ $project->employees->lastname }}
                                             @endforeach
-                                        </td>
-                                        <td>{{ $project->salary }}</td>
-                                        <td>
+                                        </td> --}}
+                                        {{-- <td>{{ $project->salary }}</td> --}}
+                                        <td class="d-flex">
                                             <a class="text-success mr-2" onclick="edit_project('{{ $project->id }}')">
                                                 <i class="nav-icon i-Pen-2 font-weight-bold fs-16"></i>
                                             </a>
@@ -225,6 +228,12 @@ use App\Models\Paymentstatus; ?>
                                                 title="Delete Project">
                                                 <i class="nav-icon i-Close-Window font-weight-bold fs-16"></i>
                                             </a>
+
+                                            <a href="{{ route('project.details', $project->id) }}" class="text-primary">
+                                                <i style="font-size: 17px" class="fa-solid fa-circle-info"></i>
+                                            </a>
+
+
                                         </td>
                                     </tr>
 

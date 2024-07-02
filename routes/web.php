@@ -97,6 +97,10 @@ Route::get('/project/{id}/details', [ProjectDetailsController::class, 'show'])->
 // Route::get('/project/{id}', [App\Http\Controllers\ProjectDetailsController::class, 'show'])->name('project.details');
 Route::get('/project/{id}', [ProjectDetailsController::class, 'show'])->name('project.details');
 
+// web.php
+Route::get('project/details/{id}', [ProjectDetailsController::class, 'show'])->name('project.details');
+
+
 
 //FileUpload routes
 Route::resource('upload', UploadController::class);

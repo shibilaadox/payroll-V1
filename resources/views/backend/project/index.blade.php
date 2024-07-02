@@ -1,9 +1,10 @@
 @extends('layouts.master')
 
 @section('page-css')
-
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endsection
 
 @section('main-content')
@@ -11,7 +12,8 @@
         <div class="card text-left">
             <div class="card-body">
                 <h4 class="mb-3 fs-22 font-weight-bold">Projects
-                    <div style="float: right"><button type="button" class="btn btn-primary ripple m-1" onclick="add_project()">
+                    <div style="float: right"><button type="button" class="btn btn-primary ripple m-1"
+                            onclick="add_project()">
                             New Project</button></div>
                 </h4>
                 <br>
@@ -24,49 +26,52 @@
                                 <table id="project_datatable" class="display table table-striped table-bordered dataTable"
                                     style="width: 100%;" role="grid" aria-describedby="comma_decimal_table_info">
                                     <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Project Name</th>
-                                        <th scope="col">Client</th>
-                                        <th scope="col">Project Type</th>
-                                        <th scope="col">Project Phases</th>
-                                        <th scope="col">Project Status</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Description</th>
-                                        <th scope="col">Assigned To</th>
-                                        <th scope="col">Payment</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Project Name</th>
+                                            <th scope="col">Client</th>
+                                            <th scope="col">Project Type</th>
+                                            <th scope="col">Project Phases</th>
+                                            <th scope="col">Project Status</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">Assigned To</th>
+                                            <th scope="col">Payment</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    @php
-                                        $i = 1;
-                                    @endphp
-                                    @foreach ($data['projects'] as $row)
-                                        <tr>
-                                            <th scope="row">{{ $i++ }}</th>
-                                            <td>{{ $row->project_name }}</td>
-                                            <td>{{ $row->clients->name }}</td>
-                                            <td><?php echo $row->project." - ".$row->project_type?></td>
-                                            <td>{{ $row->project_phase }}</td>
-                                            <td>{{ $row->status }}</td>
-                                            <td><?php echo $row->start_date." to ".$row->end_date?></td>
-                                            <td>{{ $row->description }}</td>
-                                            <td>{{ $row->employees->firstname }}</td>
-                                            <td>{{ $row->salary }}</td>
-                                            <td class="d-flex justify-content-between align-items-center">
-                                                <a class="text-success" onclick="edit_project('{{$row->id}}')">
-                                                    <i class="nav-icon i-Pen-2 font-weight-bold fs-16"></i>
-                                                </a>
-                                                <a class="text-danger" onclick="delete_project('{{$row->id}}')" title="Delete Project">
-                                                    <i class="nav-icon i-Close-Window font-weight-bold fs-16"></i>
-                                                </a>
-                                                <a href="{{ route('project.details', $row->id) }}" class="text-primary">
-        <i style="font-size: 17px" class="fa-solid fa-circle-info"></i>
-    </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                        @php
+                                            $i = 1;
+                                        @endphp
+                                        @foreach ($data['projects'] as $row)
+                                            <tr>
+                                                <th scope="row">{{ $i++ }}</th>
+                                                <td>{{ $row->project_name }}</td>
+                                                <td>{{ $row->clients->name }}</td>
+                                                <td><?php echo $row->project . ' - ' . $row->project_type; ?></td>
+                                                <td>{{ $row->project_phase }}</td>
+                                                <td>{{ $row->status }}</td>
+                                                <td><?php echo $row->start_date . ' to ' . $row->end_date; ?></td>
+                                                <td>{{ $row->description }}</td>
+                                                <td>{{ $row->employees->firstname }}</td>
+                                                <td>{{ $row->salary }}</td>
+                                                <td class="d-flex justify-content-between align-items-center">
+                                                    <a class="text-success" onclick="edit_project('{{ $row->id }}')">
+                                                        <i class="nav-icon i-Pen-2 font-weight-bold fs-16"></i>
+                                                    </a>
+                                                    <a class="text-danger" onclick="delete_project('{{ $row->id }}')"
+                                                        title="Delete Project">
+                                                        <i class="nav-icon i-Close-Window font-weight-bold fs-16"></i>
+                                                    </a>
+                                                    
+                                                    <a href="{{ route('project.details', $row->id) }}"
+                                                        class="text-primary">
+                                                        <i style="font-size: 17px" class="fa-solid fa-circle-info"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
 
                                 </table>
@@ -116,7 +121,8 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Project Name:</label>
-                                <input type="text" class="form-control" id="project_name" name="project_name" placeholder="Enter project name" required>
+                                <input type="text" class="form-control" id="project_name" name="project_name"
+                                    placeholder="Enter project name" required>
 
                             </div>
                             <div class="form-group col-md-12">
@@ -124,38 +130,42 @@
                                 <select class="form-control" id="client" name="client" required>
                                     <option value="">Select</option>
                                     <?php foreach($data['clients'] as $row){?>
-                                    <option value={{$row->id}}>{{$row->name}}</option>
+                                    <option value={{ $row->id }}>{{ $row->name }}</option>
                                     <?php } ?>
                                 </select>
                             </div>
                             <!--<div class="form-group col-md-12">
-                                <label for="actual_name" class="ul-form__label">Project Phases:</label>
-                                <select class="form-control" id="project_phase" name="project_phase" required>
-                                    <option value="">Select</option>
-                                    <option value="Construction">Construction</option>
-                                    <option value="Consultancy">Consultancy</option>
-                                    <option value="Proposal">Proposal</option>
-                                </select>
+                                    <label for="actual_name" class="ul-form__label">Project Phases:</label>
+                                    <select class="form-control" id="project_phase" name="project_phase" required>
+                                        <option value="">Select</option>
+                                        <option value="Construction">Construction</option>
+                                        <option value="Consultancy">Consultancy</option>
+                                        <option value="Proposal">Proposal</option>
+                                    </select>
 
-                            </div>-->
+                                </div>-->
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Project Amount:</label>
-                                <input type="text" class="form-control" id="project_amount" name="project_amount" placeholder="Enter name">
+                                <input type="text" class="form-control" id="project_amount" name="project_amount"
+                                    placeholder="Enter name">
 
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Start Date:</label>
-                                <input type="text" class="form-control" id="start_date" name="start_date" placeholder="Enter start date">
+                                <input type="text" class="form-control" id="start_date" name="start_date"
+                                    placeholder="Enter start date">
 
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">End Date:</label>
-                                <input type="text" class="form-control" id="end_date" name="end_date" placeholder="Enter end date">
+                                <input type="text" class="form-control" id="end_date" name="end_date"
+                                    placeholder="Enter end date">
 
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Project Location:</label>
-                                <input type="text" class="form-control" id="project_location" name="project_location" placeholder="Enter project location" required>
+                                <input type="text" class="form-control" id="project_location" name="project_location"
+                                    placeholder="Enter project location" required>
 
                             </div>
 
@@ -169,44 +179,47 @@
                                 <label for="actual_name" class="ul-form__label">Assigned To:</label>
                                 <table class="table">
                                     <thead>
-                                    <tr>
-                                    <th scope="col" style="font-size:12px;">Employee</th>
-                                    <th scope="col" style="font-size:12px;">Mode</th>
-                                    <th scope="col" style="font-size:12px;">Payment</th>
-                                    </tr>
+                                        <tr>
+                                            <th scope="col" style="font-size:12px;">Employee</th>
+                                            <th scope="col" style="font-size:12px;">Mode</th>
+                                            <th scope="col" style="font-size:12px;">Payment</th>
+                                        </tr>
                                     </thead>
 
                                     <tbody id="payment_row">
-                                    <tr>
-                        <td>
-                        <select class="form-control" id="employee" name="employee[]">
-                                    <option value="">Select</option>
-                                    <?php foreach($data['users'] as $row){?>
-                                    <option value={{$row->id}}>{{$row->firstname}}</option>
-                                    <?php } ?>
-                                </select>
-                        </td>
-                        <td>
-                        <select class="form-control" id="mode" name="mode[]">
-                                    <option value="">Select</option>
+                                        <tr>
+                                            <td>
+                                                <select class="form-control" id="employee" name="employee[]">
+                                                    <option value="">Select</option>
+                                                    <?php foreach($data['users'] as $row){?>
+                                                    <option value={{ $row->id }}>{{ $row->firstname }}</option>
+                                                    <?php } ?>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-control" id="mode" name="mode[]">
+                                                    <option value="">Select</option>
 
-                                    <option value="Monthly">Monthly</option>
-                                    <option value="Monthly">Hourly</option>
-                                </select>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" name="payment[]" id="payment">
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-sm btn-default btn-icon m-1 attr" id="payment_add">
-                                <span class="ul-btn__icon"><i class="i-Add"
-                                        style="font-size: 20px;"></i></span>
-                            </button>
-                        </td>
-                        <input type="hidden" class="form-control" name="employee_payment" id="employee_payment">
-                    </tr>
-                </tbody>
-             </table>
+                                                    <option value="Monthly">Monthly</option>
+                                                    <option value="Monthly">Hourly</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="payment[]"
+                                                    id="payment">
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-default btn-icon m-1 attr"
+                                                    id="payment_add">
+                                                    <span class="ul-btn__icon"><i class="i-Add"
+                                                            style="font-size: 20px;"></i></span>
+                                                </button>
+                                            </td>
+                                            <input type="hidden" class="form-control" name="employee_payment"
+                                                id="employee_payment">
+                                        </tr>
+                                    </tbody>
+                                </table>
 
 
                             </div>
@@ -238,7 +251,6 @@
 @section('page-js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript">
-
         //open model
         function add_project() {
             $('#project-modal').modal('show');
@@ -329,90 +341,85 @@
 
         });
 
-    $('#start_date').daterangepicker({
-        singleDatePicker: true,
-         locale: {
-          format: 'YYYY/MM/DD',
-        },
-        showDropdowns: true,
-        minYear: 1901,
-        maxYear: parseInt(moment().format('YYYY'),10)
-    });
+        $('#start_date').daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                format: 'YYYY/MM/DD',
+            },
+            showDropdowns: true,
+            minYear: 1901,
+            maxYear: parseInt(moment().format('YYYY'), 10)
+        });
 
-    $('#end_date').daterangepicker({
-        singleDatePicker: true,
-         locale: {
-          format: 'YYYY/MM/DD',
-        },
-        showDropdowns: true,
-        minYear: 1901,
-        maxYear: parseInt(moment().format('YYYY'),10)
-    });
+        $('#end_date').daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                format: 'YYYY/MM/DD',
+            },
+            showDropdowns: true,
+            minYear: 1901,
+            maxYear: parseInt(moment().format('YYYY'), 10)
+        });
 
-    $("#payment_add").click(function() {
-        var html =
-            '<tr><td><select class="form-control" id="employee" name="employee[]">'+
-                                    '<option value="">Select</option>'+
-                                    <?php foreach($data['users'] as $row){?>
-                                    '<option value={{$row->id}}>{{$row->firstname}}</option>'+
-                                    <?php } ?>
-                                '</select>'+
-                        '</td>'+
-                        '<td>'+
-                        '<select class="form-control" id="mode" name="mode[]">'+
-                                    '<option value="">Select</option>'+
+        $("#payment_add").click(function() {
+            var html =
+                '<tr><td><select class="form-control" id="employee" name="employee[]">' +
+                '<option value="">Select</option>' +
+                <?php foreach($data['users'] as $row){?> '<option value={{ $row->id }}>{{ $row->firstname }}</option>' +
+                <?php } ?> '</select>' +
+                '</td>' +
+                '<td>' +
+                '<select class="form-control" id="mode" name="mode[]">' +
+                '<option value="">Select</option>' +
 
-                                    '<option value="Monthly">Monthly</option>'+
-                                    '<option value="Monthly">Hourly</option>'+
-                                '</select>'+
-                        '</td>'+
-                        '<td>'+
-                            '<input type="text" class="form-control" name="payment[]" id="payment">'+
-                        '</td>'+
+                '<option value="Monthly">Monthly</option>' +
+                '<option value="Monthly">Hourly</option>' +
+                '</select>' +
+                '</td>' +
+                '<td>' +
+                '<input type="text" class="form-control" name="payment[]" id="payment">' +
+                '</td>' +
 
 
-            '<td>  <button type="button"  class="btn btn-sm btn-default btn-icon m-1 attr payment_delete">' +
-            '<span class="ul-btn__icon"><i class="i-Close-Window" style="font-size: 20px;"></i></span>' +
-            '</button></td></tr>';
-        $("#payment_row").append(html);
+                '<td>  <button type="button"  class="btn btn-sm btn-default btn-icon m-1 attr payment_delete">' +
+                '<span class="ul-btn__icon"><i class="i-Close-Window" style="font-size: 20px;"></i></span>' +
+                '</button></td></tr>';
+            $("#payment_row").append(html);
 
-    });
+        });
 
-    $('body').on('click', '.payment_delete', function() {
-        $(this).closest("tr").remove();
+        $('body').on('click', '.payment_delete', function() {
+            $(this).closest("tr").remove();
 
-    });
+        });
 
-    $("#saveBtn").mouseover(function() {
+        $("#saveBtn").mouseover(function() {
 
 
-yourArray_payment = [];
+            yourArray_payment = [];
 
-var employees = document.getElementsByName('employee[]');
-var modes = document.getElementsByName('mode[]');
-var payments = document.getElementsByName('payment[]');
+            var employees = document.getElementsByName('employee[]');
+            var modes = document.getElementsByName('mode[]');
+            var payments = document.getElementsByName('payment[]');
 
 
 
-for (var i = 0; i <employees.length; i++) {
-    var employee=employees[i];
-    var mode=modes[i];
-    var payment=payments[i];
-    var payment_employee = new EmployeePayment(employee.value,mode.value ,payment.value);
-    yourArray_payment.push(payment_employee);
-    $("#employee_payment").val(JSON.stringify(yourArray_payment));
+            for (var i = 0; i < employees.length; i++) {
+                var employee = employees[i];
+                var mode = modes[i];
+                var payment = payments[i];
+                var payment_employee = new EmployeePayment(employee.value, mode.value, payment.value);
+                yourArray_payment.push(payment_employee);
+                $("#employee_payment").val(JSON.stringify(yourArray_payment));
 
-}
-});
+            }
+        });
 
-function EmployeePayment(employee, mode ,payment) {
-    this.Employee = employee;
-    this.Mode = mode;
-    this.Payment = payment;
+        function EmployeePayment(employee, mode, payment) {
+            this.Employee = employee;
+            this.Mode = mode;
+            this.Payment = payment;
 
-    }
-
-
-
+        }
     </script>
 @endsection

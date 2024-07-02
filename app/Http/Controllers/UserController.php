@@ -17,10 +17,10 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-      
-        $user = User::where('status',1)->where('user_type','!=','Employee')->get(); 
+        $users = User::all();
+        $user = User::where('status',1)->where('user_type','!=','Employee')->get();
         $roles = Roles::pluck('name','name')->all();
-        return view('backend.users.index',compact('user','roles'));
+        return view('backend.users.index',compact('user','roles','users'));
     }
 
     /**
@@ -45,13 +45,13 @@ class UserController extends Controller
 
             $input['name'] = $request->name;
             $input['email'] = $request->email;
-            
+
             if(!empty($request->password))
             $input['password'] = Hash::make($request->password);
             $input['user_type'] = $request->roles;
-            
+
             $user = User::updateOrCreate(['id' => $request->user_id] ,$input);
-            
+
             $user->assignRole($request->input('roles'));
 
             return response()->json(['code' => '200', 'status' => 'Department added successfully']);

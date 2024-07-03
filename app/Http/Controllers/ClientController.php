@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use DataTables;
+use Throwable;
 
 class ClientController extends Controller
 {

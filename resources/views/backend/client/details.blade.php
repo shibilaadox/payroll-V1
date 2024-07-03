@@ -27,42 +27,12 @@ use App\Models\Paymentstatus; ?>
                     <div class="col-lg-6 col-md-9 col-sm-12">
                         <select class="form-control m-select2 select_class" name="month" id="month">
                             <option value="">Select Month</option>
-                            <option value="01" <?php if (isset($_GET['month']) && $_GET['month'] == '01') {
-                                echo 'selected';
-                            } ?>>January</option>
-                            <option value="02" <?php if (isset($_GET['month']) && $_GET['month'] == '02') {
-                                echo 'selected';
-                            } ?>>February</option>
-                            <option value="03" <?php if (isset($_GET['month']) && $_GET['month'] == '03') {
-                                echo 'selected';
-                            } ?>>March</option>
-                            <option value="04" <?php if (isset($_GET['month']) && $_GET['month'] == '04') {
-                                echo 'selected';
-                            } ?>>April</option>
-                            <option value="05" <?php if (isset($_GET['month']) && $_GET['month'] == '05') {
-                                echo 'selected';
-                            } ?>>May</option>
-                            <option value="06" <?php if (isset($_GET['month']) && $_GET['month'] == '06') {
-                                echo 'selected';
-                            } ?>>June</option>
-                            <option value="07" <?php if (isset($_GET['month']) && $_GET['month'] == '07') {
-                                echo 'selected';
-                            } ?>>July</option>
-                            <option value="08" <?php if (isset($_GET['month']) && $_GET['month'] == '08') {
-                                echo 'selected';
-                            } ?>>August</option>
-                            <option value="09" <?php if (isset($_GET['month']) && $_GET['month'] == '09') {
-                                echo 'selected';
-                            } ?>>September</option>
-                            <option value="10" <?php if (isset($_GET['month']) && $_GET['month'] == '10') {
-                                echo 'selected';
-                            } ?>>October</option>
-                            <option value="11" <?php if (isset($_GET['month']) && $_GET['month'] == '11') {
-                                echo 'selected';
-                            } ?>>November</option>
-                            <option value="12" <?php if (isset($_GET['month']) && $_GET['month'] == '12') {
-                                echo 'selected';
-                            } ?>>December</option>
+
+                            @foreach (range(1, 12) as $m)
+                                <option value="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}" {{ request('month') == str_pad($m, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
+                                    {{ date('F', mktime(0, 0, 0, $m, 10)) }}
+                                </option>
+                            @endforeach
 
                         </select>
                     </div>
@@ -95,24 +65,11 @@ use App\Models\Paymentstatus; ?>
             <div class="card o-hidden">
 
                 <div class="card-body">
-                    <span class="font-semibold font-mm"><?php
-                    if (isset($_GET['month']) && $_GET['month'] != '') {
-                        $current_month = date('M', mktime(0, 0, 0, $_GET['month']));
-                    } else {
-                        $currentMonth = date('F');
-                        $current_month = Date('F', strtotime($currentMonth . ' last month'));
-                    }
-
-                    echo $current_month . ' ' . date('Y'); ?></span>
+                    <span class="font-semibold font-mm">{{ $current_month . ' ' . date('Y') }}</span>
                     <span class="font-small">
                         <br><br>
 
-                        {{-- <?php
-                        // $totalAmount = [
-                        //     'total' => 10,
-                        //     'number_format' => 50000,
-                        // ];
-                        ?> --}}
+
 
                         <div class="row mb-12">
                             <div class="col-md-6 mb-6">
@@ -212,14 +169,7 @@ use App\Models\Paymentstatus; ?>
                                         <td>{{ $project->status }}</td>
                                         <td><?php echo $project->start_date . ' to ' . $project->end_date; ?></td>
                                         <td>{{ $project->description }}</td>
-                                        {{-- <td>
-                                            @foreach ($project->employees as $employee)
-                                                {{ $project->employees->firstname }}
 
-                                                {{ $project->employees->lastname }}
-                                            @endforeach
-                                        </td> --}}
-                                        {{-- <td>{{ $project->salary }}</td> --}}
                                         <td class="d-flex">
                                             <a class="text-success mr-2" onclick="edit_project('{{ $project->id }}')">
                                                 <i class="nav-icon i-Pen-2 font-weight-bold fs-16"></i>

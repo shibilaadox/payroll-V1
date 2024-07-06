@@ -14,6 +14,7 @@ use App\Http\Controllers\ClientDetailsController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\PayrollHourlyController;
 use App\Http\Controllers\DeductionController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ExcelImportController;
@@ -133,6 +134,14 @@ Route::get('payroll_history', [App\Http\Controllers\PayrollController::class, 'p
 Route::get('payroll_employee', [App\Http\Controllers\PayrollController::class, 'payroll_employee'])->name('payrolls.payroll_employee');
 Route::get('get_payslip_employee', [App\Http\Controllers\PayrollController::class, 'get_payslip_employee'])->name('payrolls.get_payslip_employee');
 
+//Payroll Hourly routes
+Route::resource('payrolls_hourly', PayrollHourlyController::class);
+Route::get('approve_payroll_hourly', [App\Http\Controllers\PayrollHourlyController::class, 'approve_payroll_hourly'])->name('payrolls_hourly.approve_payroll_hourly');
+Route::get('record_payment_hourly', [App\Http\Controllers\PayrollHourlyController::class, 'record_payment_hourly'])->name('payrolls_hourly.record_payment_hourly');
+Route::get('get_payslip_hourly', [App\Http\Controllers\PayrollHourlyController::class, 'get_payslip_hourly'])->name('payrolls_hourly.get_payslip_hourly');
+Route::get('payroll_history_hourly', [App\Http\Controllers\PayrollHourlyController::class, 'payroll_history_hourly'])->name('payrolls_hourly.payroll_history_hourly');
+Route::get('payroll_employee_hourly', [App\Http\Controllers\PayrollHourlyController::class, 'payroll_employee_hourly'])->name('payrolls_hourly.payroll_employee_hourly');
+Route::get('get_payslip_employee_hourly', [App\Http\Controllers\PayrollHourlyController::class, 'get_payslip_employee_hourly'])->name('payrolls_hourly.get_payslip_employee_hourly');
 
 //Deduction routes
 Route::resource('deductions', DeductionController::class);

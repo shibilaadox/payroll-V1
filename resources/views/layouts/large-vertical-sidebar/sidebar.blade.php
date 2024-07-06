@@ -40,7 +40,7 @@
             </li>
            
             @can('Payroll')
-            <li class="nav-item {{ request()->is('payrolls/*') ? 'active' : '' }}" data-item="payroll">
+            <li class="nav-item {{ request()->is('payrolls_hourly/*') ? 'active' : '' }}" data-item="payroll">
                 <a class="nav-item-hold" href="">
                     <i class="nav-icon i-Library" style="color:white"></i>
                     <span class="nav-text" style="color:white">Payroll</span>
@@ -195,21 +195,21 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="{{ Route::currentRouteName()=='payrolls.index' ? 'open' : '' }}" href="{{route('payrolls.index')}}">
+                <a class="{{ Route::currentRouteName()=='payrolls_hourly.index' ? 'open' : '' }}" href="{{route('payrolls_hourly.index')}}">
                     <i class="nav-icon i-File-Clipboard-Text--Image"></i>
                     <span class="item-name">{{__('Pay Runs')}}</span>
                 </a>
             </li>
             
             <li class="nav-item">
-                <a class="{{ Route::currentRouteName()=='payrolls.payroll_history' ? 'open' : '' }}" href="{{route('payrolls.payroll_history')}}">
+                <a class="{{ Route::currentRouteName()=='payrolls_hourly.payroll_history_hourly' ? 'open' : '' }}" href="{{route('payrolls_hourly.payroll_history_hourly')}}">
                     <i class="nav-icon i-File-Clipboard-Text--Image"></i>
                     <span class="item-name">{{__('Payroll History')}}</span>
                 </a>
             </li>
             
            <li class="nav-item">
-                <a class="{{ Route::currentRouteName()=='payrolls.payroll_employee' ? 'open' : '' }}" href="{{route('payrolls.payroll_employee')}}">
+                <a class="{{ Route::currentRouteName()=='payrolls_hourly.payroll_employee_hourly' ? 'open' : '' }}" href="{{route('payrolls_hourly.payroll_employee_hourly')}}">
                     <i class="nav-icon i-File-Clipboard-Text--Image"></i>
                     <span class="item-name">Employee's Payroll</span>
                 </a>

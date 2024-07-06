@@ -18,6 +18,7 @@ use App\Http\Controllers\PayrollHourlyController;
 use App\Http\Controllers\DeductionController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ExcelImportController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProjectDetailsController;
 use Illuminate\Support\Facades\Auth;
@@ -92,14 +93,20 @@ Route::resource('leaves', LeaveController::class);
 Route::resource('clients', ClientController::class);
 Route::get('/client/{id}/details', [ClientDetailsController::class, 'showDetails'])->name('client.details');
 
+Route::get('/client/{id}/projects', [ClientDetailsController::class, 'getFilteredProjects']);
+
+
 //Project routes
 Route::resource('projects', ProjectController::class);
 Route::get('/project/{id}/details', [ProjectDetailsController::class, 'show'])->name('project.details');
-// Route::get('/project/{id}', [App\Http\Controllers\ProjectDetailsController::class, 'show'])->name('project.details');
 Route::get('/project/{id}', [ProjectDetailsController::class, 'show'])->name('project.details');
 
 // web.php
 Route::get('project/details/{id}', [ProjectDetailsController::class, 'show'])->name('project.details');
+
+// routes/web.php
+Route::get('/deductions', [DeductionController::class, 'index'])->name('deductions.index');
+Route::post('/deductions/display', [DeductionController::class, 'displayExcelData'])->name('deductions.displayExcelData');
 
 
 

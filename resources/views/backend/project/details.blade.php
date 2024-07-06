@@ -13,11 +13,10 @@
                         <select class="form-control m-select2 select_class" name="month" id="month">
                             <option value="">Select Month</option>
                             @foreach (range(1, 12) as $month)
-                                <option value="{{ str_pad($month, 2, '0', STR_PAD_LEFT) }}"
-                                    {{ request('month') == str_pad($month, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
-                                    {{ date('F', mktime(0, 0, 0, $month)) }}
-                                </option>
-                            @endforeach
+                            <option value="{{ str_pad($month, 2, '0', STR_PAD_LEFT) }}" {{ request('month') == str_pad($month, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
+                                {{ date('F', mktime(0, 0, 0, $month)) }}
+                            </option>
+                        @endforeach
                         </select>
                     </div>
                 </div>
@@ -105,8 +104,6 @@
                                         <td>{{ $employeeProject->month }}</td>
                                         <td>{{ $employeeProject->payment }}</td>
                                         <td>{{ $employeeProject->mode }}</td>
-
-
                                     </tr>
                                 @endforeach
                             </tbody>

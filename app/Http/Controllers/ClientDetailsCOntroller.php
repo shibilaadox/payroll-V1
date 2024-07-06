@@ -26,6 +26,7 @@ class ClientDetailsController extends Controller
         }
 
         $month = $request->input('month');
+        $status = $request->input('status', 'all');
         $current_month = $month ? date('F', mktime(0, 0, 0, $month)) : date('F', strtotime('-1 month'));
 
         $clients = Client::all();
@@ -35,6 +36,10 @@ class ClientDetailsController extends Controller
 
         if ($month) {
             $projectsQuery->whereMonth('start_date', $month)->orWhereMonth('end_date', $month);
+        }
+
+        if ($status !== 'all') {
+            $projectsQuery->where('status', ucfirst($status));
         }
 
         $projects = $projectsQuery->get();

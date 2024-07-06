@@ -18,7 +18,7 @@ use App\Models\Paymentstatus; ?>
     <form class="m-form m-form--fit m-form--label-align-right" method="get" enctype="multipart/form-data">
 
 
-        <div class="form-group m-form__group row">
+        <div class="form-group row">
 
 
             <div class="col-lg-6 col-md-9 col-sm-12">
@@ -28,20 +28,20 @@ use App\Models\Paymentstatus; ?>
                         <select class="form-control m-select2 select_class" name="month" id="month">
                             <option value="">Select Month</option>
 
-                            @foreach (range(1, 12) as $m)
-                                <option value="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}" {{ request('month') == str_pad($m, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
-                                    {{ date('F', mktime(0, 0, 0, $m, 10)) }}
+                            @foreach (range(1, 12) as $month)
+                                <option value="{{ str_pad($month, 2, '0', STR_PAD_LEFT) }}"
+                                    {{ request('month') == str_pad($month, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
+                                    {{ DateTime::createFromFormat('!m', $month)->format('F') }}
                                 </option>
                             @endforeach
 
                         </select>
                     </div>
-
                 </div>
 
             </div>
 
-            <div class="col-lg-3 col-md-9 col-sm-12">
+            <div class="col-lg-6 col-md-9 col-sm-12">
 
                 <div class="row">
                     <div class="col-lg-6 col-md-9 col-sm-12">
@@ -51,8 +51,6 @@ use App\Models\Paymentstatus; ?>
                 </div>
 
             </div>
-
-
         </div>
     </form>
 
@@ -65,11 +63,10 @@ use App\Models\Paymentstatus; ?>
             <div class="card o-hidden">
 
                 <div class="card-body">
+                    <h5 style="font-weight:bold">Current Month</h5>
                     <span class="font-semibold font-mm">{{ $current_month . ' ' . date('Y') }}</span>
                     <span class="font-small">
                         <br><br>
-
-
 
                         <div class="row mb-12">
                             <div class="col-md-6 mb-6">
@@ -77,20 +74,21 @@ use App\Models\Paymentstatus; ?>
                                 <div class="text-uppercase font-ms payrun-label">Projects</div>
                             </div>
                             <div class="col-md-6 mb-6">
-                                <h4>₹{{ number_format($totalAmount, 2) }} </h4>
+                                <h4>₱ {{ number_format($totalAmount, 2) }} </h4>
                                 <div class="text-uppercase font-ms payrun-label">Project Budget</div>
                             </div>
                         </div>
                 </div>
+
             </div>
         </div>
         <div class="col-md-2 mb-2">
             <div class="card o-hidden">
 
-                <div class="card-body">
-                    <div class="text-uppercase payrun-label font-small">PROJECT LAUNCH DATE</div>
-                    <div style="font-size: 28px" class="font-light">
-                        {{ $projects->first() ? date('M d, Y', strtotime($projects->first()->start_date)) : 'No Projects' }}
+                <div class="card-body text-center">
+                    <div class="text-uppercase payrun-label font-small">CLIENT START DATE</div>
+                    <div style="font-size: 28px" class="font-light overflow-hidden text-nowrap">
+                        {{ $client->created_at->format('Y-m-d') }}
                     </div>
 
                 </div>
@@ -99,19 +97,28 @@ use App\Models\Paymentstatus; ?>
         </div>
 
         <div class="col-md-4 mb-4 ml-5">
-            <h4 class="font-xmedium">Task Details</h4>
+            <h4 class="font-xmedium">Project Details</h4>
             <table class="table noborder-table">
                 <tbody>
                     <tr>
-                        <td class="payrun-label">Completed</td>
+                        <td class="payrun-label">
+                            <a href="#" class="filter-projects" data-status="completed"
+                                style="color: rgb(69, 68, 68)">Completed</a>
+                        </td>
                         <td class="text-right">{{ $completedProjects }}</td>
                     </tr>
                     <tr>
-                        <td class="payrun-label">Ongoing</td>
+                        <td class="payrun-label">
+                            <a href="#" class="filter-projects" data-status="ongoing"
+                                style="color: rgb(69, 68, 68)">Ongoing</a>
+                        </td>
                         <td class="text-right">{{ $ongoingProjects }}</td>
                     </tr>
                     <tr>
-                        <td class="payrun-label">Hold</td>
+                        <td class="payrun-label">
+                            <a href="#" class="filter-projects" data-status="hold"
+                                style="color: rgb(69, 68, 68)">Hold</a>
+                        </td>
                         <td class="text-right">{{ $onHoldProjects }}</td>
                     </tr>
 
@@ -125,11 +132,12 @@ use App\Models\Paymentstatus; ?>
 
     <div>
 
-        <h1>Client Details</h1>
-        <p>Name: {{ $client->name }}</p>
-        <p>Email: {{ $client->email }}</p>
+        <h1 class="text-center">Client Details</h1>
+        <br>
+        <h5>Name : <span style="font-weight:bold">{{ $client->name }}</span></h5>
+        <h5>Email : <span style="font-weight:bold">{{ $client->email }}</span></h5>
 
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-12 mt-4">
             <label for="client" class="ul-form__label">Projects :</label>
         </div>
 
@@ -162,7 +170,8 @@ use App\Models\Paymentstatus; ?>
                                 @foreach ($projects as $project)
                                     <tr>
                                         <th scope="row">{{ $i++ }}</th>
-                                        <td>{{ $project->project_name }}</td>
+                                        <td><a href="{{ route('project.details', $project->id) }}"
+                                                style="color: rgb(69, 68, 68)">{{ $project->project_name }}</a></td>
                                         <td>{{ $client->name }}</td>
                                         <td><?php echo $project->project . ' - ' . $project->project_type; ?></td>
                                         <td>{{ $project->project_phase }}</td>
@@ -202,4 +211,30 @@ use App\Models\Paymentstatus; ?>
             </div>
         </div>
     </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.filter-projects').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const status = this.getAttribute('data-status');
+                    filterProjects(status);
+                });
+            });
+        });
+
+        function filterProjects(status) {
+            const rows = document.querySelectorAll('#project_datatable tbody tr');
+            rows.forEach(row => {
+                const projectStatus = row.querySelector('td:nth-child(6)').innerText.trim().toLowerCase();
+                if (status === 'all' || projectStatus === status) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        </script>
+
 @endsection

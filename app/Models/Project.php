@@ -12,7 +12,7 @@ class Project extends Model
         'project', 'project_type' ,'project_name','client','project_amount','start_date','end_date','project_location','description','status','salary'
     ];
 
-    public function client()
+    public function clients()
     {
         return $this->belongsTo(\App\Models\Client::class,'client','id')->withDefault();
     }

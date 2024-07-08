@@ -213,7 +213,7 @@ use App\Models\Paymentstatus; ?>
                 @if ($noProjects)
                     <div class="row">
                         <div class="col-sm-12 text-center">
-                            <p>No Projects Available This Month</p>
+                            <p>No Details Available This Month</p>
                         </div>
                     </div>
                 @endif
@@ -251,7 +251,7 @@ use App\Models\Paymentstatus; ?>
                 if (!noProjectsMessage) {
                     const message = document.createElement('div');
                     message.className = 'row no-projects-message';
-                    message.innerHTML = '<div class="col-sm-12 text-center"><p>No Projects Available This Month</p></div>';
+                    message.innerHTML = '<div class="col-sm-12 text-center"><p>No Details Available This Month</p></div>';
                     document.querySelector('#comma_decimal_table_wrapper').appendChild(message);
                 }
             } else {

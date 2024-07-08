@@ -26,10 +26,10 @@ class ClientDetailsController extends Controller
             ->get();
 
         $clients = Client::all();
-        // $users = User::all();
+        $users = User::all();
 
         return view('backend.project.index', $data, compact('projects', 'clients'
-        // , 'users'
+        , 'users'
     ));
     }
 
@@ -64,9 +64,7 @@ class ClientDetailsController extends Controller
 
         $noProjects = $projects->isEmpty();
 
-        return view('backend.client.details', compact('client', 'clients', 'projects', 'totalAmount', 'completedProjects', 'ongoingProjects', 'onHoldProjects'
-        , 'current_month'
-        , 'noProjects'));
+        return view('backend.client.details', compact('client', 'clients', 'projects', 'totalAmount', 'completedProjects', 'ongoingProjects', 'onHoldProjects', 'current_month', 'noProjects'));
     }
 
     public function show($id)

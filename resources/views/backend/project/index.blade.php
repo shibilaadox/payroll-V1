@@ -21,6 +21,7 @@
                 <div class="table-responsive">
                     <div id="comma_decimal_table_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
 
+
                         <div class="row">
                             <div class="col-sm-12">
                                 <table id="project_datatable" class="display table table-striped table-bordered dataTable"
@@ -64,7 +65,7 @@
                                                         title="Delete Project">
                                                         <i class="nav-icon i-Close-Window font-weight-bold fs-16"></i>
                                                     </a>
-                                                    
+
                                                     <a href="{{ route('project.details', $row->id) }}"
                                                         class="text-primary">
                                                         <i style="font-size: 17px" class="fa-solid fa-circle-info"></i>
@@ -419,7 +420,8 @@
             this.Employee = employee;
             this.Mode = mode;
             this.Payment = payment;
-
         }
+
     </script>
+    
 @endsection

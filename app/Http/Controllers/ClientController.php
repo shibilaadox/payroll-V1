@@ -35,6 +35,15 @@ class ClientController extends Controller
         return view('backend.client.index');
     }
 
+    public function details($id)
+{
+    // Fetch the client details
+    $client = Client::with('projects')->findOrFail($id);
+
+    // Pass the client details to the view
+    return view('client.details', compact('client'));
+}
+
     /**
      * Show the form for creating a new resource.
      *

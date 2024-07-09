@@ -28,9 +28,7 @@ class ClientDetailsController extends Controller
         $clients = Client::all();
         $users = User::all();
 
-        return view('backend.project.index', $data, compact('projects', 'clients'
-        , 'users'
-    ));
+        return view('backend.project.index', $data, compact('projects', 'clients', 'users'));
     }
 
 
@@ -52,7 +50,7 @@ class ClientDetailsController extends Controller
         $projectsQuery = Project::where('client', $id);
 
         if ($month) {
-            $projectsQuery->whereMonth('start_date', $month)->orWhereMonth('end_date', $month);
+            $projectsQuery->whereMonth('start_date', $month);
         }
 
         $projects = $projectsQuery->get();

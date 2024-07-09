@@ -4,16 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ClientDetailsController extends Controller
 {
 
-    public function index(){
-        $data['projects'] = Project::all();
+    public function index()
+    {
+        // $data['projects'] = Project::all();
         $data['projects'] = Project::with('clients')->with('employees')->get();
+        // $data['projects'] = Project::with(['clients', 'employees'])->get();
+        $currentMonth = date('m');
+        $currentYear = date('Y');
 
-        return view('backend.project.index', $data);
+        $projects = Project::whereYear('start_date', $currentYear)
+            ->whereMonth('start_date', $currentMonth)
+            ->orWhereYear('end_date', $currentYear)
+            ->whereMonth('end_date', $currentMonth)
+            ->with(['clients', 'employees'])
+            ->get();
+
+        $clients = Client::all();
+        $users = User::all();
+
+        return view('backend.project.index', $data, compact('projects', 'clients', 'users'));
     }
 
 
@@ -25,9 +40,9 @@ class ClientDetailsController extends Controller
             abort(404, 'Client not found');
         }
 
-        $month = $request->input('month');
+        $month = $request->input('month', date('m'));
         $status = $request->input('status', 'all');
-        $current_month = $month ? date('F', mktime(0, 0, 0, $month)) : date('F', strtotime('-1 month'));
+        $current_month = date('F', mktime(0, 0, 0, $month));
 
         $clients = Client::all();
         $projects = Project::where('client', $id)->get();
@@ -35,11 +50,7 @@ class ClientDetailsController extends Controller
         $projectsQuery = Project::where('client', $id);
 
         if ($month) {
-            $projectsQuery->whereMonth('start_date', $month)->orWhereMonth('end_date', $month);
-        }
-
-        if ($status !== 'all') {
-            $projectsQuery->where('status', ucfirst($status));
+            $projectsQuery->whereMonth('start_date', $month);
         }
 
         $projects = $projectsQuery->get();
@@ -49,16 +60,16 @@ class ClientDetailsController extends Controller
         $ongoingProjects = $projects->where('status', 'Ongoing')->count();
         $onHoldProjects = $projects->where('status', 'Hold')->count();
 
-        return view('backend.client.details', compact('client', 'clients', 'projects', 'totalAmount', 'completedProjects', 'ongoingProjects', 'onHoldProjects', 'current_month'));
+        $noProjects = $projects->isEmpty();
+
+        return view('backend.client.details', compact('client', 'clients', 'projects', 'totalAmount', 'completedProjects', 'ongoingProjects', 'onHoldProjects', 'current_month', 'noProjects'));
     }
 
     public function show($id)
     {
         $client = Client::findOrFail($id);
-        $projects = Project::where('client_id', $id)->get();
+        $projects = Project::where('client', $id)->get();
 
         return view('backend.client.details', compact('client', 'projects'));
     }
-
 }
-

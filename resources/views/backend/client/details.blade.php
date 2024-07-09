@@ -30,7 +30,7 @@ use App\Models\Paymentstatus; ?>
 
                             @foreach (range(1, 12) as $month)
                                 <option value="{{ str_pad($month, 2, '0', STR_PAD_LEFT) }}"
-                                    {{ request('month') == str_pad($month, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
+                                    {{ request('month', date('m')) == str_pad($month, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
                                     {{ DateTime::createFromFormat('!m', $month)->format('F') }}
                                 </option>
                             @endforeach
@@ -134,8 +134,10 @@ use App\Models\Paymentstatus; ?>
 
         <h1 class="text-center">Client Details</h1>
         <br>
-        <h5>Name : <span style="font-weight:bold">{{ $client->name }}</span></h5>
-        <h5>Email : <span style="font-weight:bold">{{ $client->email }}</span></h5>
+        <div class="ml-3">
+            <h5>Name : <span style="font-weight:bold">{{ $client->name }}</span></h5>
+            <h5>Email : <span style="font-weight:bold">{{ $client->email }}</span></h5>
+        </div>
 
         <div class="form-group col-md-12 mt-4">
             <label for="client" class="ul-form__label">Projects :</label>
@@ -208,15 +210,23 @@ use App\Models\Paymentstatus; ?>
                     </div>
                 </div>
 
+                @if ($noProjects)
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <p>No Details Available This Month</p>
+                        </div>
+                    </div>
+                @endif
+
             </div>
         </div>
     </div>
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.filter-projects').forEach(link => {
-                link.addEventListener('click', function (e) {
+                link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const status = this.getAttribute('data-status');
                     filterProjects(status);
@@ -234,7 +244,21 @@ use App\Models\Paymentstatus; ?>
                     row.style.display = 'none';
                 }
             });
-        }
-        </script>
 
+            const visibleRows = Array.from(rows).filter(row => row.style.display !== 'none');
+            const noProjectsMessage = document.querySelector('.no-projects-message');
+            if (visibleRows.length === 0) {
+                if (!noProjectsMessage) {
+                    const message = document.createElement('div');
+                    message.className = 'row no-projects-message';
+                    message.innerHTML = '<div class="col-sm-12 text-center"><p>No Details Available This Month</p></div>';
+                    document.querySelector('#comma_decimal_table_wrapper').appendChild(message);
+                }
+            } else {
+                if (noProjectsMessage) {
+                    noProjectsMessage.remove();
+                }
+            }
+        }
+    </script>
 @endsection

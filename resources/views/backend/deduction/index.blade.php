@@ -1,12 +1,13 @@
 @extends('layouts.master')
- 
+
 
 @section('main-content')
     <div class="col-md-12 mb-4">
         <div class="card text-left">
             <div class="card-body">
                 <h4 class="mb-3 fs-22 font-weight-bold">Deductions
-                    <div style="float: right"><button type="button" class="btn btn-primary ripple m-1" onclick="add_deduction()">
+                    <div style="float: right"><button type="button" class="btn btn-primary ripple m-1"
+                            onclick="add_deduction()">
                             New Deduction</button></div>
                 </h4>
                 <p class="fs-16">All Your Deductions</p>
@@ -16,55 +17,75 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <table id="deduction_datatable" class="display table table-striped table-bordered dataTable"
-                                    style="width: 100%;" role="grid" aria-describedby="comma_decimal_table_info">
-                                    <thead>
-                                        <tr role="row">
-                                            <th class="sorting_asc" tabindex="0" aria-controls="deduction_datatable"
-                                                rowspan="1" colspan="1" aria-sort="ascending"
-                                                aria-label="Name: activate to sort column descending"
-                                                style="width: 90.002px;">Id</th>
-                                            <th class="sorting_asc" tabindex="0" aria-controls="deduction_datatable"
-                                                rowspan="1" colspan="1" aria-sort="ascending"
-                                                aria-label="Name: activate to sort column descending"
-                                                style="width: 181.002px;">User</th>
-                                            <th class="sorting_asc" tabindex="0" aria-controls="deduction_datatable"
-                                                rowspan="1" colspan="1" aria-sort="ascending"
-                                                aria-label="Name: activate to sort column descending"
-                                                style="width: 181.002px;">Type</th>
-                                            <th class="sorting_asc" tabindex="0" aria-controls="deduction_datatable"
-                                                rowspan="1" colspan="1" aria-sort="ascending"
-                                                aria-label="Name: activate to sort column descending"
-                                                style="width: 181.002px;">Name</th>
-                                            <th class="sorting" tabindex="0" aria-controls="deduction_datatable"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Position: activate to sort column ascending"
-                                                style="width: 270.002px;">Amount</th>
-                                            <th class="sorting" tabindex="0" aria-controls="deduction_datatable"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Position: activate to sort column ascending"
-                                                style="width: 270.002px;">Actions</th>
+                                <form action="{{ route('deductions.displayExcelData') }}" method="POST" enctype="multipart/form-data">
+                                    <table id="deduction_datatable" class="display table table-striped table-bordered dataTable"
+                                        style="width: 100%;" role="grid" aria-describedby="comma_decimal_table_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc" tabindex="0" aria-controls="deduction_datatable"
+                                                    rowspan="1" colspan="1" aria-sort="ascending"
+                                                    aria-label="Name: activate to sort column descending"
+                                                    style="width: 90.002px;">Id</th>
+                                                <th class="sorting_asc" tabindex="0" aria-controls="deduction_datatable"
+                                                    rowspan="1" colspan="1" aria-sort="ascending"
+                                                    aria-label="Name: activate to sort column descending"
+                                                    style="width: 181.002px;">Code</th>
+                                                <th class="sorting_asc" tabindex="0" aria-controls="deduction_datatable"
+                                                    rowspan="1" colspan="1" aria-sort="ascending"
+                                                    aria-label="Name: activate to sort column descending"
+                                                    style="width: 181.002px;">Deduction Code</th>
+                                                <th class="sorting_asc" tabindex="0" aria-controls="deduction_datatable"
+                                                    rowspan="1" colspan="1" aria-sort="ascending"
+                                                    aria-label="Name: activate to sort column descending"
+                                                    style="width: 181.002px;">Deduction Number</th>
+                                                <th class="sorting" tabindex="0" aria-controls="deduction_datatable"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Position: activate to sort column ascending"
+                                                    style="width: 270.002px;">Deduction Amount</th>
 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                                <th class="sorting" tabindex="0" aria-controls="deduction_datatable"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Position: activate to sort column ascending"
+                                                    style="width: 270.002px;">Month</th>
 
-                                    <?php $i=1;
-                                    foreach ($data['deduction'] as $row){ ?>
-                                        <tr>
-                                            <th scope="row">{{ $i++ }}</th>
-                                            <td>{{ $row->user->firstname }}</td>
-                                            <td>{{ $row->type }}</td>
-                                            <td>{{ $row->name }}</td>
-                                            <td>{{ $row->amount }}</td>
-                                            <td><button class="btn btn-success" onclick="edit_deduction('{{$row->id}}')" type="button"><i class="nav-icon i-Pen-2 font-weight-bold"></i></button>
-                                            <button class="btn btn-danger ml-3" onclick="delete_deduction('{{$row->id}}')" type="button"><i class="nav-icon i-Close-Window font-weight-bold"></i></button>
-                                            </td>
-                                        </tr>
-                                    <?php } ?>
-                                    </tbody>
+                                                <th class="sorting" tabindex="0" aria-controls="deduction_datatable"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Position: activate to sort column ascending"
+                                                    style="width: 270.002px;">Actions</th>
 
-                                </table>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <?php $i=1;
+                                        foreach ($data['deduction'] as $row){ ?>
+
+                                            <tr>
+                                                @if (isset($deductions))
+                                                    @foreach ($deductions as $index => $deduction)
+                                                        <td>{{ $index + 1 }}</td>
+                                                        <td>{{ $deduction[0] }}</td>
+                                                        <td>{{ $deduction[1] }}</td>
+                                                        <td>{{ $deduction[2] }}</td>
+                                                        <td>{{ $deduction[3] }}</td>
+                                                        <td>{{ $deduction[4] }}</td>
+                                                    @endforeach
+                                                @endif
+
+                                                <td><button class="btn btn-success"
+                                                        onclick="edit_deduction('{{ $row->id }}')" type="button"><i
+                                                            class="nav-icon i-Pen-2 font-weight-bold"></i></button>
+                                                    <button class="btn btn-danger ml-3"
+                                                        onclick="delete_deduction('{{ $row->id }}')" type="button"><i
+                                                            class="nav-icon i-Close-Window font-weight-bold"></i></button>
+                                                </td>
+                                            </tr>
+
+                                            <?php } ?>
+                                        </tbody>
+
+                                    </table>
+                                </form>
                             </div>
                         </div>
 
@@ -90,32 +111,34 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-row">
-                            
+
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">User:</label>
                                 <select class="form-control" name="user" id="user">
-                                                    <option value="">Select</option>
-                                                    @foreach ($data['users'] as $row)
-                                                    <option value="{{ $row->id }}">{{ $row->firstname }}</option>
-                                                    @endforeach
-                                                    </select>
+                                    <option value="">Select</option>
+                                    @foreach ($data['users'] as $row)
+                                        <option value="{{ $row->id }}">{{ $row->firstname }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Type:</label>
                                 <select class="form-control" name="type" id="type">
-                                                    <option value="">Select</option>
-                                                    <option value="Deduction">Deduction</option>
-                                                    <option value="Tax">Tax</option>
-                                                    </select>
+                                    <option value="">Select</option>
+                                    <option value="Deduction">Deduction</option>
+                                    <option value="Tax">Tax</option>
+                                </select>
                             </div>
                             <div class="form-group col-md-12">
-                                <label for="actual_name" class="ul-form__label">Name:</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required>
+                                <label for="actual_name" class="ul-form__label">Name:</label>withou
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="Enter name" required>
 
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="short_name" class="ul-form__label">Amount:</label>
-                                <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter amount" required>
+                                <input type="text" class="form-control" id="amount" name="amount"
+                                    placeholder="Enter amount" required>
                                 <input type="hidden" name="deduction_id" id="deduction_id" value="">
                             </div>
                         </div>
@@ -132,7 +155,6 @@
 
 @section('page-js')
     <script type="text/javascript">
-
         //open model
         function add_deduction() {
             $('#deduction-modal').modal('show');
@@ -159,24 +181,24 @@
 
                         $('#deduction-modal').modal('hide');
                         swal_success();
-                        
+
 
 
                     }
                 },
                 error: function(response) {
-                    
+
                 }
 
             });
 
         });
 
-        
+
         //Edit Function
 
         function edit_deduction(id) {
-            
+
             $.get("{{ route('deductions.index') }}" + '/' + id + '/edit', function(data) {
                 $("#saveBtn").val("Edit-Category");
                 $("#deduction-modal").modal('show');
@@ -206,6 +228,5 @@
             //Datatable
             $('#deduction_datatable').DataTable();
         });
-                
     </script>
 @endsection

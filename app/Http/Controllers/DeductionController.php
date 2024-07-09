@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\DeductionsImport;
 use Illuminate\Http\Request;
 use App\Models\Deduction;
 use App\Models\User;
 use DataTables;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DeductionController extends Controller
 {
@@ -16,9 +18,19 @@ class DeductionController extends Controller
      */
     public function index(Request $request)
     {
+        $deductions = Deduction::all();
+
         $data['deduction'] = Deduction::with('user')->get();
         $data['users'] = User::where('user_type','Employee')->get();
-        return view('backend.deduction.index',['data'=>$data]);
+        return view('backend.deduction.index',['data'=>$data] , ['deductions' => $deductions]);
+    }
+
+    public function displayExcelData(Request $request)
+    {
+        $file = $request->file('file');
+        $data = Excel::toArray([], $file);
+
+        return view('backend.deduction.index', ['deductions' => $data[0]]);
     }
 
     /**
@@ -45,7 +57,7 @@ class DeductionController extends Controller
             $input['type'] = $request->type;
             $input['name'] = $request->name;
             $input['amount'] = $request->amount;
-            
+
             Deduction::updateOrCreate(['id' => $request->deduction_id] ,$input);
 
             return response()->json(['code' => '200', 'status' => 'Deduction added successfully']);

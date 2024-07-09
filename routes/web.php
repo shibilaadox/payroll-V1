@@ -93,7 +93,7 @@ Route::resource('leaves', LeaveController::class);
 Route::resource('clients', ClientController::class);
 Route::get('/client/{id}/details', [ClientDetailsController::class, 'showDetails'])->name('client.details');
 
-Route::get('/client/{id}/projects', [ClientDetailsController::class, 'getFilteredProjects']);
+// Route::get('/client/{id}/projects', [ClientDetailsController::class, 'getFilteredProjects']);
 
 
 //Project routes

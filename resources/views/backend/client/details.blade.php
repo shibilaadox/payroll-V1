@@ -82,17 +82,15 @@ use App\Models\Paymentstatus; ?>
 
             </div>
         </div>
-        <div class="col-md-2 mb-2">
-            <div class="card o-hidden">
 
-                <div class="card-body text-center">
-                    <div class="text-uppercase payrun-label font-small">CLIENT START DATE</div>
-                    <div style="font-size: 28px" class="font-light overflow-hidden text-nowrap">
+        <div class="col-md-2 mb-2">
+            <div class="card">
+                <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
+                    <div class="text-uppercase payrun-label font-small  text-nowrap">CLIENT START DATE</div>
+                    <div style="font-size: 25px" class="display-6 font-light text-nowrap">
                         {{ $client->created_at->format('Y-m-d') }}
                     </div>
-
                 </div>
-
             </div>
         </div>
 

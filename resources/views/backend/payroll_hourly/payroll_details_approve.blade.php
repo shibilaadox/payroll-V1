@@ -138,7 +138,7 @@
                                         ?>
 
                                         <tr>
-                                            <th scope="row"><input type="checkbox" name="user_status_id" value="{{$row->id}}"></th>
+                                            <th scope="row"><input type="checkbox" name="user_status_id" value="{{$row1->id}}"></th>
                                             <th scope="row">{{ $i++ }}</th>
                                             <td><?php echo $row1->firstname." ".$row1->lastname?></td>
                                             <td><?php 
@@ -151,8 +151,8 @@
                                             echo "₹".number_format($TOTAL_GP,2);
                                             ?></td>
                                             <td>Cheque</td>
-                                            <td><button type="button" class="btn btn-primary btn-m ripple m-1" onclick="get_payslip('{{$row->id}}')">view</button></div></td>
-                                            <td><?php $status = Paymentstatus::where('user_id',$row->id)->whereMonth('created_at',Carbon::now()->month)->first();
+                                            <td><button type="button" class="btn btn-primary btn-m ripple m-1" onclick="get_payslip('{{$row1->id}}')">view</button></div></td>
+                                            <td><?php $status = Paymentstatus::where('user_id',$row1->id)->where('month',date('F',strtotime('last month')))->first();
                                                       if(empty($status))echo "<span style='color: red;'>Yet to pay</span>";else if($status->status==1)echo "<span style='color: green;'>Paid On ".$status->created_at->format('d/m/Y')."</span>";
                                             
                                             ?></td>

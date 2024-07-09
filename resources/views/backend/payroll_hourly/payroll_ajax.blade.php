@@ -5,7 +5,7 @@
 <div class="scroll-x scroll-y scrollbox split-view-content font-mm ind-split-view-content download-payslip-footer-margin">
     <h4>{{$data['employee']->name}}</h4>
     <h6>Emp Id : {{$data['employee']->employee_code}}</h6><br>
-<!---->    <div class="media status-banner success-banner">
+    <div class="media status-banner success-banner">
       <div class="media-left media-top">
         <svg viewBox="0 0 512 512" class="icon icon-md vertical-align-sub"><path d="M256 4C116.8 4 4 116.8 4 256s112.8 252 252 252 252-112.8 252-252S395.2 4 256 4zm156 188L240.7 363.3c-6 6-13.8 9-21.6 9-7.8 0-15.7-3-21.6-9l-81.1-81.1c-12-12-12-31.3 0-43.3 12-12 31.3-12 43.3 0l59.5 59.5 149.7-149.7c12-12 31.3-12 43.3 0C424 160.6 424 180 412 192z"></path></svg>
       </div>
@@ -19,12 +19,12 @@
       </div>
       <?php } ?>
     </div>
-<!---->  <div tabindex="-1" id="ember3209" class="col-xs-12 no-outline ember-view"><div id="ember3210" class="ember-view" style="overflow: hidden; width: 420px; height: 0px;"><div id="ember3211" class="ember-view" style="overflow: auto;">  <!---->
+ <div tabindex="-1" id="ember3209" class="col-xs-12 no-outline ember-view"><div id="ember3210" class="ember-view" style="overflow: hidden; width: 420px; height: 0px;"><div id="ember3211" class="ember-view" style="overflow: auto;">  <!---->
 
 </div></div></div>
   <table class="table table-responsive split-up-table">
     <tbody>
-<!---->      <tr>
+   <tr>
         <td width="90%" class="ptop-medium">
           Payable Days
         </td>
@@ -34,10 +34,11 @@
             </div>
         </td>
         <td width="4%" class="action-column ptop-medium">
-<!---->        </td>
+       </td>
       </tr>
-<!----><!----><!----><!----><!----><!----><!---->    </tbody>
+   </tbody>
   </table>
+
     <table class="table table-responsive split-up-table">
       <thead>
         <tr>
@@ -50,11 +51,11 @@
             <tr data-test-selector="earning-row">
     <td>
         <div>
-          Basic
+          Gross Pay
 <!---->        </div>
     </td>
     <td class="text-right">
-    <?php echo "₹".number_format($data['employee']->userdetails->basic_salary,2);?>
+    <?php echo "₹".number_format($data['gross_pay'],2);?>
 <!---->          </td>
     <td class="vertical-align-middle action-column">
 <!---->    </td>

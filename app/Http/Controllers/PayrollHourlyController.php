@@ -320,7 +320,9 @@ class PayrollHourlyController extends Controller
 
             return $query->where('month',date('m',strtotime("-1 month")));
 
-        })->where('id',$id)->get();
+        })->where('id',$id)->first();
+
+        
 
        
 
@@ -379,9 +381,10 @@ class PayrollHourlyController extends Controller
         if(isset($_GET['month']) && $_GET['month']!="")
         $data['status'] = Paymentstatus::where('user_id',$id)->whereMonth('created_at',$_GET['month']+1)->first();
         else
-        $data['status'] = Paymentstatus::where('user_id',$id)->whereMonth('created_at',Carbon::now()->month)->first();
+        $data['status'] = Paymentstatus::where('user_id',$id)->where('month',date('F',strtotime('last month')))->first();
 
         $data['paid_days'] = $j;
+        $data['gross_pay']= $TOTAL_GP;
 
         if(isset($_GET['month']) && $_GET['month']!="")
             $data['deduction'] = Deduction::where('type','Deduction')->where('user_id',$id)->whereMonth('created_at',$_GET['month'])->get();

@@ -90,7 +90,7 @@
                                     
                                     <?php $i=1;;foreach ($data['employees'] as $row1){ 
 
-                                      $j = 0 ;$TOTAL_GP = 0;
+                                      $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;
 
                                       foreach($row1->user_timesheet_hourly as $row){
 
@@ -98,7 +98,11 @@
 
                                         $j++;
 
+                                        $no_8_days = $no_8_days + $row->day8;
+
                                         $RegP = $row->day8*$row->day8_rate;
+
+                                        $TOTAL_RP = $TOTAL_RP+$RegP;
                             
                                         if($row->day12==4)
                                         $Pay12 = $row->day12_rate-$RegP;
@@ -107,37 +111,67 @@
                             
                                         $UA = $row->undertime * ($row->day8_rate/60);
                             
-                                        $ot1 = $row->ot1_hrs*$row->day8_rate;
-                                        $ot2 = $row->o21_hrs*$row->day8_rate;
-                                        $ot3 = $row->ot3_hrs*$row->day8_rate;
-                                        $ot4 = $row->ot4_hrs*$row->day8_rate;
-                                        $ot5 = $row->ot5_hrs*$row->day8_rate;
-                                        $ot6 = $row->ot6_hrs*$row->day8_rate;
-                                        $ot7 = $row->ot7_hrs*$row->day8_rate;
-                                        $ot8 = $row->ot8_hrs*$row->day8_rate;
-                                        $ot9 = $row->ot9_hrs*$row->day8_rate;
-                                        $ot10 = $row->ot10_hrs*$row->day8_rate;
-                                        $ot11 = $row->ot11_hrs*$row->day8_rate;
-                                        $ot12 = $row->ot12_hrs*$row->day8_rate;
-                                        $ot13 = $row->ot13_hrs*$row->day8_rate;
+                                        $ot1 = $row->ot1_hrs;
+                                        $ot2 = $row->o21_hrs;
+                                        $ot3 = $row->ot3_hrs;
+                                        $ot4 = $row->ot4_hrs;
+                                        $ot5 = $row->ot5_hrs;
+                                        $ot6 = $row->ot6_hrs;
+                                        $ot7 = $row->ot7_hrs;
+                                        $ot8 = $row->ot8_hrs;
+                                        $ot9 = $row->ot9_hrs;
+                                        $ot10 = $row->ot10_hrs;
+                                        $ot11 = $row->ot11_hrs;
+                                        $ot12 = $row->ot12_hrs;
+                                        $ot13 = $row->ot13_hrs;
                             
-                                        $OT = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
+                                        $OT_total = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
+
+                                        $OT_premium = $row->day8_rate * 1.10;
+
+                                        $OT = $OT_total * $row->day8_rate * $OT_premium;
+
+                                        //$ND_rate = $row->day8_rate * 0.10;
+
+                                        $ND_rate = 30;
                             
-                                        $COLA = 0;
+                                        $COLA = $ND_rate * $j;
                             
-                                        $ND = 0;
+                                        $ND = $ND_rate * $row->nd_days;
                             
                                         $SI = $row->incentive;
                             
                                         $GP = $RegP + $ND + $SI - $UA;
-                            
+
+                                        $taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND;
+
+                                        $EMPH = $GP * 0.0225;
+
+                                        $EMHDMF = $GP * 0.02;
+
+                                        $EMSSS = $GP*0.085;
+
+                                        $excess = $taxable_income - 20833;
+
+                                        //$tax = $excess * 0.02;
+
+                                        $tax = 0;
+
                                         $TOTAL_GP = $TOTAL_GP + $GP;
+
+                                        $deductions = $EMPH+$EMHDMF+$EMSSS;
+
+                                        $DEDUCTIONS = $DEDUCTIONS + $deductions;
+
+                                        $net_pay = $GP - $deductions - $tax;
+
+                                        $NET_PAY = $NET_PAY + $net_pay;
 
                                         } }
                                       
                                       ?>
                                         <tr>
-                                            <th scope="row">{{ $i++ }}</th>
+                                            <th scope="row">{{ $i }}</th>
                                             <td><?php echo $row1->firstname." ".$row1->lastname?></td>
                                             <td><?php 
                                             
@@ -154,11 +188,11 @@
                                             </td>
                                             <td><?php 
                                             $deduction = 0;
-                                            echo "₹".number_format($deduction,2);?></td>
+                                            echo "₹".number_format($DEDUCTIONS,2);?></td>
                                             
-                                            <td><?php $net_pay = $TOTAL_GP-$deduction;
+                                            <td><?php 
                                             
-                                            echo "₹".number_format($net_pay,2);
+                                            echo "₹".number_format($NET_PAY,2);
                                             ?></td>
                                             <td><?php $status = Paymentstatus::where('user_id',$row1->id)->where('month',date('F',strtotime('last month')))->first();
                                                       if(empty($status))echo "<span style='color: red;'>Yet to pay</span>";else if($status->status==1)echo "<span style='color: green;'>Paid On ".$status->created_at->format('d/m/Y')."</span>";

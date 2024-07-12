@@ -53,7 +53,7 @@
                                     foreach ($data['deduction'] as $row){ ?>
                                         <tr>
                                             <th scope="row">{{ $i++ }}</th>
-                                            <td>{{ $row->user }}</td>
+                                            <td>{{ $row->user->name }}</td>
                                             <td>{{ $row->type }}</td>
                                             <td>{{ $row->name }}</td>
                                             <td>{{ $row->amount }}</td>

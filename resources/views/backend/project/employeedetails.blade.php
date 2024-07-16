@@ -8,43 +8,39 @@
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 @section('main-content')
+    <div>
+        <h1 class="text-center mb-4">Employee Details</h1>
+        <div class="table-responsive">
+            <div id="comma_decimal_table_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-sm-6 ">
+
+                        <div class="card mt-5" style="width: 100%; font-size:16px">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Employee Name : {{ $employee->firstname }}</li>
+                                <li class="list-group-item">Email : {{ $employee->email }}</li>
+                                <li class="list-group-item">Password : {{ $employee->password }}</li>
+                                <li class="list-group-item">Phone : {{ $employee->phone }}</li>
+                                <li class="list-group-item">Gender : {{ $employee->gender }}</li>
+                                <li class="list-group-item">DOB : {{ $employee->dob }}</li>
+                                <li class="list-group-item">Employee Code : {{ $employee->employee_code }}</li>
+                                <li class="list-group-item">Designation : {{ $employee->job_role }}</li>
+                                <li class="list-group-item">Status : {{ $employee->status }}</li>
 
 
-<div>
-    <h1 class="text-center mb-4">Employee Details</h1>
-    <div class="table-responsive">
-        <div id="comma_decimal_table_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
-            <div class="row">
-                <div class="col-sm-12">
-                    <table id="project_datatable" class="display table table-striped table-bordered dataTable"
-                        style="width: 100%;" role="grid" aria-describedby="comma_decimal_table_info">
-                        <thead class="text-center">
-                            <tr>
-                                <th scope="col">Employee Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Phone</th>
-                                <th scope="col">Gender</th>
-                                <th scope="col">DOB</th>
 
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <tr>
-                                <td>{{ $employee->firstname }}</td>
-                                <td>{{ $employee->email }}</td>
-                                <td>{{ $employee->phone }}</td>
-                                <td>{{ $employee->gender }}</td>
-                                <td>{{ $employee->dob }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-3"></div>
+
+
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-
 @endsection
 
 

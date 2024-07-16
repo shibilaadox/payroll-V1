@@ -18,7 +18,7 @@ class ProjectDetailsController extends Controller
 
         $currentMonth = date('m');
         $currentYear = date('Y');
-        
+
         $projects = Project::whereYear('start_date', $currentYear)
             ->whereMonth('start_date', $currentMonth)
             ->orWhereYear('end_date', $currentYear)
@@ -42,8 +42,7 @@ class ProjectDetailsController extends Controller
         ->get();
 
         $month = $request->get('month');
-        $current_month = $month ? date('F', mktime(0, 0, 0, $month)) : date('F', strtotime('-1 month'));
-
+        $current_month = date('F');
         $employeeProjectsQuery = EmployeeProject::where('project_id', $id)
             ->with('user', 'project');
 
@@ -58,6 +57,7 @@ class ProjectDetailsController extends Controller
         $projects = $projectsQuery->get();
 
         $totalEmployees = $employeeProjects->count();
+        
         $totalCost = $employeeProjects->sum(function($employeeProject){
             return (float) $employeeProject->payment;
         });

@@ -16,6 +16,16 @@ class ProjectDetailsController extends Controller
         $data['projects'] = Project::all();
         $data['projects'] = Project::with('clients')->with('employees')->get();
 
+        $currentMonth = date('m');
+        $currentYear = date('Y');
+        
+        $projects = Project::whereYear('start_date', $currentYear)
+            ->whereMonth('start_date', $currentMonth)
+            ->orWhereYear('end_date', $currentYear)
+            ->whereMonth('end_date', $currentMonth)
+            ->with(['clients', 'employees'])
+            ->get();
+
         return view('backend.project.index', $data);
     }
 
@@ -23,7 +33,11 @@ class ProjectDetailsController extends Controller
     {
         $project = Project::findOrFail($id);
 
+        // Get the current month
+    $currentMonth = date('m');
+
         $employeeProjects = EmployeeProject::where('project_id', $id)
+        ->whereMonth('created_at', $currentMonth)
         ->with('user', 'project')
         ->get();
 

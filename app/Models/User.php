@@ -39,12 +39,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
+
     public function timesheet()
     {
         return $this->belongsTo(\App\Models\Timesheet::class,"id","user_id")->withDefault();
     }
-    
+
     public function userdetails()
     {
         return $this->belongsTo(\App\Models\Userdetail::class,"id","user_id")->with('departments')->with('locations')->with('designations');
@@ -64,7 +64,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo(\App\Models\User::class,"id","user_id")->withDefault();
     }
-    
+
     public function passport_expiry_notification()
     {
         $data = User::where('psprt_expiry_date', '<=', Carbon::now()->subDays(7)->toDateTimeString())->get();
@@ -79,13 +79,13 @@ class User extends Authenticatable
             $body = "Your passport will get expired on ".$expiry_date;
             $this->sendPushNotification($token,$title,$body);
         }
-        
+
     }
-    
+
     public function sendPushNotification($token,$title,$body) {
-    
+
         $url = "https://fcm.googleapis.com/fcm/send";
-        $serverKey = 'AAAADI7ef3Q:APA91bGQDRgYI8b3VUHeDvqAE7kXK7Qyv7GokYiwVipmHFNMn9OQ7mlEg8fKisCun7Erbb7Pt5imJioZTM-qlMh5WS5nQREZ9eR4OTZQbIFT9UrKtKbSnC5-Xkccw4wi41Xewkanu7ZT'; 
+        $serverKey = 'AAAADI7ef3Q:APA91bGQDRgYI8b3VUHeDvqAE7kXK7Qyv7GokYiwVipmHFNMn9OQ7mlEg8fKisCun7Erbb7Pt5imJioZTM-qlMh5WS5nQREZ9eR4OTZQbIFT9UrKtKbSnC5-Xkccw4wi41Xewkanu7ZT';
         $notification = array('title' =>$title , 'body' => $body, 'sound' => 'default', 'badge' => '1');
         $arrayToSend = array('to' => $token, 'notification' => $notification,'priority'=>'high');
         $json = json_encode($arrayToSend);
@@ -102,6 +102,11 @@ class User extends Authenticatable
         $response = curl_exec($ch);
         //Close request
         curl_close($ch);
+    }
+
+    public function employeeProjects()
+    {
+        return $this->hasMany(EmployeeProject::class, 'user_id', 'id');
     }
 
 

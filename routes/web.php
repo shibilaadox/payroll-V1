@@ -16,6 +16,7 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\PayrollHourlyController;
 use App\Http\Controllers\DeductionController;
+use App\Http\Controllers\DetailsEmployeeController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ExcelImportController;
 use App\Http\Controllers\ImportController;
@@ -100,6 +101,11 @@ Route::get('/client/{id}/details', [ClientDetailsController::class, 'showDetails
 Route::resource('projects', ProjectController::class);
 Route::get('/project/{id}/details', [ProjectDetailsController::class, 'show'])->name('project.details');
 Route::get('/project/{id}', [ProjectDetailsController::class, 'show'])->name('project.details');
+
+Route::get('/employee-details/{id}', [DetailsEmployeeController::class, 'show'])->name('employee.details');
+
+
+
 
 // web.php
 Route::get('project/details/{id}', [ProjectDetailsController::class, 'show'])->name('project.details');

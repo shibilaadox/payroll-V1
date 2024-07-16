@@ -25,7 +25,7 @@
                     <div class="card o-hidden">
 
                         <div class="card-body">
-                            <span class="text-18"><?php echo "₹".number_format($data['gross_pay_total'],2);?></span>
+                            <span class="text-18"><?php echo "₹".number_format($data['net_pay_total'],2);?></span>
                             <p class="text-small text-muted m-0">EMPLOYEES' NET PAY</p>  
                         </div>
 

@@ -79,7 +79,7 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">NAME</th>
-                                        <th scope="col">PAID DAYS</th>
+                                        <th scope="col">PAID HOURS</th>
                                         <th scope="col">GROSS PAY</th>
                                         <th scope="col">DEDUCTIONS</th>
                                         <th scope="col">NET PAY</th>
@@ -176,7 +176,7 @@
                                             <td><?php 
                                             
                                             
-                                            echo $j;
+                                            echo $no_8_days;
                                             
                                             ?>
                                             </td>

@@ -79,7 +79,7 @@
                                         <th scope="col"></th>
                                         <th scope="col">#</th>
                                         <th scope="col">NAME</th>
-                                        <th scope="col">PAID DAYS</td>
+                                        <th scope="col">PAID HOURS</td>
                                         <th scope="col">NET PAY</th>
                                         <th scope="col">PAYMENT MODE</th>
                                         <th scope="col">PAY SLIP</th>
@@ -90,48 +90,82 @@
                                     
                                     <?php $i=1; foreach ($data['employees'] as $row1){ 
                                         
-                                        $j = 0 ;$TOTAL_GP = 0;
+                                        $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;
 
                                         foreach($row1->user_timesheet_hourly as $row){
   
                                           if($row1->id == $row->user_id){
   
-                                          $j++;
-  
-                                          $RegP = $row->day8*$row->day8_rate;
-                              
-                                          if($row->day12==4)
-                                          $Pay12 = $row->day12_rate-$RegP;
-                                          else
-                                          $Pay12 = $row->day8_rate*$row->day12;
-                              
-                                          $UA = $row->undertime * ($row->day8_rate/60);
-                              
-                                          $ot1 = $row->ot1_hrs*$row->day8_rate;
-                                          $ot2 = $row->o21_hrs*$row->day8_rate;
-                                          $ot3 = $row->ot3_hrs*$row->day8_rate;
-                                          $ot4 = $row->ot4_hrs*$row->day8_rate;
-                                          $ot5 = $row->ot5_hrs*$row->day8_rate;
-                                          $ot6 = $row->ot6_hrs*$row->day8_rate;
-                                          $ot7 = $row->ot7_hrs*$row->day8_rate;
-                                          $ot8 = $row->ot8_hrs*$row->day8_rate;
-                                          $ot9 = $row->ot9_hrs*$row->day8_rate;
-                                          $ot10 = $row->ot10_hrs*$row->day8_rate;
-                                          $ot11 = $row->ot11_hrs*$row->day8_rate;
-                                          $ot12 = $row->ot12_hrs*$row->day8_rate;
-                                          $ot13 = $row->ot13_hrs*$row->day8_rate;
-                              
-                                          $OT = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
-                              
-                                          $COLA = 0;
-                              
-                                          $ND = 0;
-                              
-                                          $SI = $row->incentive;
-                              
-                                          $GP = $RegP + $ND + $SI - $UA;
-                              
-                                          $TOTAL_GP = $TOTAL_GP + $GP;
+                                            $j++;
+
+                                            $no_8_days = $no_8_days + $row->day8;
+    
+                                            $RegP = $row->day8*$row->day8_rate;
+    
+                                            $TOTAL_RP = $TOTAL_RP+$RegP;
+                                
+                                            if($row->day12==4)
+                                            $Pay12 = $row->day12_rate-$RegP;
+                                            else
+                                            $Pay12 = $row->day8_rate*$row->day12;
+                                
+                                            $UA = $row->undertime * ($row->day8_rate/60);
+                                
+                                            $ot1 = $row->ot1_hrs;
+                                            $ot2 = $row->o21_hrs;
+                                            $ot3 = $row->ot3_hrs;
+                                            $ot4 = $row->ot4_hrs;
+                                            $ot5 = $row->ot5_hrs;
+                                            $ot6 = $row->ot6_hrs;
+                                            $ot7 = $row->ot7_hrs;
+                                            $ot8 = $row->ot8_hrs;
+                                            $ot9 = $row->ot9_hrs;
+                                            $ot10 = $row->ot10_hrs;
+                                            $ot11 = $row->ot11_hrs;
+                                            $ot12 = $row->ot12_hrs;
+                                            $ot13 = $row->ot13_hrs;
+                                
+                                            $OT_total = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
+    
+                                            $OT_premium = $row->day8_rate * 1.10;
+    
+                                            $OT = $OT_total * $row->day8_rate * $OT_premium;
+    
+                                            //$ND_rate = $row->day8_rate * 0.10;
+    
+                                            $ND_rate = 30;
+                                
+                                            $COLA = $ND_rate * $j;
+                                
+                                            $ND = $ND_rate * $row->nd_days;
+                                
+                                            $SI = $row->incentive;
+                                
+                                            $GP = $RegP + $ND + $SI - $UA;
+    
+                                            $taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND;
+    
+                                            $EMPH = $GP * 0.0225;
+    
+                                            $EMHDMF = $GP * 0.02;
+    
+                                            $EMSSS = $GP*0.085;
+    
+                                            $excess = $taxable_income - 20833;
+    
+                                            //$tax = $excess * 0.02;
+    
+                                            $tax = 0;
+    
+                                            $TOTAL_GP = $TOTAL_GP + $GP;
+
+                                            $deductions = $EMPH+$EMHDMF+$EMSSS;
+
+                                            $DEDUCTIONS = $DEDUCTIONS + $deductions;
+
+                                            $net_pay = $GP - $deductions - $tax;
+
+                                            $NET_PAY = $NET_PAY + $net_pay;
   
                                           } }
                                         
@@ -142,13 +176,13 @@
                                             <th scope="row">{{ $i++ }}</th>
                                             <td><?php echo $row1->firstname." ".$row1->lastname?></td>
                                             <td><?php 
-                                            echo $j;
+                                            echo $no_8_days;
                                             ?>
                                             </td>
                                             
                                             <td><?php 
                                             
-                                            echo "₹".number_format($TOTAL_GP,2);
+                                            echo "₹".number_format($NET_PAY,2);
                                             ?></td>
                                             <td>Cheque</td>
                                             <td><button type="button" class="btn btn-primary btn-m ripple m-1" onclick="get_payslip('{{$row1->id}}')">view</button></div></td>

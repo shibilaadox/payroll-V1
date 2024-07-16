@@ -61,8 +61,7 @@
 <!---->    </td>
   </tr>
 <!---->
-           
-<
+          
           
 <!---->
 <?php if(empty($data['deduction']) || empty($data['tax'])){?>
@@ -106,7 +105,20 @@
     <td class="vertical-align-middle action-column">
 <!---->    </td>
   </tr>
-            <?php foreach($data['deduction'] as $row){?>
+
+  <tr data-test-selector="earning-row">
+    <td>
+        <div>
+          Deductions
+<!---->        </div>
+    </td>
+    <td class="text-right">
+    <?php echo "₹".number_format($data['deduction'],2);?>
+<!---->          </td>
+    <td class="vertical-align-middle action-column">
+<!---->    </td>
+  </tr>
+            <?php /*foreach($data['deduction'] as $row){?>
 
             <tr data-test-selector="earning-row">
     <td>
@@ -121,7 +133,7 @@
 <!---->    </td>
   </tr>
 <!---->
-<?php } }?>
+<?php } */}?>
 
 <?php if(!empty($data['tax'])){ ?>
             <tr data-test-selector="earning-row">

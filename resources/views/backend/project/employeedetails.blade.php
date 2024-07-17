@@ -26,7 +26,7 @@
                                 <li class="list-group-item">DOB : {{ $employee->dob }}</li>
                                 <li class="list-group-item">Employee Code : {{ $employee->employee_code }}</li>
                                 <li class="list-group-item">Designation : {{ $employee->job_role }}</li>
-                                <li class="list-group-item">Status : {{ $employee->status }}</li>
+                                <li class="list-group-item">Status : {{$employee->status}}</li>
 
 
 

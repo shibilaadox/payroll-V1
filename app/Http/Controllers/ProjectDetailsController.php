@@ -18,7 +18,7 @@ class ProjectDetailsController extends Controller
 
         $currentMonth = date('m');
         $currentYear = date('Y');
-        
+
         $projects = Project::whereYear('start_date', $currentYear)
             ->whereMonth('start_date', $currentMonth)
             ->orWhereYear('end_date', $currentYear)
@@ -35,17 +35,22 @@ class ProjectDetailsController extends Controller
 
         // Get the current month
     $currentMonth = date('m');
+    $currentYear = date('Y');
+    $currentMonthName = date('F');
 
         $employeeProjects = EmployeeProject::where('project_id', $id)
         ->whereMonth('created_at', $currentMonth)
         ->with('user', 'project')
         ->get();
 
-        $month = $request->get('month');
-        $current_month = $month ? date('F', mktime(0, 0, 0, $month)) : date('F', strtotime('-1 month'));
+        // Default to current month if no month is specified
+    $month = $request->get('month', $currentMonth);
+        $current_month = date('F');
 
-        $employeeProjectsQuery = EmployeeProject::where('project_id', $id)
-            ->with('user', 'project');
+        // Fetch employee projects for the specified month
+    $employeeProjectsQuery = EmployeeProject::where('project_id', $id)
+    ->whereMonth('created_at', $month)
+    ->with('user', 'project');
 
         $projectsQuery = Project::where('client', $id);
 
@@ -58,6 +63,7 @@ class ProjectDetailsController extends Controller
         $projects = $projectsQuery->get();
 
         $totalEmployees = $employeeProjects->count();
+
         $totalCost = $employeeProjects->sum(function($employeeProject){
             return (float) $employeeProject->payment;
         });
@@ -67,7 +73,7 @@ class ProjectDetailsController extends Controller
         $year = date('Y');
         $secondSaturday = date('Y-m-d', strtotime("second saturday of $year-$month"));
 
-        return view('backend.project.details', compact('project', 'employeeProjects', 'totalEmployees', 'totalCost', 'secondSaturday', 'current_month', 'projects'));
+        return view('backend.project.details', compact('project', 'employeeProjects', 'totalEmployees', 'totalCost', 'secondSaturday', 'current_month', 'projects', 'currentMonthName'));
     }
 
 

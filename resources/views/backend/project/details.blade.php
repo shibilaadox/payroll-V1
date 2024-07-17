@@ -62,9 +62,9 @@
             </div>
         </div>
         <div class="col-md-2 mb-2">
-            <div class="card o-hidden">
+            <div style="width: 300px" class="card o-hidden">
                 <div class="card-body">
-                    <div class="text-uppercase payrun-label font-small text-center text-nowrap">PROJECT LAUNCH DATE</div>
+                    <div  class="text-uppercase payrun-label font-small text-center text-nowrap">PROJECT LAUNCH DATE</div>
                     <div style="font-size: 19px" class="font-light text-center text-nowrap">
                         {{ date('F d, Y', strtotime($secondSaturday)) }} </div>
                 </div>

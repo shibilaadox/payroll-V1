@@ -7,6 +7,7 @@ use App\Models\EmployeeProject;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DetailsEmployeeController extends Controller
 {
@@ -18,7 +19,13 @@ class DetailsEmployeeController extends Controller
         // Get the associated user (employee) details
         $employee = $employeeProject->user;
 
+        // Get userdetails for the employee
+        $userdetails = DB::table('userdetails')->where('user_id', $employee->id)->first();
+
+        // Get userdetails for the employee
+        $useraddresses = DB::table('useraddresses')->where('user_id', $employee->id)->first();
+
         // Pass the employee data to the view
-        return view('backend.project.employeedetails', compact('employee'));
+        return view('backend.project.employeedetails', compact('employee', 'userdetails','useraddresses'));
     }
 }

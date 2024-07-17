@@ -16,22 +16,136 @@
                     <div class="col-lg-3"></div>
                     <div class="col-sm-6 ">
 
+                        <div class="card mt-5 text-center p-2"
+                            style="width: 100%; font-size:16px; background-color:rgb(233, 227, 227);">
+                            <h3>Basic Information</h3>
+                        </div>
+
                         <div class="card mt-5" style="width: 100%; font-size:16px">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Employee Name : {{ $employee->firstname }}</li>
-                                <li class="list-group-item">Email : {{ $employee->email }}</li>
-                                <li class="list-group-item">Password : {{ $employee->password }}</li>
-                                <li class="list-group-item">Phone : {{ $employee->phone }}</li>
-                                <li class="list-group-item">Gender : {{ $employee->gender }}</li>
-                                <li class="list-group-item">DOB : {{ $employee->dob }}</li>
                                 <li class="list-group-item">Employee Code : {{ $employee->employee_code }}</li>
-                                <li class="list-group-item">Designation : {{ $employee->job_role }}</li>
-                                <li class="list-group-item">Status : {{$employee->status}}</li>
-
-
-
+                                <li class="list-group-item">First Name : {{ $employee->firstname }}</li>
+                                <li class="list-group-item">Last Name : {{ $employee->lastname }}</li>
+                                <li class="list-group-item">Email : {{ $employee->email }}</li>
+                                <li class="list-group-item">Salary : </li>
+                                <li class="list-group-item">Password : {{ $employee->password }}</li>
                             </ul>
                         </div>
+
+                        <div class="card mt-5 text-center p-2"
+                            style="width: 100%; font-size:16px; background-color:rgb(233, 227, 227);">
+                            <h3>Work Information</h3>
+                        </div>
+
+                        <div class="card mt-5" style="width: 100%; font-size:16px">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Department :</li>
+                                <li class="list-group-item">Location :</li>
+                                <li class="list-group-item">Designation : {{ $employee->user_type }} </li>
+                                <li class="list-group-item">Job Role : {{ $employee->job_role }}</li>
+                                <li class="list-group-item">Status : {{ $employee->status }}</li>
+                                <li class="list-group-item">Joining Date :</li>
+                            </ul>
+                        </div>
+
+                        <div class="card mt-5 text-center p-2"
+                            style="width: 100%; font-size:16px; background-color:rgb(233, 227, 227);">
+                            <h3>Personal Details</h3>
+                        </div>
+
+                        <div class="card mt-5" style="width: 100%; font-size:16px">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Date Of Birth : {{ $employee->dob }}</li>
+                                <li class="list-group-item">Gender : {{ $employee->gender }}</li>
+                                <li class="list-group-item">Marital Status : </li>
+                                <li class="list-group-item">Blood Group : </li>
+                            </ul>
+                        </div>
+
+                        <div class="card mt-5 text-center p-2" style="width: 100%; font-size:16px; background-color:rgb(233, 227, 227);">
+                            <h3>Identity Information</h3>
+                    </div>
+
+                    <div class="card mt-5" style="width: 100%; font-size:16px">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Aadhar : </li>
+                            <li class="list-group-item">Pan : </li>
+                        </ul>
+                    </div>
+                    {{--  --}}
+
+                    <div class="card mt-5 text-center p-2" style="width: 100%; font-size:16px; background-color:rgb(233, 227, 227);">
+                        <h3>Contact Details</h3>
+                </div>
+
+                <div class="card mt-5" style="width: 100%; font-size:16px">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Mobile Number : {{ $employee->phone }} </li>
+                        <li class="list-group-item">Whatsapp Number : </li>
+                        <li class="list-group-item">Present Address : </li>
+                        <li class="list-group-item">Permanent Address : </li>
+
+                    </ul>
+                </div>
+
+                {{--  --}}
+
+                <div class="card mt-5 text-center p-2" style="width: 100%; font-size:16px; background-color:rgb(233, 227, 227);">
+                    <h3>Work Experiance</h3>
+            </div>
+
+            <div class="card mt-5" style="width: 100%; font-size:16px">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Previous Company Name : </li>
+                    <li class="list-group-item">Job Title : </li>
+                    <li class="list-group-item">From Date : </li>
+                    <li class="list-group-item">To Date : </li>
+                    <li class="list-group-item">Job Description : </li>
+                </ul>
+            </div>
+
+            {{--  --}}
+
+            <div class="card mt-5 text-center p-2" style="width: 100%; font-size:16px; background-color:rgb(233, 227, 227);">
+                <h3>Education Details</h3>
+        </div>
+
+        <div class="card mt-5" style="width: 100%; font-size:16px">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Institution Name : </li>
+                <li class="list-group-item">Degree/Diploma : </li>
+                <li class="list-group-item">Specialization : </li>
+                <li class="list-group-item">Date of Completion : </li>
+            </ul>
+        </div>
+
+        {{--  --}}
+
+        <div class="card mt-5 text-center p-2" style="width: 100%; font-size:16px; background-color:rgb(233, 227, 227);">
+            <h3>Emergency Contacts</h3>
+    </div>
+
+    <div class="card mt-5" style="width: 100%; font-size:16px">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Name : </li>
+            <li class="list-group-item">Relationship : </li>
+            <li class="list-group-item">Phone : </li>
+        </ul>
+    </div>
+
+            {{--  --}}
+
+            <div class="card mt-5 text-center p-2" style="width: 100%; font-size:16px; background-color:rgb(233, 227, 227);">
+                <h3>Seperation Information</h3>
+        </div>
+
+        <div class="card mt-5" style="width: 100%; font-size:16px">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Contract Starting Date : </li>
+                <li class="list-group-item">Contract Ending Date : </li>
+                <li class="list-group-item">Reason For Leaving : </li>
+            </ul>
+        </div>
 
                     </div>
                     <div class="col-lg-3"></div>

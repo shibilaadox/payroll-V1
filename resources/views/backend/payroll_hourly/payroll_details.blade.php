@@ -88,7 +88,7 @@
                                 </thead>
                                 <tbody>
                                     
-                                    <?php $i=1;;foreach ($data['employees'] as $row1){ 
+                                    <?php $i=1;foreach ($data['employees'] as $row1){ 
 
                                       $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;
 

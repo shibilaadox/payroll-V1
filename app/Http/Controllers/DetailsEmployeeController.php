@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class DetailsEmployeeController extends Controller
 {
+
     public function show($id)
     {
         // Find the EmployeeProject by ID
@@ -32,4 +33,5 @@ class DetailsEmployeeController extends Controller
         // Pass the employee data to the view
         return view('backend.project.employeedetails', compact('employee', 'userdetails','useraddresses', 'departments'));
     }
+    
 }

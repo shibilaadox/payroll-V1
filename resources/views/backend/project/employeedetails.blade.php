@@ -85,10 +85,10 @@
                                 <li class="list-group-item">Whatsapp Number : {{ $userdetails->whatsapp_no }} </li>
                                 <li class="list-group-item">Permanent Address : {{ $useraddresses->permanent_address }}
                                     <br>
-                                    City : {{ $useraddresses->permanent_city }} <br>
-                                    State : {{ $useraddresses->permanent_state }} <br>
-                                    Country : {{ $useraddresses->permanent_country }} <br>
-                                    Pincode : {{ $useraddresses->permanent_pincode }}</li>
+                                        City : {{ $useraddresses->permanent_city }} <br>
+                                        State : {{ $useraddresses->permanent_state }} <br>
+                                        Country : {{ $useraddresses->permanent_country }} <br>
+                                        Pincode : {{ $useraddresses->permanent_pincode }}</li>
                             </ul>
                         </div>
 

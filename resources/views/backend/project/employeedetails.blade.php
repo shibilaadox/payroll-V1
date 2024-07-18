@@ -28,7 +28,6 @@
                                 <li class="list-group-item">Last Name : {{ $employee->lastname }}</li>
                                 <li class="list-group-item">Email : {{ $employee->email }}</li>
                                 <li class="list-group-item">Salary : {{ $userdetails->basic_salary }}</li>
-                                <li class="list-group-item">Password : {{ $employee->password }}</li>
                             </ul>
                         </div>
 
@@ -39,11 +38,11 @@
 
                         <div class="card mt-5" style="width: 100%; font-size:16px">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Department : {{ $userdetails->department }}</li>
+                                <li class="list-group-item">Department : {{ $departments->name }}</li>
                                 <li class="list-group-item">Location : {{ $userdetails->location }}</li>
                                 <li class="list-group-item">Designation : {{ $userdetails->designation }} </li>
                                 <li class="list-group-item">Job Role : {{ $employee->job_role }}</li>
-                                <li class="list-group-item">Status : {{ $employee->status }}</li>
+                                <li class="list-group-item">Status : {{ $employee->status == 1 ? 'Active' : 'Not Active' }}</li>
                                 <li class="list-group-item">Joining Date : {{ $userdetails->joining_date }}</li>
                             </ul>
                         </div>
@@ -86,10 +85,10 @@
                                 <li class="list-group-item">Whatsapp Number : {{ $userdetails->whatsapp_no }} </li>
                                 <li class="list-group-item">Permanent Address : {{ $useraddresses->permanent_address }}
                                     <br>
-                                    City : {{ $useraddresses->permanent_city }} <br>
-                                    State : {{ $useraddresses->permanent_state }} <br>
-                                    Country : {{ $useraddresses->permanent_country }} <br>
-                                    Pincode : {{ $useraddresses->permanent_pincode }}</li>
+                                        City : {{ $useraddresses->permanent_city }} <br>
+                                        State : {{ $useraddresses->permanent_state }} <br>
+                                        Country : {{ $useraddresses->permanent_country }} <br>
+                                        Pincode : {{ $useraddresses->permanent_pincode }}</li>
                             </ul>
                         </div>
 
@@ -109,7 +108,7 @@
                             </ul>
                         </div>
 
-                        
+
 
                         <div class="card mt-5 text-center p-2"
                             style="width: 100%; font-size:16px; background-color:rgb(233, 227, 227);">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use App\Models\EmployeeProject;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class DetailsEmployeeController extends Controller
 {
+
     public function show($id)
     {
         // Find the EmployeeProject by ID
@@ -25,7 +27,11 @@ class DetailsEmployeeController extends Controller
         // Get userdetails for the employee
         $useraddresses = DB::table('useraddresses')->where('user_id', $employee->id)->first();
 
+        // Get the department details
+        $departments = Department::find($userdetails->department);
+
         // Pass the employee data to the view
-        return view('backend.project.employeedetails', compact('employee', 'userdetails','useraddresses'));
+        return view('backend.project.employeedetails', compact('employee', 'userdetails','useraddresses', 'departments'));
     }
+    
 }

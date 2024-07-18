@@ -27,7 +27,7 @@
                                 <li class="list-group-item">First Name : {{ $employee->firstname }}</li>
                                 <li class="list-group-item">Last Name : {{ $employee->lastname }}</li>
                                 <li class="list-group-item">Email : {{ $employee->email }}</li>
-                                <li class="list-group-item">Salary : {{ $userdetails->basic_salary }}</li>
+                                <!--<li class="list-group-item">Salary : {{ $userdetails->basic_salary }}</li>-->
                             </ul>
                         </div>
 

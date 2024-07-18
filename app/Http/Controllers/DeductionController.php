@@ -42,9 +42,9 @@ class DeductionController extends Controller
         try {
 
             $input['user_id'] = $request->user;
-            $input['type'] = $request->type;
-            $input['name'] = $request->name;
-            $input['amount'] = $request->amount;
+            $input['ded_code'] = $request->code;
+            $input['ded_no'] = $request->number;
+            $input['ded_amount'] = $request->amount;
 
             Deduction::updateOrCreate(['id' => $request->deduction_id] ,$input);
 

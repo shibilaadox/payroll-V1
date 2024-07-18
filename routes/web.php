@@ -162,6 +162,7 @@ Route::resource('deductions', DeductionController::class);
 Route::post('/import-excel', [App\Http\Controllers\ExcelImportController::class,'import'])->name('import.excel');
 Route::get('import-excel', [App\Http\Controllers\ExcelImportController::class,'index'])->name('import-excel');
 Route::post('/import_hourly-excel', [App\Http\Controllers\ExcelImportController::class,'import_hourly'])->name('import_hourly.excel');
+Route::post('/import_deduction-excel', [App\Http\Controllers\ExcelImportController::class,'import_deduction'])->name('import_deduction.excel');
 
 Route::get('pdf', [PdfController::class, 'index'])->name('pdf');
 

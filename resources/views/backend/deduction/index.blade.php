@@ -8,6 +8,9 @@
                 <h4 class="mb-3 fs-22 font-weight-bold">Deductions
                     <div style="float: right"><button type="button" class="btn btn-primary ripple m-1" onclick="add_deduction()">
                             New Deduction</button></div>
+                            <a class="btn btn-bold btn-label-brand btn-sm" data-toggle="modal" data-target="#modal_excel_deduction"
+                        style="float:right;margin-right: 1%;margin-bottom: 2%"> <button
+                            class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">Upload Deduction</button></a>
                 </h4>
                 <p class="fs-16">All Your Deductions</p>
 
@@ -31,15 +34,19 @@
                                             <th class="sorting_asc" tabindex="0" aria-controls="deduction_datatable"
                                                 rowspan="1" colspan="1" aria-sort="ascending"
                                                 aria-label="Name: activate to sort column descending"
-                                                style="width: 181.002px;">Type</th>
+                                                style="width: 181.002px;">Code</th>
                                             <th class="sorting_asc" tabindex="0" aria-controls="deduction_datatable"
                                                 rowspan="1" colspan="1" aria-sort="ascending"
                                                 aria-label="Name: activate to sort column descending"
-                                                style="width: 181.002px;">Name</th>
+                                                style="width: 181.002px;">Number</th>
                                             <th class="sorting" tabindex="0" aria-controls="deduction_datatable"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Position: activate to sort column ascending"
                                                 style="width: 270.002px;">Amount</th>
+                                            <th class="sorting" tabindex="0" aria-controls="deduction_datatable"
+                                                rowspan="1" colspan="1"
+                                                aria-label="Position: activate to sort column ascending"
+                                                style="width: 270.002px;">Month</th>
                                             <th class="sorting" tabindex="0" aria-controls="deduction_datatable"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Position: activate to sort column ascending"
@@ -54,9 +61,10 @@
                                         <tr>
                                             <th scope="row">{{ $i++ }}</th>
                                             <td>{{ $row->user->name }}</td>
-                                            <td>{{ $row->type }}</td>
-                                            <td>{{ $row->name }}</td>
-                                            <td>{{ $row->amount }}</td>
+                                            <td>{{ $row->ded_code }}</td>
+                                            <td>{{ $row->ded_no }}</td>
+                                            <td>{{ $row->ded_amount }}</td>
+                                            <td>{{ $row->month }}</td>
                                             <td><button class="btn btn-success" onclick="edit_deduction('{{$row->id}}')" type="button"><i class="nav-icon i-Pen-2 font-weight-bold"></i></button>
                                             <button class="btn btn-danger ml-3" onclick="delete_deduction('{{$row->id}}')" type="button"><i class="nav-icon i-Close-Window font-weight-bold"></i></button>
                                             </td>
@@ -101,16 +109,13 @@
                                                     </select>
                             </div>
                             <div class="form-group col-md-12">
-                                <label for="actual_name" class="ul-form__label">Type:</label>
-                                <select class="form-control" name="type" id="type">
-                                                    <option value="">Select</option>
-                                                    <option value="Deduction">Deduction</option>
-                                                    <option value="Tax">Tax</option>
-                                                    </select>
+                                <label for="actual_name" class="ul-form__label">Code:</label>
+                                <input type="text" class="form-control" id="code" name="code" placeholder="Enter code" required>
+
                             </div>
                             <div class="form-group col-md-12">
-                                <label for="actual_name" class="ul-form__label">Name:</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required>
+                                <label for="actual_name" class="ul-form__label">Number:</label>
+                                <input type="text" class="form-control" id="number" name="number" placeholder="Enter number" required>
 
                             </div>
                             <div class="form-group col-md-12">
@@ -128,6 +133,40 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_excel_deduction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+
+                <form action="{{ route('import_deduction.excel') }}" method="POST" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"> Upload File </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+
+                        <div class="form-group">
+                            
+
+                            <input type="file" name='file' id="file">
+                            
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="submit_excel" name="upload">Submit</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('page-js')
@@ -182,9 +221,9 @@
                 $("#deduction-modal").modal('show');
                 $("#deduction_id").val(data.id);
                 $("#user").val(data.user_id);
-                $("#name").val(data.name);
-                $("#type").val(data.type);
-                $("#amount").val(data.amount);
+                $("#code").val(data.ded_code);
+                $("#number").val(data.ded_no);
+                $("#amount").val(data.ded_amount);
             });
         }
 

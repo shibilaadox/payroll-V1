@@ -6,20 +6,21 @@ use App\Models\Roles;
 use Illuminate\Http\Request;
 use Session;
 use Alert;
+use App\Imports\RolesImport;
 use Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 
 class RolesController extends Controller
 {
-
     public function index()
     {
         $roles = Roles::paginate(10);
 
         $user = Auth::user();
-        
+
         return view('backend.role.index', compact('roles'));
     }
 

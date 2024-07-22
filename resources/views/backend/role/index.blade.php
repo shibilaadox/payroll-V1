@@ -1,6 +1,5 @@
 @extends('layouts.master')
 @section('page-css')
-
     <link rel="stylesheet" href="{{ asset('assets/styles/vendor/datatables.min.css') }}">
 @endsection
 
@@ -20,6 +19,7 @@
                 <div class="card text-left">
 
                     <div class="card-body">
+                        
                         <h4 class="card-title mb-3" style="text-align: end;"><button type="button"
                                 class="btn btn-primary ripple m-1"><a style="color: white"
                                     href="{{ route('roles.create') }}">
@@ -31,6 +31,9 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Name</th>
+                                        <th scope="col">SSS</th>
+                                        <th scope="col">Philhealth</th>
+                                        <th scope="col">Hdmf</th>
 
                                         <th scope="col">Action</th>
                                     </tr>
@@ -40,10 +43,13 @@
                                         $i = 1;
                                     @endphp
                                     @foreach ($roles as $role)
-
                                         <tr>
                                             <th scope="row">{{ $i++ }}</th>
                                             <td>{{ $role->name }}</td>
+                                            <td>{{ $role->emsss }}</td>
+                                            <td>{{ $role->emph }}</td>
+                                            <td>{{ $role->emhdmf }}</td>
+
 
                                             <td>
                                                 <a href="{{ route('roles.edit', $role->id) }}" class="text-success mr-2">
@@ -69,13 +75,11 @@
         </div>
         <!-- end of row -->
     </section>
-
 @endsection
 
 @section('page-js')
-
     <script type="text/javascript">
-         function editRole(event) {
+        function editRole(event) {
             var id = $(event).data("id");
             let _url = `roles/${id}`;
             $('#roleError').text('');
@@ -97,5 +101,4 @@
         //Datatable
         $('#role_datatable').DataTable();
     </script>
-
 @endsection

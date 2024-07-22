@@ -28,11 +28,11 @@
                         <span id="ember1577" class="tooltip-container ember-view">            26 Base Days
                         </span><br><br><div class="row mb-12">
       <div class="col-md-6 mb-6">
-          <h4><?php echo "₹".number_format($data['gross_pay_total'],2);?></h4>
+          <h4><?php echo "₱".number_format($data['gross_pay_total'],2);?></h4>
         <div class="text-uppercase font-ms payrun-label">Payroll Cost</div>
       </div>
       <div class="col-md-6 mb-6">
-          <h4><?php echo "₹".number_format($data['net_pay_total'],2);?></h4>
+          <h4><?php echo "₱".number_format($data['net_pay_total'],2);?></h4>
         <div class="text-uppercase font-ms payrun-label">Employees' Net Pay</div>
       </div>
     </div>
@@ -60,10 +60,21 @@
                 <h4 class="font-xmedium">Deductions</h4>
     <table class="table noborder-table">
       <tbody>
-          
+      <tr>
+            <td class="payrun-label">EMHMDF</td>
+            <td class="text-right"><?php echo "₱".number_format($data['EMHMDF'],2);?></td>
+          </tr>
           <tr>
-            <td class="payrun-label">Deductions</td>
-            <td class="text-right"><?php echo "₹".number_format($data['deduction_total'],2);?></td>
+            <td class="payrun-label">EMPH</td>
+            <td class="text-right"><?php echo "₱".number_format($data['EMPH'],2);?></td>
+          </tr>
+          <tr>
+            <td class="payrun-label">$EMSSS</td>
+            <td class="text-right"><?php echo "₱".number_format($data['EMSSS'],2);?></td>
+          </tr>
+          <tr>
+            <td class="payrun-label"><b>Total</b></td>
+            <td class="text-right"><b><?php echo "₱".number_format($data['deduction_total'],2);?></b></td>
           </tr>
           
       </tbody>
@@ -82,6 +93,9 @@
                                         <th scope="col">PAID HOURS</th>
                                         <th scope="col">GROSS PAY</th>
                                         <th scope="col">DEDUCTIONS</th>
+                                        <th scope="col">EMPH</th>
+                                        <th scope="col">EMHDMF</th>
+                                        <th scope="col">EMSSS</th>
                                         <th scope="col">NET PAY</th>
                                         <th scope="col">PAYMENT STATUS</th>
                                     </tr>
@@ -90,7 +104,7 @@
                                     
                                     <?php $i=1;foreach ($data['employees'] as $row1){ 
 
-                                      $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;
+                                      $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;$EMSSS=0;
 
                                       foreach($row1->user_timesheet_hourly as $row){
 
@@ -142,30 +156,41 @@
                                         $SI = $row->incentive;
                             
                                         $GP = $RegP + $ND + $SI - $UA;
+                                        
 
-                                        $taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND;
+                                        if($GP<10000)
+                                        $EMPH = 500;
+                                        else if($GP>10000.01 && $GP<99999.99)
+                                        $EMPH = $GP * 0.05;
+                                        else
+                                        $EMPH = 5000;
 
-                                        $EMPH = $GP * 0.0225;
+                                        if($GP<1500)
+                                        $EMHDMF = $GP * 0.01;
+                                        else
+                                        $EMHDMF = 200;
+                                      
+                                        if($GP<=4250)
+                                        $EMSSS = 180;
+                                        else if($GP>4250 && $GP<4749.99)
+                                        $EMSSS = 202.50;
+                                        else if($GP>4749.99 && $GP<5249.99)
+                                        $EMSSS = 225.00;
 
-                                        $EMHDMF = $GP * 0.02;
-
-                                        $EMSSS = $GP*0.085;
-
-                                        $excess = $taxable_income - 20833;
-
-                                        //$tax = $excess * 0.02;
-
+                                        if($GP<=20833)
                                         $tax = 0;
+                                        else if($GP>20833 && $GP<33332)
+                                        $tax = 0;
+                                        else if($GP>33333 && $GP<66666)
+                                        $tax = 1875;
+                                        else if($GP>66666 && $GP<166666)
+                                        $tax = 8541.80;
 
+                                        $taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
+                                      
                                         $TOTAL_GP = $TOTAL_GP + $GP;
 
                                         $deductions = $EMPH+$EMHDMF+$EMSSS;
-
-                                        $DEDUCTIONS = $DEDUCTIONS + $deductions;
-
-                                        $net_pay = $GP - $deductions - $tax;
-
-                                        $NET_PAY = $NET_PAY + $net_pay;
 
                                         } }
                                       
@@ -183,16 +208,25 @@
                                             <td><?php 
                                            
                                             
-                                            echo "₹".number_format($TOTAL_GP,2);
+                                            echo "₱".number_format($TOTAL_GP,2);
                                             ?>
                                             </td>
                                             <td><?php 
                                             $deduction = 0;
-                                            echo "₹".number_format($DEDUCTIONS,2);?></td>
-                                            
+                                            echo "₱".number_format($deductions,2);?></td>
                                             <td><?php 
                                             
-                                            echo "₹".number_format($NET_PAY,2);
+                                            echo "₱".number_format($EMPH,2);?></td>
+                                            <td><?php 
+                                            
+                                            echo "₱".number_format($EMHDMF,2);?></td>
+                                            <td><?php 
+                                            
+                                            echo "₱".number_format($EMSSS,2);?></td>
+                                            
+                                            <td><?php 
+                                            $NET_PAY = $TOTAL_GP - $deductions - $tax;
+                                            echo "₱".number_format($NET_PAY,2);
                                             ?></td>
                                             <td><?php $status = Paymentstatus::where('user_id',$row1->id)->where('month',date('F',strtotime('last month')))->first();
                                                       if(empty($status))echo "<span style='color: red;'>Yet to pay</span>";else if($status->status==1)echo "<span style='color: green;'>Paid On ".$status->created_at->format('d/m/Y')."</span>";

@@ -55,7 +55,7 @@
 <!---->        </div>
     </td>
     <td class="text-right">
-    <?php echo "₹".number_format($data['gross_pay'],2);?>
+    <?php echo "₱".number_format($data['gross_pay'],2);?>
 <!---->          </td>
     <td class="vertical-align-middle action-column">
 <!---->    </td>
@@ -72,7 +72,7 @@
 <!---->        </div>
     </td>
     <td class="text-right">
-    <b><?php echo "₹".number_format($data['net_pay'],2);?></b>
+    <b><?php echo "₱".number_format($data['net_pay'],2);?></b>
 <!---->          </td>
     <td class="vertical-align-middle action-column">
 <!---->    </td>
@@ -81,7 +81,7 @@
 <!---->
       </tbody>
     </table>
-    <?php if(!empty($data['deduction']) || !empty($data['tax'])){?>
+    
     <table class="table table-responsive split-up-table">
       <thead>
         <tr>
@@ -92,7 +92,7 @@
       </thead>
       <tbody>
 
-        <?php if(!empty($data['deduction'])){ ?>
+        
             <tr data-test-selector="earning-row">
     <td>
         <div>
@@ -109,62 +109,60 @@
   <tr data-test-selector="earning-row">
     <td>
         <div>
-          Deductions
+          EMSSS
 <!---->        </div>
     </td>
     <td class="text-right">
-    <?php echo "₹".number_format($data['deduction'],2);?>
+    <?php echo "₱".number_format($data['EMSSS'],2);?>
 <!---->          </td>
     <td class="vertical-align-middle action-column">
 <!---->    </td>
   </tr>
-            <?php /*foreach($data['deduction'] as $row){?>
+            
 
             <tr data-test-selector="earning-row">
     <td>
         <div>
-          {{$row->name}}
+          EMPH
 <!---->        </div>
     </td>
     <td class="text-right">
-    <?php echo "₹".number_format($row->amount,2);?>
+    <?php echo "₱".number_format($data['EMPH'],2);?>
 <!---->          </td>
     <td class="vertical-align-middle action-column">
 <!---->    </td>
   </tr>
 <!---->
-<?php } */}?>
 
-<?php if(!empty($data['tax'])){ ?>
-            <tr data-test-selector="earning-row">
+<tr data-test-selector="earning-row">
     <td>
         <div>
-        <b>Tax</b>
+          EMHMDF
 <!---->        </div>
     </td>
     <td class="text-right">
-    
-<!---->          </td>
-    <td class="vertical-align-middle action-column">
-<!---->    </td>
-  </tr>
-            <?php foreach($data['tax'] as $row){?>
-
-            <tr data-test-selector="earning-row">
-    <td>
-        <div>
-          {{$row->name}}
-<!---->        </div>
-    </td>
-    <td class="text-right">
-    <?php echo "₹".number_format($row->amount,2);?>
+    <?php echo "₱".number_format($data['EMHMDF'],2);?>
 <!---->          </td>
     <td class="vertical-align-middle action-column">
 <!---->    </td>
   </tr>
 <!---->
-<?php } }?>
-        
+
+<tr data-test-selector="earning-row">
+    <td>
+        <div>
+          <b>Total</b>
+<!---->        </div>
+    </td>
+    <td class="text-right">
+    <b><?php echo "₱".number_format($data['deduction_total'],2);?></b>
+<!---->          </td>
+    <td class="vertical-align-middle action-column">
+<!---->    </td>
+  </tr>
+<!---->
+
+      
 <tr data-test-selector="earning-row">
     <td>
         <div><b>
@@ -172,7 +170,7 @@
 <!---->        </div>
     </td>
     <td class="text-right">
-    <b><?php echo "₹".number_format($data['net_pay'],2);?></b>
+    <b><?php echo "₱".number_format($data['net_pay'],2);?></b>
 <!---->          </td>
     <td class="vertical-align-middle action-column">
 <!---->    </td>
@@ -180,7 +178,7 @@
 <!---->
       </tbody>
     </table>
-    <?php } ?>
+   
 </div>
   
 </div>

@@ -23,36 +23,63 @@
 
                                     </div>
                                 </div>
-                                <div class="table-responsive">
-                                    <table class="table table-borderless">
-                                        <thead>
-                                            <h3 class="mb-4 mt-5 t-font-bold">Permissions</h4>
-                                        </thead>
-                                        <tbody class="mb-4">
 
-                                            @foreach ($permissions as $item)
-                                            <tr>
+                                <h3 class="mb-3 mt-5 t-font-bold">Change Add Roles To Add Contribution</h4>
 
-                                                <td><label class="col-from-label fs-18">{{$item->name}}</label></td>
-                                                <td></td>
+                                    <div style="display: flex">
+                                        <div class="card-header">
+                                            <div class="form-group col-md-6">
+                                                <label for="sss" class="ul-form__label">SSS : </label>
+                                                <input type="text" class="form-control" id="sss" name="sss">
+                                            </div>
+                                        </div>
 
-                                                <td>
-                                                    <label class="checkbox checkbox-outline-primary">
-                                                        <input type="checkbox" name="permissions[]" value="{{$item->name}}">
-                                                        <span class="checkmark"></span>
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                              
-                                            @endforeach
-                                            
+                                        <div class="card-header">
+                                            <div class="form-group col-md-6 ml-5">
+                                                <label for="philhealth" class="ul-form__label">philhealth : </label>
+                                                <input type="text" class="form-control" id="philhealth"name="philhealth">
+                                            </div>
+                                        </div>
 
-                                        </tbody>
-                                    </table>
-                                    <div style="text-align: end;">
-                                        <button type="submit" class="btn btn-lg btn-primary m-1">Save</button>
+                                        <div class="card-header">
+                                            <div class="form-group col-md-6 ml-5">
+                                                <label for="hdmf" class="ul-form__label">HDMF : </label>
+                                                <input type="text" class="form-control" id="hdmf"name="hdmf">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless">
+                                            <thead>
+                                                <h3 class="mb-4 mt-5 t-font-bold">Permissions</h4>
+                                            </thead>
+                                            <tbody class="mb-4">
+
+                                                @foreach ($permissions as $item)
+                                                    <tr>
+
+                                                        <td><label class="col-from-label fs-18">{{ $item->name }}</label>
+                                                        </td>
+                                                        <td></td>
+
+                                                        <td>
+                                                            <label class="checkbox checkbox-outline-primary">
+                                                                <input type="checkbox" name="permissions[]"
+                                                                    value="{{ $item->name }}">
+                                                                <span class="checkmark"></span>
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+
+
+                                            </tbody>
+                                        </table>
+                                        <div style="text-align: end;">
+                                            <button type="submit" class="btn btn-lg btn-primary m-1">Save</button>
+                                        </div>
+                                    </div>
 
 
                         </div>
@@ -69,9 +96,7 @@
         <button id="toast-success"
             class="btn btn-block btn-outline-success btn-success">{{ Session::get('message') }}</button>
     @endif
-
 @endsection
 
 @section('page-js')
-
 @endsection

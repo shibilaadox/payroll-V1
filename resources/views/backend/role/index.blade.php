@@ -19,7 +19,7 @@
                 <div class="card text-left">
 
                     <div class="card-body">
-                        
+
                         <h4 class="card-title mb-3" style="text-align: end;"><button type="button"
                                 class="btn btn-primary ripple m-1"><a style="color: white"
                                     href="{{ route('roles.create') }}">
@@ -34,23 +34,22 @@
                                         <th scope="col">SSS</th>
                                         <th scope="col">Philhealth</th>
                                         <th scope="col">Hdmf</th>
-
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @php
-                                        $i = 1;
-                                    @endphp
+                                    $i = 1;
+                                @endphp
+
+
                                     @foreach ($roles as $role)
                                         <tr>
                                             <th scope="row">{{ $i++ }}</th>
                                             <td>{{ $role->name }}</td>
-                                            <td>{{ $role->emsss }}</td>
-                                            <td>{{ $role->emph }}</td>
-                                            <td>{{ $role->emhdmf }}</td>
-
-
+                                                <td>{{ $role->sss }}</td>
+                                                <td>{{ $role->philhealth }}</td>
+                                                <td>{{ $role->hdmf }}</td>
                                             <td>
                                                 <a href="{{ route('roles.edit', $role->id) }}" class="text-success mr-2">
                                                     <i class="nav-icon i-Pen-2 font-weight-bold fs-16"></i>

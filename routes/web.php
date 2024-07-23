@@ -22,6 +22,7 @@ use App\Http\Controllers\ExcelImportController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProjectDetailsController;
+use App\Http\Controllers\RateController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -159,10 +160,14 @@ Route::get('get_payslip_employee_hourly', [App\Http\Controllers\PayrollHourlyCon
 //Deduction routes
 Route::resource('deductions', DeductionController::class);
 
+//Rate routes
+Route::resource('rates', RateController::class);
+
 Route::post('/import-excel', [App\Http\Controllers\ExcelImportController::class,'import'])->name('import.excel');
 Route::get('import-excel', [App\Http\Controllers\ExcelImportController::class,'index'])->name('import-excel');
 Route::post('/import_hourly-excel', [App\Http\Controllers\ExcelImportController::class,'import_hourly'])->name('import_hourly.excel');
 Route::post('/import_deduction-excel', [App\Http\Controllers\ExcelImportController::class,'import_deduction'])->name('import_deduction.excel');
+Route::post('/import_rate-excel', [App\Http\Controllers\ExcelImportController::class,'import_rate'])->name('import_rate.excel');
 
 Route::get('pdf', [PdfController::class, 'index'])->name('pdf');
 

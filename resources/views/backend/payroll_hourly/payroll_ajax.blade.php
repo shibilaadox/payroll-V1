@@ -64,20 +64,7 @@
           
           
 <!---->
-<?php if(empty($data['deduction']) || empty($data['tax'])){?>
-<tr data-test-selector="earning-row">
-    <td>
-        <div><b>
-          NET PAY</b>
-<!---->        </div>
-    </td>
-    <td class="text-right">
-    <b><?php echo "₱".number_format($data['net_pay'],2);?></b>
-<!---->          </td>
-    <td class="vertical-align-middle action-column">
-<!---->    </td>
-  </tr>
-  <?php } ?>
+
 <!---->
       </tbody>
     </table>
@@ -151,7 +138,7 @@
 <tr data-test-selector="earning-row">
     <td>
         <div>
-          <b>Total</b>
+          <b>Total Deduction</b>
 <!---->        </div>
     </td>
     <td class="text-right">
@@ -161,6 +148,21 @@
 <!---->    </td>
   </tr>
 <!---->
+
+<tr data-test-selector="earning-row">
+    <td>
+        <div>
+          <b>Tax</b>
+<!---->        </div>
+    </td>
+    <td class="text-right">
+    <b><?php echo "₱".number_format($data['tax'],2);?></b>
+<!---->          </td>
+    <td class="vertical-align-middle action-column">
+<!---->    </td>
+  </tr>
+<!---->
+
 
       
 <tr data-test-selector="earning-row">

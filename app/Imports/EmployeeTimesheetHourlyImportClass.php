@@ -22,6 +22,8 @@ class EmployeeTimesheetHourlyImportClass implements ToModel, WithStartRow
         $code = $row[4];
         $data = User::where('employee_code',$code)->first();
         $id = $data->id;
+
+        if($code!=""){
         
         EmployeeTimesheetHourly::create([
             'user_id' => $id,
@@ -79,5 +81,6 @@ class EmployeeTimesheetHourlyImportClass implements ToModel, WithStartRow
 
 
         ]);
+    }
     }
 }

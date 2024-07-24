@@ -1,5 +1,5 @@
 @extends('layouts.master')
-<?php use App\Models\Leave;use App\Models\Deduction;use App\Models\Paymentstatus;?>
+<?php use App\Models\Leave;use App\Models\Deduction;use App\Models\Paymentstatus;use App\Models\Rate;use App\Models\Roles;?>
 @section('main-content')
             <div class="breadcrumb">
 
@@ -112,9 +112,9 @@
                                             $j++;
 
                                             $no_8_days = $no_8_days + $row->day8;
-    
+                        
                                             $RegP = $row->day8*$row->day8_rate;
-    
+                        
                                             $TOTAL_RP = $TOTAL_RP+$RegP;
                                 
                                             if($row->day12==4)
@@ -139,33 +139,41 @@
                                             $ot13 = $row->ot13_hrs;
                                 
                                             $OT_total = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
-    
-                                            $OT_premium = $row->day8_rate * 1.10;
-    
-                                            $OT = $OT_total * $row->day8_rate * $OT_premium;
-    
-                                            //$ND_rate = $row->day8_rate * 0.10;
-    
-                                            $ND_rate = 30;
+                        
+                                            $OT_premium = $row->day8_rate * 1.25;
+                        
+                                            $OT = $OT_total * $OT_premium;
+                        
+                                            $role = $row->posicode;
+                        
+                                            $rate_data = Rate::where('position',$role)->first();
+                        
+                                            $ND_rate = $rate_data->nd;
+                        
+                                            $COLA_rate = $rate_data->cola;
                                 
-                                            $COLA = $ND_rate * $j;
+                                            $COLA = $COLA_rate * $j;
                                 
                                             $ND = $ND_rate * $row->nd_days;
                                 
                                             $SI = $row->incentive;
                                 
-                                            $GP = $RegP + $ND + $SI - $UA;
+                                            $GP = $RegP + $ND + $OT+$COLA + $SI - $UA;
                                             
-    
+                                            $role_data = Roles::where('name',$role)->first();
+                                            $EMPH_per = $role_data->philhealth;
+                        
                                             if($GP<10000)
                                             $EMPH = 500;
                                             else if($GP>10000.01 && $GP<99999.99)
-                                            $EMPH = $GP * 0.05;
+                                            $EMPH = $GP * $EMPH_per;
                                             else
                                             $EMPH = 5000;
-    
+                        
+                        
+                                            $EMHDMF_per = $role_data->hdmf;
                                             if($GP<1500)
-                                            $EMHDMF = $GP * 0.01;
+                                            $EMHDMF = $GP * $EMHDMF_per;
                                             else
                                             $EMHDMF = 200;
                                           
@@ -175,21 +183,27 @@
                                             $EMSSS = 202.50;
                                             else if($GP>4749.99 && $GP<5249.99)
                                             $EMSSS = 225.00;
-    
-                                            if($GP<=20833)
-                                            $tax = 0;
-                                            else if($GP>20833 && $GP<33332)
-                                            $tax = 0;
-                                            else if($GP>33333 && $GP<66666)
-                                            $tax = 1875;
-                                            else if($GP>66666 && $GP<166666)
-                                            $tax = 8541.80;
-    
-                                            $taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
-                                          
+                                            else if($GP>5249.99 && $GP<5749.99)
+                                            $EMSSS = 247.50;
+                                            else if($GP>5749.99 && $GP<6249.99)
+                                            $EMSSS = 270.00;
+                                            
+                                            //$taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
+                        
                                             $TOTAL_GP = $TOTAL_GP + $GP;
-    
+                        
                                             $deductions = $EMPH+$EMHDMF+$EMSSS;
+                        
+                                            $taxable_income = $TOTAL_GP - $deductions;
+                                            
+                                            if($taxable_income<=20833)
+                                            $tax = 0;
+                                            else if($taxable_income>20833 && $GP<33332)
+                                            $tax = 0;
+                                            else if($taxable_income>33333 && $GP<66666)
+                                            $tax = 1875;
+                                            else if($taxable_income>66666 && $GP<166666)
+                                            $tax = 8541.80;
     
   
                                           } }

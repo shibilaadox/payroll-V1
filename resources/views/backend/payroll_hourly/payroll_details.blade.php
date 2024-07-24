@@ -1,5 +1,5 @@
 @extends('layouts.master')
-<?php use App\Models\Leave;use App\Models\Deduction;use App\Models\Paymentstatus;?>
+<?php use App\Models\Leave;use App\Models\Deduction;use App\Models\Paymentstatus;use App\Models\Rate;use App\Models\Roles;?>
 @section('main-content')
             <div class="breadcrumb">
 
@@ -91,11 +91,14 @@
                                         <th scope="col">#</th>
                                         <th scope="col">NAME</th>
                                         <th scope="col">PAID HOURS</th>
+                                        <th scope="col">REGULAR PAY</th>
+                                        <th scope="col">OVERTIME</th>
                                         <th scope="col">GROSS PAY</th>
-                                        <th scope="col">DEDUCTIONS</th>
                                         <th scope="col">EMPH</th>
                                         <th scope="col">EMHDMF</th>
                                         <th scope="col">EMSSS</th>
+                                        <th scope="col">TOTAL DEDUCTIONS</th>
+                                        <th scope="col">TAX</th>
                                         <th scope="col">NET PAY</th>
                                         <th scope="col">PAYMENT STATUS</th>
                                     </tr>
@@ -104,93 +107,111 @@
                                     
                                     <?php $i=1;foreach ($data['employees'] as $row1){ 
 
-                                      $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;$EMSSS=0;
+                                      $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;$EMSSS=0;$TOTAL_overtime = 0;
 
                                       foreach($row1->user_timesheet_hourly as $row){
 
                                         if($row1->id == $row->user_id){
 
-                                        $j++;
+                                          $j++;
 
-                                        $no_8_days = $no_8_days + $row->day8;
+                                          $no_8_days = $no_8_days + $row->day8;
+                      
+                                          $RegP = $row->day8*$row->day8_rate;
+                      
+                                          $TOTAL_RP = $TOTAL_RP+$RegP;
+                              
+                                          if($row->day12==4)
+                                          $Pay12 = $row->day12_rate-$RegP;
+                                          else
+                                          $Pay12 = $row->day8_rate*$row->day12;
+                              
+                                          $UA = $row->undertime * ($row->day8_rate/60);
+                              
+                                          $ot1 = $row->ot1_hrs;
+                                          $ot2 = $row->o21_hrs;
+                                          $ot3 = $row->ot3_hrs;
+                                          $ot4 = $row->ot4_hrs;
+                                          $ot5 = $row->ot5_hrs;
+                                          $ot6 = $row->ot6_hrs;
+                                          $ot7 = $row->ot7_hrs;
+                                          $ot8 = $row->ot8_hrs;
+                                          $ot9 = $row->ot9_hrs;
+                                          $ot10 = $row->ot10_hrs;
+                                          $ot11 = $row->ot11_hrs;
+                                          $ot12 = $row->ot12_hrs;
+                                          $ot13 = $row->ot13_hrs;
+                              
+                                          $OT_total = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
+                      
+                                          $OT_premium = $row->day8_rate * 1.25;
+                      
+                                          $OT = $OT_total * $OT_premium;
+                      
+                                          $role = $row->posicode;
+                      
+                                          $rate_data = Rate::where('position',$role)->first();
+                      
+                                          $ND_rate = $rate_data->nd;
+                      
+                                          $COLA_rate = $rate_data->cola;
+                              
+                                          $COLA = $COLA_rate * $j;
+                              
+                                          $ND = $ND_rate * $row->nd_days;
+                              
+                                          $SI = $row->incentive;
 
-                                        $RegP = $row->day8*$row->day8_rate;
-
-                                        $TOTAL_RP = $TOTAL_RP+$RegP;
-                            
-                                        if($row->day12==4)
-                                        $Pay12 = $row->day12_rate-$RegP;
-                                        else
-                                        $Pay12 = $row->day8_rate*$row->day12;
-                            
-                                        $UA = $row->undertime * ($row->day8_rate/60);
-                            
-                                        $ot1 = $row->ot1_hrs;
-                                        $ot2 = $row->o21_hrs;
-                                        $ot3 = $row->ot3_hrs;
-                                        $ot4 = $row->ot4_hrs;
-                                        $ot5 = $row->ot5_hrs;
-                                        $ot6 = $row->ot6_hrs;
-                                        $ot7 = $row->ot7_hrs;
-                                        $ot8 = $row->ot8_hrs;
-                                        $ot9 = $row->ot9_hrs;
-                                        $ot10 = $row->ot10_hrs;
-                                        $ot11 = $row->ot11_hrs;
-                                        $ot12 = $row->ot12_hrs;
-                                        $ot13 = $row->ot13_hrs;
-                            
-                                        $OT_total = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
-
-                                        $OT_premium = $row->day8_rate * 1.10;
-
-                                        $OT = $OT_total * $row->day8_rate * $OT_premium;
-
-                                        //$ND_rate = $row->day8_rate * 0.10;
-
-                                        $ND_rate = 30;
-                            
-                                        $COLA = $ND_rate * $j;
-                            
-                                        $ND = $ND_rate * $row->nd_days;
-                            
-                                        $SI = $row->incentive;
-                            
-                                        $GP = $RegP + $ND + $SI - $UA;
+                                          $overtime = $ND+$COLA+$SI+$OT;
+                    
+                                          $TOTAL_overtime = $TOTAL_overtime + $overtime ;
+                              
+                                          $GP = $RegP + $ND + $OT+$COLA + $SI - $UA;
+                                          
+                                          $role_data = Roles::where('name',$role)->first();
+                                          $EMPH_per = $role_data->philhealth;
+                      
+                                          if($GP<10000)
+                                          $EMPH = 500;
+                                          else if($GP>10000.01 && $GP<99999.99)
+                                          $EMPH = $GP * $EMPH_per;
+                                          else
+                                          $EMPH = 5000;
+                      
+                      
+                                          $EMHDMF_per = $role_data->hdmf;
+                                          if($GP<1500)
+                                          $EMHDMF = $GP * $EMHDMF_per;
+                                          else
+                                          $EMHDMF = 200;
                                         
-
-                                        if($GP<10000)
-                                        $EMPH = 500;
-                                        else if($GP>10000.01 && $GP<99999.99)
-                                        $EMPH = $GP * 0.05;
-                                        else
-                                        $EMPH = 5000;
-
-                                        if($GP<1500)
-                                        $EMHDMF = $GP * 0.01;
-                                        else
-                                        $EMHDMF = 200;
-                                      
-                                        if($GP<=4250)
-                                        $EMSSS = 180;
-                                        else if($GP>4250 && $GP<4749.99)
-                                        $EMSSS = 202.50;
-                                        else if($GP>4749.99 && $GP<5249.99)
-                                        $EMSSS = 225.00;
-
-                                        if($GP<=20833)
-                                        $tax = 0;
-                                        else if($GP>20833 && $GP<33332)
-                                        $tax = 0;
-                                        else if($GP>33333 && $GP<66666)
-                                        $tax = 1875;
-                                        else if($GP>66666 && $GP<166666)
-                                        $tax = 8541.80;
-
-                                        $taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
-                                      
-                                        $TOTAL_GP = $TOTAL_GP + $GP;
-
-                                        $deductions = $EMPH+$EMHDMF+$EMSSS;
+                                          if($GP<=4250)
+                                          $EMSSS = 180;
+                                          else if($GP>4250 && $GP<4749.99)
+                                          $EMSSS = 202.50;
+                                          else if($GP>4749.99 && $GP<5249.99)
+                                          $EMSSS = 225.00;
+                                          else if($GP>5249.99 && $GP<5749.99)
+                                          $EMSSS = 247.50;
+                                          else if($GP>5749.99 && $GP<6249.99)
+                                          $EMSSS = 270.00;
+                                          
+                                          //$taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
+                      
+                                          $TOTAL_GP = $TOTAL_GP + $GP;
+                      
+                                          $deductions = $EMPH+$EMHDMF+$EMSSS;
+                      
+                                          $taxable_income = $TOTAL_GP - $deductions;
+                                          
+                                          if($taxable_income<=20833)
+                                          $tax = 0;
+                                          else if($taxable_income>20833 && $GP<33332)
+                                          $tax = 0;
+                                          else if($taxable_income>33333 && $GP<66666)
+                                          $tax = 1875;
+                                          else if($taxable_income>66666 && $GP<166666)
+                                          $tax = 8541.80;
 
                                         } }
                                       
@@ -208,12 +229,22 @@
                                             <td><?php 
                                            
                                             
-                                            echo "₱".number_format($TOTAL_GP,2);
+                                            echo "₱".number_format($TOTAL_RP,2);
                                             ?>
                                             </td>
                                             <td><?php 
-                                            $deduction = 0;
-                                            echo "₱".number_format($deductions,2);?></td>
+                                           
+                                            
+                                            echo "₱".number_format($TOTAL_overtime,2);
+                                            ?>
+                                            </td>
+                                            <td><?php 
+                                           
+                                            
+                                            echo "₱".number_format($TOTAL_GP,2);
+                                            ?>
+                                            </td>
+                                            <
                                             <td><?php 
                                             
                                             echo "₱".number_format($EMPH,2);?></td>
@@ -223,6 +254,12 @@
                                             <td><?php 
                                             
                                             echo "₱".number_format($EMSSS,2);?></td>
+                                            <td><?php 
+                                            $deduction = 0;
+                                            echo "₱".number_format($deductions,2);?></td>
+                                            <td><?php 
+                                            $tax = 0;
+                                            echo "₱".number_format($tax,2);?></td>
                                             
                                             <td><?php 
                                             $NET_PAY = $TOTAL_GP - $deductions - $tax;

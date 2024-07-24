@@ -194,6 +194,14 @@
                     <span class="item-name">{{__('Upload Timesheet')}}</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="{{ Route::currentRouteName()=='rates' ? 'open' : '' }}" href="{{route('rates.index')}}">
+                    <i class="nav-icon i-File-Clipboard-Text--Image"></i>
+                    <span class="item-name">{{__('Rate')}}</span>
+                </a>
+            </li>
+
             <li class="nav-item">
                 <a class="{{ Route::currentRouteName()=='payrolls_hourly.index' ? 'open' : '' }}" href="{{route('payrolls_hourly.index')}}">
                     <i class="nav-icon i-File-Clipboard-Text--Image"></i>

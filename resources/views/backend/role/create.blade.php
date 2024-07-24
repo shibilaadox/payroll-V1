@@ -24,7 +24,7 @@
                                     </div>
                                 </div>
 
-                                <h3 class="mb-3 mt-5 t-font-bold">Change Add Roles To Add Contribution</h4>
+                                <h3 class="mb-3 mt-5 t-font-bold">Add Contribution</h4>
 
                                     <div style="display: flex">
                                         <div class="card-header">

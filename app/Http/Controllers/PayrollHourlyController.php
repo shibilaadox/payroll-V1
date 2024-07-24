@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Leave;
 use App\Models\User;
+use App\Models\Roles;
+use App\Models\Rate;
 use App\Models\Firebase;
 use App\Models\Deduction;
 use App\Models\Paymentstatus;
@@ -35,7 +37,7 @@ class PayrollHourlyController extends Controller
 
         })->where('user_type','Employee')->where('status',1)->get();
 
-        $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;
+        $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;$deductions=0;$tax=0;
 
         foreach ($data['employees'] as $row1){
 
@@ -76,32 +78,40 @@ class PayrollHourlyController extends Controller
         
                     $OT_total = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
 
-                    $OT_premium = $row->day8_rate * 1.10;
+                    $OT_premium = $row->day8_rate * 1.25;
 
-                    $OT = $OT_total * $row->day8_rate * $OT_premium;
+                    $OT = $OT_total * $OT_premium;
 
-                    //$ND_rate = $row->day8_rate * 0.10;
+                    $role = $row->posicode;
 
-                    $ND_rate = 30;
+                    $rate_data = Rate::where('position',$role)->first();
+
+                    $ND_rate = $rate_data->nd;
+
+                    $COLA_rate = $rate_data->cola;
         
-                    $COLA = $ND_rate * $j;
+                    $COLA = $COLA_rate * $j;
         
                     $ND = $ND_rate * $row->nd_days;
         
                     $SI = $row->incentive;
         
-                    $GP = $RegP + $ND + $SI - $UA;
+                    $GP = $RegP + $ND + $OT+$COLA + $SI - $UA;
                     
+                    $role_data = Roles::where('name',$role)->first();
+                    $EMPH_per = $role_data->philhealth;
 
                     if($GP<10000)
                     $EMPH = 500;
                     else if($GP>10000.01 && $GP<99999.99)
-                    $EMPH = $GP * 0.05;
+                    $EMPH = $GP * $EMPH_per;
                     else
                     $EMPH = 5000;
 
+
+                    $EMHDMF_per = $role_data->hdmf;
                     if($GP<1500)
-                    $EMHDMF = $GP * 0.01;
+                    $EMHDMF = $GP * $EMHDMF_per;
                     else
                     $EMHDMF = 200;
                   
@@ -111,28 +121,34 @@ class PayrollHourlyController extends Controller
                     $EMSSS = 202.50;
                     else if($GP>4749.99 && $GP<5249.99)
                     $EMSSS = 225.00;
+                    else if($GP>5249.99 && $GP<5749.99)
+                    $EMSSS = 247.50;
+                    else if($GP>5749.99 && $GP<6249.99)
+                    $EMSSS = 270.00;
+                    
+                    //$taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
 
-                    if($GP<=20833)
-                    $tax = 0;
-                    else if($GP>20833 && $GP<33332)
-                    $tax = 0;
-                    else if($GP>33333 && $GP<66666)
-                    $tax = 1875;
-                    else if($GP>66666 && $GP<166666)
-                    $tax = 8541.80;
-
-                    $taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
-                  
                     $TOTAL_GP = $TOTAL_GP + $GP;
 
                     $deductions = $EMPH+$EMHDMF+$EMSSS;
+
+                    $taxable_income = $TOTAL_GP - $deductions;
+                    
+                    if($taxable_income<=20833)
+                    $tax = 0;
+                    else if($taxable_income>20833 && $GP<33332)
+                    $tax = 0;
+                    else if($taxable_income>33333 && $GP<66666)
+                    $tax = 1875;
+                    else if($taxable_income>66666 && $GP<166666)
+                    $tax = 8541.80;
                    
                 }
 
             }
         }
 
-        $data['net_pay_total'] = $TOTAL_GP - $deductions - $tax;;
+        $data['net_pay_total'] = $TOTAL_GP - $deductions - $tax;
         return view('backend.payroll_hourly.payroll', ['data' => $data]);
     }
 
@@ -161,7 +177,7 @@ class PayrollHourlyController extends Controller
 
         })->with('userdetails')->where('user_type','Employee')->where('status',1)->get();
 
-        $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;
+        $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;$EMSSS=270;$tax=0;
 
         foreach ($data['employees'] as $row1){
 
@@ -170,87 +186,101 @@ class PayrollHourlyController extends Controller
           
                 if($row1->id == $row->user_id){
 
-                                        $j++;
+                    $j++;
 
-                                        $no_8_days = $no_8_days + $row->day8;
+                    $no_8_days = $no_8_days + $row->day8;
 
-                                        $RegP = $row->day8*$row->day8_rate;
+                    $RegP = $row->day8*$row->day8_rate;
 
-                                        $TOTAL_RP = $TOTAL_RP+$RegP;
-                            
-                                        if($row->day12==4)
-                                        $Pay12 = $row->day12_rate-$RegP;
-                                        else
-                                        $Pay12 = $row->day8_rate*$row->day12;
-                            
-                                        $UA = $row->undertime * ($row->day8_rate/60);
-                            
-                                        $ot1 = $row->ot1_hrs;
-                                        $ot2 = $row->o21_hrs;
-                                        $ot3 = $row->ot3_hrs;
-                                        $ot4 = $row->ot4_hrs;
-                                        $ot5 = $row->ot5_hrs;
-                                        $ot6 = $row->ot6_hrs;
-                                        $ot7 = $row->ot7_hrs;
-                                        $ot8 = $row->ot8_hrs;
-                                        $ot9 = $row->ot9_hrs;
-                                        $ot10 = $row->ot10_hrs;
-                                        $ot11 = $row->ot11_hrs;
-                                        $ot12 = $row->ot12_hrs;
-                                        $ot13 = $row->ot13_hrs;
-                            
-                                        $OT_total = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
+                    $TOTAL_RP = $TOTAL_RP+$RegP;
+        
+                    if($row->day12==4)
+                    $Pay12 = $row->day12_rate-$RegP;
+                    else
+                    $Pay12 = $row->day8_rate*$row->day12;
+        
+                    $UA = $row->undertime * ($row->day8_rate/60);
+        
+                    $ot1 = $row->ot1_hrs;
+                    $ot2 = $row->o21_hrs;
+                    $ot3 = $row->ot3_hrs;
+                    $ot4 = $row->ot4_hrs;
+                    $ot5 = $row->ot5_hrs;
+                    $ot6 = $row->ot6_hrs;
+                    $ot7 = $row->ot7_hrs;
+                    $ot8 = $row->ot8_hrs;
+                    $ot9 = $row->ot9_hrs;
+                    $ot10 = $row->ot10_hrs;
+                    $ot11 = $row->ot11_hrs;
+                    $ot12 = $row->ot12_hrs;
+                    $ot13 = $row->ot13_hrs;
+        
+                    $OT_total = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
 
-                                        $OT_premium = $row->day8_rate * 1.10;
+                    $OT_premium = $row->day8_rate * 1.25;
 
-                                        $OT = $OT_total * $row->day8_rate * $OT_premium;
+                    $OT = $OT_total * $OT_premium;
 
-                                        //$ND_rate = $row->day8_rate * 0.10;
+                    $role = $row->posicode;
 
-                                        $ND_rate = 30;
-                            
-                                        $COLA = $ND_rate * $j;
-                            
-                                        $ND = $ND_rate * $row->nd_days;
-                            
-                                        $SI = $row->incentive;
-                            
-                                        $GP = $RegP + $ND + $SI - $UA;
-                                        
+                    $rate_data = Rate::where('position',$role)->first();
 
-                                        if($GP<10000)
-                                        $EMPH = 500;
-                                        else if($GP>10000.01 && $GP<99999.99)
-                                        $EMPH = $GP * 0.05;
-                                        else
-                                        $EMPH = 5000;
+                    $ND_rate = $rate_data->nd;
 
-                                        if($GP<1500)
-                                        $EMHDMF = $GP * 0.01;
-                                        else
-                                        $EMHDMF = 200;
-                                      
-                                        if($GP<=4250)
-                                        $EMSSS = 180;
-                                        else if($GP>4250 && $GP<4749.99)
-                                        $EMSSS = 202.50;
-                                        else if($GP>4749.99 && $GP<5249.99)
-                                        $EMSSS = 225.00;
+                    $COLA_rate = $rate_data->cola;
+        
+                    $COLA = $COLA_rate * $j;
+        
+                    $ND = $ND_rate * $row->nd_days;
+        
+                    $SI = $row->incentive;
+        
+                    $GP = $RegP + $ND + $OT+$COLA + $SI - $UA;
+                    
+                    $role_data = Roles::where('name',$role)->first();
+                    $EMPH_per = $role_data->philhealth;
 
-                                        if($GP<=20833)
-                                        $tax = 0;
-                                        else if($GP>20833 && $GP<33332)
-                                        $tax = 0;
-                                        else if($GP>33333 && $GP<66666)
-                                        $tax = 1875;
-                                        else if($GP>66666 && $GP<166666)
-                                        $tax = 8541.80;
+                    if($GP<10000)
+                    $EMPH = 500;
+                    else if($GP>10000.01 && $GP<99999.99)
+                    $EMPH = $GP * $EMPH_per;
+                    else
+                    $EMPH = 5000;
 
-                                        $taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
-                                      
-                                        $TOTAL_GP = $TOTAL_GP + $GP;
 
-                                        $deductions = $EMPH+$EMHDMF+$EMSSS;
+                    $EMHDMF_per = $role_data->hdmf;
+                    if($GP<1500)
+                    $EMHDMF = $GP * $EMHDMF_per;
+                    else
+                    $EMHDMF = 200;
+                  
+                    if($GP<=4250)
+                    $EMSSS = 180;
+                    else if($GP>4250 && $GP<4749.99)
+                    $EMSSS = 202.50;
+                    else if($GP>4749.99 && $GP<5249.99)
+                    $EMSSS = 225.00;
+                    else if($GP>5249.99 && $GP<5749.99)
+                    $EMSSS = 247.50;
+                    else if($GP>5749.99 && $GP<6249.99)
+                    $EMSSS = 270.00;
+                    
+                    //$taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
+
+                    $TOTAL_GP = $TOTAL_GP + $GP;
+
+                    $deductions = $EMPH+$EMHDMF+$EMSSS;
+
+                    $taxable_income = $TOTAL_GP - $deductions;
+                    
+                    if($taxable_income<=20833)
+                    $tax = 0;
+                    else if($taxable_income>20833 && $GP<33332)
+                    $tax = 0;
+                    else if($taxable_income>33333 && $GP<66666)
+                    $tax = 1875;
+                    else if($taxable_income>66666 && $GP<166666)
+                    $tax = 8541.80;
                 }
 
             }
@@ -347,85 +377,99 @@ class PayrollHourlyController extends Controller
 
                     $j++;
 
-                                        $no_8_days = $no_8_days + $row->day8;
+                    $no_8_days = $no_8_days + $row->day8;
 
-                                        $RegP = $row->day8*$row->day8_rate;
+                    $RegP = $row->day8*$row->day8_rate;
 
-                                        $TOTAL_RP = $TOTAL_RP+$RegP;
-                            
-                                        if($row->day12==4)
-                                        $Pay12 = $row->day12_rate-$RegP;
-                                        else
-                                        $Pay12 = $row->day8_rate*$row->day12;
-                            
-                                        $UA = $row->undertime * ($row->day8_rate/60);
-                            
-                                        $ot1 = $row->ot1_hrs;
-                                        $ot2 = $row->o21_hrs;
-                                        $ot3 = $row->ot3_hrs;
-                                        $ot4 = $row->ot4_hrs;
-                                        $ot5 = $row->ot5_hrs;
-                                        $ot6 = $row->ot6_hrs;
-                                        $ot7 = $row->ot7_hrs;
-                                        $ot8 = $row->ot8_hrs;
-                                        $ot9 = $row->ot9_hrs;
-                                        $ot10 = $row->ot10_hrs;
-                                        $ot11 = $row->ot11_hrs;
-                                        $ot12 = $row->ot12_hrs;
-                                        $ot13 = $row->ot13_hrs;
-                            
-                                        $OT_total = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
+                    $TOTAL_RP = $TOTAL_RP+$RegP;
+        
+                    if($row->day12==4)
+                    $Pay12 = $row->day12_rate-$RegP;
+                    else
+                    $Pay12 = $row->day8_rate*$row->day12;
+        
+                    $UA = $row->undertime * ($row->day8_rate/60);
+        
+                    $ot1 = $row->ot1_hrs;
+                    $ot2 = $row->o21_hrs;
+                    $ot3 = $row->ot3_hrs;
+                    $ot4 = $row->ot4_hrs;
+                    $ot5 = $row->ot5_hrs;
+                    $ot6 = $row->ot6_hrs;
+                    $ot7 = $row->ot7_hrs;
+                    $ot8 = $row->ot8_hrs;
+                    $ot9 = $row->ot9_hrs;
+                    $ot10 = $row->ot10_hrs;
+                    $ot11 = $row->ot11_hrs;
+                    $ot12 = $row->ot12_hrs;
+                    $ot13 = $row->ot13_hrs;
+        
+                    $OT_total = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
 
-                                        $OT_premium = $row->day8_rate * 1.10;
+                    $OT_premium = $row->day8_rate * 1.25;
 
-                                        $OT = $OT_total * $row->day8_rate * $OT_premium;
+                    $OT = $OT_total * $OT_premium;
 
-                                        //$ND_rate = $row->day8_rate * 0.10;
+                    $role = $row->posicode;
 
-                                        $ND_rate = 30;
-                            
-                                        $COLA = $ND_rate * $j;
-                            
-                                        $ND = $ND_rate * $row->nd_days;
-                            
-                                        $SI = $row->incentive;
-                            
-                                        $GP = $RegP + $ND + $SI - $UA;
-                                        
+                    $rate_data = Rate::where('position',$role)->first();
 
-                                        if($GP<10000)
-                                        $EMPH = 500;
-                                        else if($GP>10000.01 && $GP<99999.99)
-                                        $EMPH = $GP * 0.05;
-                                        else
-                                        $EMPH = 5000;
+                    $ND_rate = $rate_data->nd;
 
-                                        if($GP<1500)
-                                        $EMHDMF = $GP * 0.01;
-                                        else
-                                        $EMHDMF = 200;
-                                      
-                                        if($GP<=4250)
-                                        $EMSSS = 180;
-                                        else if($GP>4250 && $GP<4749.99)
-                                        $EMSSS = 202.50;
-                                        else if($GP>4749.99 && $GP<5249.99)
-                                        $EMSSS = 225.00;
+                    $COLA_rate = $rate_data->cola;
+        
+                    $COLA = $COLA_rate * $j;
+        
+                    $ND = $ND_rate * $row->nd_days;
+        
+                    $SI = $row->incentive;
+        
+                    $GP = $RegP + $ND + $OT+$COLA + $SI - $UA;
+                    
+                    $role_data = Roles::where('name',$role)->first();
+                    $EMPH_per = $role_data->philhealth;
 
-                                        if($GP<=20833)
-                                        $tax = 0;
-                                        else if($GP>20833 && $GP<33332)
-                                        $tax = 0;
-                                        else if($GP>33333 && $GP<66666)
-                                        $tax = 1875;
-                                        else if($GP>66666 && $GP<166666)
-                                        $tax = 8541.80;
+                    if($GP<10000)
+                    $EMPH = 500;
+                    else if($GP>10000.01 && $GP<99999.99)
+                    $EMPH = $GP * $EMPH_per;
+                    else
+                    $EMPH = 5000;
 
-                                        $taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
-                                      
-                                        $TOTAL_GP = $TOTAL_GP + $GP;
 
-                                        $deductions = $EMPH+$EMHDMF+$EMSSS;
+                    $EMHDMF_per = $role_data->hdmf;
+                    if($GP<1500)
+                    $EMHDMF = $GP * $EMHDMF_per;
+                    else
+                    $EMHDMF = 200;
+                  
+                    if($GP<=4250)
+                    $EMSSS = 180;
+                    else if($GP>4250 && $GP<4749.99)
+                    $EMSSS = 202.50;
+                    else if($GP>4749.99 && $GP<5249.99)
+                    $EMSSS = 225.00;
+                    else if($GP>5249.99 && $GP<5749.99)
+                    $EMSSS = 247.50;
+                    else if($GP>5749.99 && $GP<6249.99)
+                    $EMSSS = 270.00;
+                    
+                    //$taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
+
+                    $TOTAL_GP = $TOTAL_GP + $GP;
+
+                    $deductions = $EMPH+$EMHDMF+$EMSSS;
+
+                    $taxable_income = $GP - $deductions;
+                    
+                    if($taxable_income<=20833)
+                    $tax = 0;
+                    else if($taxable_income>20833 && $GP<33332)
+                    $tax = 0;
+                    else if($taxable_income>33333 && $GP<66666)
+                    $tax = 1875;
+                    else if($taxable_income>66666 && $GP<166666)
+                    $tax = 8541.80;
                 }
 
             }
@@ -475,9 +519,9 @@ class PayrollHourlyController extends Controller
                                             $j++;
 
                                             $no_8_days = $no_8_days + $row->day8;
-    
+                        
                                             $RegP = $row->day8*$row->day8_rate;
-    
+                        
                                             $TOTAL_RP = $TOTAL_RP+$RegP;
                                 
                                             if($row->day12==4)
@@ -502,33 +546,41 @@ class PayrollHourlyController extends Controller
                                             $ot13 = $row->ot13_hrs;
                                 
                                             $OT_total = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
-    
-                                            $OT_premium = $row->day8_rate * 1.10;
-    
-                                            $OT = $OT_total * $row->day8_rate * $OT_premium;
-    
-                                            //$ND_rate = $row->day8_rate * 0.10;
-    
-                                            $ND_rate = 30;
+                        
+                                            $OT_premium = $row->day8_rate * 1.25;
+                        
+                                            $OT = $OT_total * $OT_premium;
+                        
+                                            $role = $row->posicode;
+                        
+                                            $rate_data = Rate::where('position',$role)->first();
+                        
+                                            $ND_rate = $rate_data->nd;
+                        
+                                            $COLA_rate = $rate_data->cola;
                                 
-                                            $COLA = $ND_rate * $j;
+                                            $COLA = $COLA_rate * $j;
                                 
                                             $ND = $ND_rate * $row->nd_days;
                                 
                                             $SI = $row->incentive;
                                 
-                                            $GP = $RegP + $ND + $SI - $UA;
+                                            $GP = $RegP + $ND + $OT+$COLA + $SI - $UA;
                                             
-    
+                                            $role_data = Roles::where('name',$role)->first();
+                                            $EMPH_per = $role_data->philhealth;
+                        
                                             if($GP<10000)
                                             $EMPH = 500;
                                             else if($GP>10000.01 && $GP<99999.99)
-                                            $EMPH = $GP * 0.05;
+                                            $EMPH = $GP * $EMPH_per;
                                             else
                                             $EMPH = 5000;
-    
+                        
+                        
+                                            $EMHDMF_per = $role_data->hdmf;
                                             if($GP<1500)
-                                            $EMHDMF = $GP * 0.01;
+                                            $EMHDMF = $GP * $EMHDMF_per;
                                             else
                                             $EMHDMF = 200;
                                           
@@ -538,21 +590,27 @@ class PayrollHourlyController extends Controller
                                             $EMSSS = 202.50;
                                             else if($GP>4749.99 && $GP<5249.99)
                                             $EMSSS = 225.00;
-    
-                                            if($GP<=20833)
-                                            $tax = 0;
-                                            else if($GP>20833 && $GP<33332)
-                                            $tax = 0;
-                                            else if($GP>33333 && $GP<66666)
-                                            $tax = 1875;
-                                            else if($GP>66666 && $GP<166666)
-                                            $tax = 8541.80;
-    
-                                            $taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
-                                          
+                                            else if($GP>5249.99 && $GP<5749.99)
+                                            $EMSSS = 247.50;
+                                            else if($GP>5749.99 && $GP<6249.99)
+                                            $EMSSS = 270.00;
+                                            
+                                            //$taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
+                        
                                             $TOTAL_GP = $TOTAL_GP + $GP;
-    
+                        
                                             $deductions = $EMPH+$EMHDMF+$EMSSS;
+                        
+                                            $taxable_income = $TOTAL_GP - $deductions;
+                                            
+                                            if($taxable_income<=20833)
+                                            $tax = 0;
+                                            else if($taxable_income>20833 && $GP<33332)
+                                            $tax = 0;
+                                            else if($taxable_income>33333 && $GP<66666)
+                                            $tax = 1875;
+                                            else if($taxable_income>66666 && $GP<166666)
+                                            $tax = 8541.80;
     
                                           } 
 
@@ -578,6 +636,7 @@ class PayrollHourlyController extends Controller
         $data['EMHMDF'] = $EMHDMF;
         $data['EMPH'] = $EMPH;
         $data['EMSSS'] = $EMSSS;
+        $data['tax'] = $tax;
         $data['deduction_total'] = $deductions;
         return view('backend.payroll_hourly.payroll_ajax',['data'=>$data]);
     }
@@ -637,45 +696,70 @@ class PayrollHourlyController extends Controller
         
                     $OT_total = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
 
-                    $OT_premium = $row->day8_rate * 1.10;
+                    $OT_premium = $row->day8_rate * 1.25;
 
-                    $OT = $OT_total * $row->day8_rate * $OT_premium;
+                    $OT = $OT_total * $OT_premium;
 
-                    //$ND_rate = $row->day8_rate * 0.10;
+                    $role = $row->posicode;
 
-                    $ND_rate = 30;
+                    $rate_data = Rate::where('position',$role)->first();
+
+                    $ND_rate = $rate_data->nd;
+
+                    $COLA_rate = $rate_data->cola;
         
-                    $COLA = $ND_rate * $j;
+                    $COLA = $COLA_rate * $j;
         
                     $ND = $ND_rate * $row->nd_days;
         
                     $SI = $row->incentive;
         
-                    $GP = $RegP + $ND + $SI - $UA;
+                    $GP = $RegP + $ND + $OT+$COLA + $SI - $UA;
+                    
+                    $role_data = Roles::where('name',$role)->first();
+                    $EMPH_per = $role_data->philhealth;
 
-                    $taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND;
+                    if($GP<10000)
+                    $EMPH = 500;
+                    else if($GP>10000.01 && $GP<99999.99)
+                    $EMPH = $GP * $EMPH_per;
+                    else
+                    $EMPH = 5000;
 
-                    $EMPH = $GP * 0.0225;
 
-                    $EMHDMF = $GP * 0.02;
-
-                    $EMSSS = $GP*0.085;
-
-                    $excess = $taxable_income - 20833;
-
-                    //$tax = $excess * 0.02;
-
-                    $tax = 0;
+                    $EMHDMF_per = $role_data->hdmf;
+                    if($GP<1500)
+                    $EMHDMF = $GP * $EMHDMF_per;
+                    else
+                    $EMHDMF = 200;
+                  
+                    if($GP<=4250)
+                    $EMSSS = 180;
+                    else if($GP>4250 && $GP<4749.99)
+                    $EMSSS = 202.50;
+                    else if($GP>4749.99 && $GP<5249.99)
+                    $EMSSS = 225.00;
+                    else if($GP>5249.99 && $GP<5749.99)
+                    $EMSSS = 247.50;
+                    else if($GP>5749.99 && $GP<6249.99)
+                    $EMSSS = 270.00;
+                    
+                    //$taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
 
                     $TOTAL_GP = $TOTAL_GP + $GP;
 
                     $deductions = $EMPH+$EMHDMF+$EMSSS;
 
-                    $DEDUCTIONS = $DEDUCTIONS + $deductions;
-
-                    $net_pay = $GP - $deductions - $tax;
-
-                    $NET_PAY = $NET_PAY + $net_pay;
+                    $taxable_income = $TOTAL_GP - $deductions;
+                    
+                    if($taxable_income<=20833)
+                    $tax = 0;
+                    else if($taxable_income>20833 && $GP<33332)
+                    $tax = 0;
+                    else if($taxable_income>33333 && $GP<66666)
+                    $tax = 1875;
+                    else if($taxable_income>66666 && $GP<166666)
+                    $tax = 8541.80;
                 }
 
             }

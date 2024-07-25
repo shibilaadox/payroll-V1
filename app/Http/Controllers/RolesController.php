@@ -66,8 +66,6 @@ class RolesController extends Controller
     return redirect()->route('roles.index');
 }
 
-
-
     public function show(Roles $roles)
     {
         //
@@ -100,11 +98,16 @@ class RolesController extends Controller
         ]);
 
         if ($request->has('permissions')) {
-            $role->syncPermissions($request->permissions);
+            $role-> name = $request->name;
+            $role-> save();
+            $role-> syncPermissions([
+                $request->permissions
+            ]);
+            toast('Role Updated Successfully!', 'success');
+            return redirect()->route('roles.index');
         }
+        toast('Something went wrong', 'error');
 
-        toast('Role Updated Successfully!', 'success');
-        return redirect()->route('roles.index');
     }
 
     public function destroy($id)

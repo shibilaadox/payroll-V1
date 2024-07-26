@@ -31,5 +31,4 @@ class StoreRoleRequest extends FormRequest
             'permissions' => 'array'
         ];
     }
-    
 }

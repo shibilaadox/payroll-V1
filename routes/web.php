@@ -20,6 +20,7 @@ use App\Http\Controllers\DetailsEmployeeController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ExcelImportController;
 use App\Http\Controllers\ImportController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProjectDetailsController;
 use App\Http\Controllers\RateController;
@@ -105,6 +106,8 @@ Route::get('/project/{id}', [ProjectDetailsController::class, 'show'])->name('pr
 
 Route::get('/employee-details/{id}', [DetailsEmployeeController::class, 'show'])->name('employee.details');
 
+// Invoice
+Route::get('/getPaymentDetails/{roleId}', [PaymentController::class, 'getPaymentDetails']);
 
 
 

@@ -65,7 +65,8 @@
                                                         title="Delete Project">
                                                         <i class="nav-icon i-Close-Window font-weight-bold fs-16"></i>
                                                     </a>
-                                                    <a href="{{ route('project.details', $row->id) }}" class="text-primary">
+                                                    <a href="{{ route('project.details', $row->id) }}"
+                                                        class="text-primary">
                                                         <i style="font-size: 17px" class="fa-solid fa-circle-info"></i>
                                                     </a>
                                                 </td>
@@ -134,15 +135,15 @@
                                 </select>
                             </div>
                             <!--<div class="form-group col-md-12">
-                                    <label for="actual_name" class="ul-form__label">Project Phases:</label>
-                                    <select class="form-control" id="project_phase" name="project_phase" required>
-                                        <option value="">Select</option>
-                                        <option value="Construction">Construction</option>
-                                        <option value="Consultancy">Consultancy</option>
-                                        <option value="Proposal">Proposal</option>
-                                    </select>
+                                            <label for="actual_name" class="ul-form__label">Project Phases:</label>
+                                            <select class="form-control" id="project_phase" name="project_phase" required>
+                                                <option value="">Select</option>
+                                                <option value="Construction">Construction</option>
+                                                <option value="Consultancy">Consultancy</option>
+                                                <option value="Proposal">Proposal</option>
+                                            </select>
 
-                                </div>-->
+                                        </div>-->
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Project Amount:</label>
                                 <input type="text" class="form-control" id="project_amount" name="project_amount"
@@ -180,6 +181,9 @@
                                     <thead>
                                         <tr>
                                             <th scope="col" style="font-size:12px;">Employee</th>
+                                            {{--  --}}
+                                            <th scope="col" style="font-size:12px;">Role</th>
+                                            {{--  --}}
                                             <th scope="col" style="font-size:12px;">Mode</th>
                                             <th scope="col" style="font-size:12px;">Payment</th>
                                         </tr>
@@ -195,12 +199,21 @@
                                                     <?php } ?>
                                                 </select>
                                             </td>
+
+                                            {{--  --}}
+                                            <td>
+                                                <input type="text" class="form-control" name="payment[]"
+                                                    id="payment">
+                                            </td>
+                                            {{--  --}}
+
                                             <td>
                                                 <select class="form-control" id="mode" name="mode[]">
                                                     <option value="">Select</option>
 
                                                     <option value="Monthly">Monthly</option>
                                                     <option value="Monthly">Hourly</option>
+
                                                 </select>
                                             </td>
                                             <td>
@@ -210,8 +223,9 @@
                                             <td>
                                                 <button type="button" class="btn btn-sm btn-default btn-icon m-1 attr"
                                                     id="payment_add">
-                                                    <span class="ul-btn__icon"><i class="i-Add"
-                                                            style="font-size: 20px;"></i></span>
+                                                    <span class="ul-btn__icon">
+                                                        <i class="i-Add" style="font-size: 20px;"></i>
+                                                    </span>
                                                 </button>
                                             </td>
                                             <input type="hidden" class="form-control" name="employee_payment"
@@ -234,7 +248,6 @@
                                 </select>
 
                             </div>
-
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -249,7 +262,28 @@
 
 @section('page-js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script type="text/javascript">
+    
+        //invoice
+        $(document).ready(function() {
+            $('#role').on('change', function() {
+                var roleId = $(this).val();
+                if (roleId) {
+                    $.ajax({
+                        url: '/getPaymentDetails/' + roleId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#paymentDetails').text(data.payment);
+                        }
+                    });
+                } else {
+                    $('#paymentDetails').text('--');
+                }
+            });
+        });
+
         //open model
         function add_project() {
             $('#project-modal').modal('show');
@@ -419,7 +453,5 @@
             this.Mode = mode;
             this.Payment = payment;
         }
-
     </script>
-
 @endsection

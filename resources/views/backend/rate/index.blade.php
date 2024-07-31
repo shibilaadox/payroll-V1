@@ -11,8 +11,8 @@
                         style="float:right;margin-right: 1%;margin-bottom: 2%"> <button
                             class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">Upload Rate</button></a>
                             <a class="btn btn-bold btn-label-brand btn-sm" 
-                        style="float:right;margin-right: 1%;margin-bottom: 2%" href="<?php echo url('').'/assets/format/rate_format.xlsx'?>" target="_blank"> <button
-                            class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">Format</button></a>		
+                        style="float:right;margin-right: 1%;margin-bottom: 2%" href="<?php echo url('').'/assets/format/rate_template.xlsx'?>" target="_blank"> <button
+                            class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">Download template</button></a>		
                 </h4>
                 <p class="fs-16">All Your Rates</p>
 

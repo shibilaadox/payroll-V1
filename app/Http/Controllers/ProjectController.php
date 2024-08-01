@@ -23,6 +23,7 @@ class ProjectController extends Controller
         $data['projects'] = Project::with('clients')->with('employees')->get();
         $data['clients'] = Client::all();
         $data['users'] = User::where('status',1)->get();
+
         return view('backend.project.index', ['data' => $data]);
     }
 

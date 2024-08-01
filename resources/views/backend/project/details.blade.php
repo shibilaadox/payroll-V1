@@ -46,7 +46,7 @@
             <div class="card o-hidden">
                 <div class="card-body">
                     <h5 style="font-weight:bold">Current Month</h5>
-                    <span class="font-semibold font-mm">{{ $current_month . ' ' . date('Y') }}</span>
+                    <span class="font-semibold font-mm">{{ date('F', mktime(0, 0, 0, $selectedMonth, 1)) . ' ' . $currentYear }}</span>
                     <br><br>
                     <div class="row mb-12">
                         <div class="col-md-6 mb-6">
@@ -66,7 +66,7 @@
                 <div class="card-body">
                     <div  class="text-uppercase payrun-label font-small text-center text-nowrap">PROJECT LAUNCH DATE</div>
                     <div style="font-size: 19px" class="font-light text-center text-nowrap">
-                        {{ date('F d, Y', strtotime($secondSaturday)) }} </div>
+                        {{ date('F d, Y', strtotime($project->created_at)) }} </div>
                 </div>
             </div>
         </div>

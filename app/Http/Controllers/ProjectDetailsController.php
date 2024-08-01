@@ -34,6 +34,8 @@ class ProjectDetailsController extends Controller
         $project = Project::findOrFail($id);
 
         // Get the current month
+        $selectedMonth = $request->input('month', date('m'));
+
     $currentMonth = date('m');
     $currentYear = date('Y');
     $currentMonthName = date('F');
@@ -70,10 +72,10 @@ class ProjectDetailsController extends Controller
 
         // $users = User::where('status', 1)->select('id', 'name')->get();
         // $month = request('month') ? request('month') : date('m', strtotime('last month'));
-        $year = date('Y');
-        $secondSaturday = date('Y-m-d', strtotime("second saturday of $year-$month"));
+        // $year = date('Y');
+        // $secondSaturday = date('Y-m-d', strtotime("second saturday of $year-$month"));
 
-        return view('backend.project.details', compact('project', 'employeeProjects', 'totalEmployees', 'totalCost', 'secondSaturday', 'current_month', 'projects', 'currentMonthName'));
+        return view('backend.project.details', compact('currentYear', 'selectedMonth', 'project', 'employeeProjects', 'totalEmployees', 'totalCost','current_month', 'projects', 'currentMonthName'));
     }
 
 

@@ -115,7 +115,9 @@
                                             <a href="{{ route('employee.details', $employeeProject->id) }}" class="text-primary">
                                                 <i style="font-size: 17px" class="fa-solid fa-circle-info"></i>
                                             </a>
-
+                                            <a href="{{ route('employee.invoice', $employeeProject->id) }}" class="text-primary">
+                                                <i style="font-size: 17px" class="nav-icon i-Library font-weight-bold fs-16"></i>
+                                            </a>
 
                                         </td>
                                     </tr>

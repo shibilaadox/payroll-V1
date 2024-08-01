@@ -105,6 +105,7 @@ Route::get('/project/{id}/details', [ProjectDetailsController::class, 'show'])->
 Route::get('/project/{id}', [ProjectDetailsController::class, 'show'])->name('project.details');
 
 Route::get('/employee-details/{id}', [DetailsEmployeeController::class, 'show'])->name('employee.details');
+Route::get('/employee-invoice/{id}', [DetailsEmployeeController::class, 'invoice'])->name('employee.invoice');
 
 // Invoice
 Route::get('/getPaymentDetails/{roleId}', [PaymentController::class, 'getPaymentDetails']);

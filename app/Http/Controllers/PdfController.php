@@ -14,22 +14,7 @@ class PdfController extends Controller
 {
     public function index() 
     {
-        $id = 28;
-    	$data['employee'] = User::with('userdetails')->with('user_timesheet')->has('user_timesheet')->whereHas('user_timesheet', function ($query) {
-            
-            return $query->where('month',date('F',strtotime('last month')));
-            
-        })->where('id',$id)->first();
-
-        $paid_days = $data['employee']->user_timesheet->days_worked;
-       
-        $gross_pay_month = $data['employee']->userdetails->basic_salary+$data['employee']->userdetails->house_rent_allowance+$data['employee']->userdetails->conveyance_allowance+$data['employee']->userdetails->fixed_allowance;
-        $gross_pay_day = $gross_pay_month/26;
-        $gross_pay = $gross_pay_day*$paid_days;
         
-        $deduction = Deduction::where('type','Deduction')->where('user_id',$id)->whereMonth('created_at',Carbon::now()->month-1)->sum('amount');
-        $tax = Deduction::where('type','Tax')->where('user_id',$id)->whereMonth('created_at',Carbon::now()->month-1)->sum('amount');
-        $data['net_pay'] = $gross_pay-($deduction+$tax);
 
         // create new PDF document
         $pdf = new GenerateInvoicePdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -85,9 +70,9 @@ EOD;
                                                 
                                             </tr>
                                             <tr>
-                                                <td class="tb lb bb ">{$data['employee']->userdetails->first_name}</td>
-                                                <td class="tb lb bb">{$paid_days}</td>
-                                                <td class="tb lb bb rb">{$data['net_pay']}</td>
+                                                <td class="tb lb bb ">0</td>
+                                                <td class="tb lb bb">0</td>
+                                                <td class="tb lb bb rb">0</td>
                                                 
                                             </tr>
                                         </table>

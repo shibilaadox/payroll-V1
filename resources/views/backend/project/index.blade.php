@@ -212,7 +212,7 @@
                                                     <option value="">Select</option>
 
                                                     <option value="Monthly">Monthly</option>
-                                                    <option value="Monthly">Hourly</option>
+                                                    <option value="Hourly">Hourly</option>
 
                                                 </select>
                                             </td>

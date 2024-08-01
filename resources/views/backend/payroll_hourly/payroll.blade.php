@@ -15,11 +15,12 @@
                 echo Date('F', strtotime($currentMonth . " last month")); echo " ".date('Y')?> </b> </h4>
                 
             </div>
-            
+            <?php if($data['employee']>0){?>
             <h4 class="card-title mb-3" style="text-align: end;"><button type="button"
                                 class="btn btn-primary ripple m-1"><a style="color: white"
                                     href="{{ route('payrolls_hourly.create') }}">
                                     View Details</a></button></h4>
+            <?php } ?>
             <div class="row mb-12">
                 <div class="col-md-4 mb-4">
                     <div class="card o-hidden">

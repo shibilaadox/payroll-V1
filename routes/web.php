@@ -21,9 +21,12 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ExcelImportController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaySlipController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProjectDetailsController;
 use App\Http\Controllers\RateController;
+use App\Models\EmployeeProject;
+use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -109,7 +112,12 @@ Route::get('/employee-details/{id}', [DetailsEmployeeController::class, 'show'])
 // Invoice
 Route::get('/getPaymentDetails/{roleId}', [PaymentController::class, 'getPaymentDetails']);
 
+// Payslip of Project
+// Route::get('project/payslip', [PaySlipController::class, 'show'])->name('payslip.show');
 
+Route::get('/payslip', function () {
+    return view('backend/project/payslip'); // Return the payslip view
+})->name('payslip');
 
 // web.php
 Route::get('project/details/{id}', [ProjectDetailsController::class, 'show'])->name('project.details');

@@ -12,9 +12,12 @@
         <div class="card text-left">
             <div class="card-body">
                 <h4 class="mb-3 fs-22 font-weight-bold">Projects
-                    <div style="float: right"><button type="button" class="btn btn-primary ripple m-1"
-                            onclick="add_project()">
-                            New Project</button></div>
+                    <div style="float: right">
+                        <button type="button" class="btn btn-primary ripple m-1" onclick="add_project()">
+                            New Project</button>
+
+                            <button class="btn btn-success m-1" onclick="window.location.href='{{ route('payslip') }}'">Go to Payslip</button>
+                    </div>
                 </h4>
                 <br>
 
@@ -135,15 +138,15 @@
                                 </select>
                             </div>
                             <!--<div class="form-group col-md-12">
-                                            <label for="actual_name" class="ul-form__label">Project Phases:</label>
-                                            <select class="form-control" id="project_phase" name="project_phase" required>
-                                                <option value="">Select</option>
-                                                <option value="Construction">Construction</option>
-                                                <option value="Consultancy">Consultancy</option>
-                                                <option value="Proposal">Proposal</option>
-                                            </select>
+                                                    <label for="actual_name" class="ul-form__label">Project Phases:</label>
+                                                    <select class="form-control" id="project_phase" name="project_phase" required>
+                                                        <option value="">Select</option>
+                                                        <option value="Construction">Construction</option>
+                                                        <option value="Consultancy">Consultancy</option>
+                                                        <option value="Proposal">Proposal</option>
+                                                    </select>
 
-                                        </div>-->
+                                                </div>-->
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Project Amount:</label>
                                 <input type="text" class="form-control" id="project_amount" name="project_amount"
@@ -264,7 +267,6 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script type="text/javascript">
-    
         //invoice
         $(document).ready(function() {
             $('#role').on('change', function() {

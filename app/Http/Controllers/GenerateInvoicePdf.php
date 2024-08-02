@@ -36,13 +36,14 @@ class GenerateInvoicePdf extends TCPDF
     public function Header()
     {
         global $bill;
+        $html = '';
 		// Logo
-        $image_file = K_PATH_IMAGES.'logo_example.jpg';
-        $this->Image($image_file, 10, 10, 15, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
-        $html = <<<EOD
-		<p>INVOICE</p>
+        //$image_file = K_PATH_IMAGES.'logo_example.jpg';
+        //$this->Image($image_file, 10, 10, 15, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+        //$html = <<<EOD
+//<p>INVOICE</p>
 			
-EOD;
+//EOD;
 
         $html = preg_replace('/(\p{P})(\p{Arabic})/u', "$1&zwnj;$2", $html);
         $html = preg_replace('/(\p{Arabic})(\p{P})/u', "$1&zwnj;$2", $html);

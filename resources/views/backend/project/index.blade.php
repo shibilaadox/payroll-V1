@@ -208,12 +208,7 @@
 
                                             {{--  --}}
                                             <td>
-                                                <select class="form-control" name="role[]">
-                                                    <option value="">Select</option>
-                                                    @foreach ($data['roles'] as $role)
-                                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                                <input type="text" class="form-control" name="role[]" id="role">
                                             </td>
                                             {{--  --}}
 
@@ -274,27 +269,6 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script type="text/javascript">
-        var roles = @json($roles);
-        var users = @json($users);
-
-        //invoice
-        $(document).ready(function() {
-            $('#role').on('change', function() {
-                var roleId = $(this).val();
-                if (roleId) {
-                    $.ajax({
-                        url: '/getPaymentDetails/' + roleId,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function(data) {
-                            $('#paymentDetails').text(data.payment);
-                        }
-                    });
-                } else {
-                    $('#paymentDetails').text('--');
-                }
-            });
-        });
 
         //open model
         function add_project() {
@@ -415,10 +389,7 @@
                 '</td>' +
                 '<td>' +
 
-                '<select class="form-control" name="role[]">' +
-                '<option value="">Select</option>' +
-                <?php foreach($data['roles'] as $role){?> '<option value="{{ $role->id }}">{{ $role->name }}</option>' +
-                <?php } ?> '</select>' +
+                '<input type="text" class="form-control" name="role[]" id="role">' +
                 '</td>' +
                 '<td>' +
                     
@@ -469,7 +440,7 @@
             }
         });
 
-        function EmployeePayment(employee, mode, payment) {
+        function EmployeePayment(employee, mode, payment,role) {
             this.Employee = employee;
             this.Mode = mode;
             this.Payment = payment;

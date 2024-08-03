@@ -6,9 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\EmployeeProject;
 use App\Models\User;
+use App\Models\Rate;
+use App\Models\Roles;
+use App\Models\Deduction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Elibyy\TCPDF\Facades\TCPDF;
+use Carbon;
 
 class DetailsEmployeeController extends Controller
 {
@@ -34,9 +39,8 @@ class DetailsEmployeeController extends Controller
         return view('backend.project.employeedetails', compact('employee', 'userdetails','useraddresses', 'departments'));
     }
 
-    public function invoice($id)
+    public function invoice($project_id)
     {
-            $project_id = $_GET['id'];
             $employeeProject = EmployeeProject::findOrFail($project_id);
             $id = $employeeProject->user_id;
            
@@ -47,11 +51,20 @@ class DetailsEmployeeController extends Controller
             })->where('id',$id)->first();
     
     
-            $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;
+            $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;$EMSSS=0;$TOTAL_ND=0;$TOTAL_OT=0;
     
                                             foreach($data['employee']->user_timesheet_hourly as $row){
     
                                                 $j++;
+
+                                                if($j==1)
+                                                $start_date = $row->date;
+
+                                                $end_date = $row->date;
+
+                                                $data['clientcd'] = $row->clientcd;
+
+                                                $data['posicode'] = $row->posicode;
 
                                                 $day8_rate = $employeeProject->payment;
     
@@ -99,6 +112,10 @@ class DetailsEmployeeController extends Controller
                                                 $COLA = $COLA_rate * $j;
     
                                                 $ND = $ND_rate * $row->nd_days;
+
+                                                $TOTAL_ND = $TOTAL_ND + $ND;
+                                                
+                                                $TOTAL_OT = $TOTAL_OT + $OT;
     
                                                 $SI = $row->incentive;
     
@@ -160,16 +177,30 @@ class DetailsEmployeeController extends Controller
             $data['paid_days'] = $no_8_days;
             $data['gross_pay']= $TOTAL_GP;
             $data['deduction'] = $deduction;
-            $data['gross_pay'] = $TOTAL_GP;
             $data['net_pay'] = $TOTAL_GP - $deductions - $tax;
             $data['EMHMDF'] = $EMHDMF;
             $data['EMPH'] = $EMPH;
             $data['EMSSS'] = $EMSSS;
             $data['tax'] = $tax;
             $data['deduction_total'] = $deductions;
-            return view('backend.payroll_hourly.payroll_ajax',['data'=>$data]);
+            $data['start_date'] = $start_date;
+            $data['end_date'] = $end_date;
+            $data['night_diff'] = $TOTAL_ND;
+            $data['overtime'] = $TOTAL_OT;
+            $data['TOTAL_RP'] = $TOTAL_RP;
+            //return view('backend.payroll_hourly.payroll_ajax',['data'=>$data]);
+            $view = \View::make('pdf.payslip',compact('data'));
+        $html = $view->render();
+        
+        $pdf = new TCPDF();
+        $pdf::SetTitle('INVOICE');
+        $pdf::AddPage();
+        $pdf::writeHTML($html, true, false, true, false, '');
+        $pdf::Output('hello_world.pdf');
+        
     
     }
+    
     
     
 }

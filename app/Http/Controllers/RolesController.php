@@ -18,7 +18,8 @@ class RolesController extends Controller
     public function index()
     {
         $roles = Roles::all();
-        return view('backend.role.index', compact('roles'));
+        $users = User::all();
+        return view('backend.role.index', compact('roles', 'users'));
     }
 
     public function create()

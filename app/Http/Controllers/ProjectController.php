@@ -7,8 +7,10 @@ use App\Models\Project;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\EmployeeProject;
+use App\Models\Roles;
 use DataTables;
 use DateTime;
+use Spatie\Permission\Contracts\Role;
 use Throwable;
 
 class ProjectController extends Controller
@@ -21,10 +23,15 @@ class ProjectController extends Controller
     public function index()
     {
         $data['projects'] = Project::with('clients')->with('employees')->get();
+        $data['roles'] = Roles::all();
         $data['clients'] = Client::all();
-        $data['users'] = User::where('status',1)->get();
+        $data['users'] = User::where('status', 1)->get();
+        $projects = Project::all();
 
-        return view('backend.project.index', ['data' => $data]);
+        $roles = Roles::all(); // Fetch all roles
+        $users = User::all();
+
+        return view('backend.project.index', ['data' => $data], compact('projects', 'roles', 'users'));
     }
 
     /**
@@ -58,9 +65,13 @@ class ProjectController extends Controller
             $input['project_location'] = $request->project_location;
             $input['description'] = $request->description;
             $input['status'] = $request->project_status;
+            $input['role'] = $request->role;
 
+            // Handle roles if provided
+            $roles = $request->input('role', []);
 
-            $data_project = Project::updateOrCreate(['id' => $request->project_id] ,$input);
+            $data_project = Project::updateOrCreate(['id' => $request->project_id], $input);
+            $data_project->roles()->sync($roles);
 
             $jsonData = $request->employee_payment;
 
@@ -75,9 +86,10 @@ class ProjectController extends Controller
                 $inputs['user_id'] = $item["Employee"];
                 $inputs['project_id'] = $data_project->id;
                 $inputs['payment'] = $item["Payment"];
+                $inputs['role'] = $item["Role"];
                 $inputs['mode'] = $item["Mode"];
                 $inputs['month'] = $monthName;
-                EmployeeProject::updateOrCreate(['id' => $request->project_id] ,$inputs);
+                EmployeeProject::updateOrCreate(['id' => $request->project_id], $inputs);
             }
 
             return response()->json(['code' => '200', 'status' => 'Project added successfully']);

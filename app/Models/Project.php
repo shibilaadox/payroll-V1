@@ -9,7 +9,7 @@ class Project extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'project', 'project_type' ,'project_name','client','project_amount','start_date','end_date','project_location','description','status','salary'
+        'project', 'project_type' ,'project_name','client','project_amount','start_date','end_date','project_location','description','status','salary', 'roles'
     ];
 
     public function clients()
@@ -22,5 +22,10 @@ class Project extends Model
         // return $this->belongsToMany(EmployeeProject::class);
         return $this->belongsTo(\App\Models\User::class,'employee','id')->withDefault();
     }
+
+    public function roles()
+{
+    return $this->belongsToMany(Roles::class);
+}
 
 }

@@ -9,7 +9,7 @@ class EmployeeProject extends Model
 {
     use HasFactory;
     protected $table = "employee_projects";
-    protected $fillable = ['user_id','project_id','payment','month','mode'];
+    protected $fillable = ['user_id','project_id','payment','month','mode', 'role'];
 
     public function user()
     {

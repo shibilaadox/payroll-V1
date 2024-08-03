@@ -16,7 +16,12 @@
                         <button type="button" class="btn btn-primary ripple m-1" onclick="add_project()">
                             New Project</button>
 
+<<<<<<< HEAD
                             <!--<button class="btn btn-success m-1" onclick="window.location.href='{{ route('payslip') }}'">Go to Payslip</button>-->
+=======
+                        <button class="btn btn-success m-1" onclick="window.location.href='{{ route('payslip') }}'">Go to
+                            Payslip</button>
+>>>>>>> 654b6dd22db93fb40977f588cd40ef0fd9e09c23
                     </div>
                 </h4>
                 <br>
@@ -138,15 +143,15 @@
                                 </select>
                             </div>
                             <!--<div class="form-group col-md-12">
-                                                    <label for="actual_name" class="ul-form__label">Project Phases:</label>
-                                                    <select class="form-control" id="project_phase" name="project_phase" required>
-                                                        <option value="">Select</option>
-                                                        <option value="Construction">Construction</option>
-                                                        <option value="Consultancy">Consultancy</option>
-                                                        <option value="Proposal">Proposal</option>
-                                                    </select>
+                                                            <label for="actual_name" class="ul-form__label">Project Phases:</label>
+                                                            <select class="form-control" id="project_phase" name="project_phase" required>
+                                                                <option value="">Select</option>
+                                                                <option value="Construction">Construction</option>
+                                                                <option value="Consultancy">Consultancy</option>
+                                                                <option value="Proposal">Proposal</option>
+                                                            </select>
 
-                                                </div>-->
+                                                        </div>-->
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Project Amount:</label>
                                 <input type="text" class="form-control" id="project_amount" name="project_amount"
@@ -205,8 +210,12 @@
 
                                             {{--  --}}
                                             <td>
-                                                <input type="text" class="form-control" name="payment[]"
-                                                    id="payment">
+                                                <select class="form-control" name="role[]">
+                                                    <option value="">Select</option>
+                                                    @foreach ($data['roles'] as $role)
+                                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                                    @endforeach
+                                                </select>
                                             </td>
                                             {{--  --}}
 
@@ -267,6 +276,9 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script type="text/javascript">
+        var roles = @json($roles);
+        var users = @json($users);
+
         //invoice
         $(document).ready(function() {
             $('#role').on('change', function() {
@@ -404,6 +416,14 @@
                 <?php } ?> '</select>' +
                 '</td>' +
                 '<td>' +
+
+                '<select class="form-control" name="role[]">' +
+                '<option value="">Select</option>' +
+                <?php foreach($data['roles'] as $role){?> '<option value="{{ $role->id }}">{{ $role->name }}</option>' +
+                <?php } ?> '</select>' +
+                '</td>' +
+                '<td>' +
+                    
                 '<select class="form-control" id="mode" name="mode[]">' +
                 '<option value="">Select</option>' +
 
@@ -436,14 +456,15 @@
             var employees = document.getElementsByName('employee[]');
             var modes = document.getElementsByName('mode[]');
             var payments = document.getElementsByName('payment[]');
-
+            var roles = document.getElementsByName('role[]');
 
 
             for (var i = 0; i < employees.length; i++) {
                 var employee = employees[i];
                 var mode = modes[i];
                 var payment = payments[i];
-                var payment_employee = new EmployeePayment(employee.value, mode.value, payment.value);
+                var role = roles[i];
+                var payment_employee = new EmployeePayment(employee.value, mode.value, payment.value, role.value);
                 yourArray_payment.push(payment_employee);
                 $("#employee_payment").val(JSON.stringify(yourArray_payment));
 
@@ -454,6 +475,7 @@
             this.Employee = employee;
             this.Mode = mode;
             this.Payment = payment;
+            this.Role = role;
         }
     </script>
 @endsection

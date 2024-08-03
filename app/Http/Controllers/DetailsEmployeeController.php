@@ -50,7 +50,8 @@ class DetailsEmployeeController extends Controller
     
             })->where('id',$id)->first();
     
-    
+            if(!empty($data['employee'])){
+                
             $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;$EMSSS=0;$TOTAL_ND=0;$TOTAL_OT=0;
     
                                             foreach($data['employee']->user_timesheet_hourly as $row){
@@ -197,6 +198,8 @@ class DetailsEmployeeController extends Controller
         $pdf::AddPage();
         $pdf::writeHTML($html, true, false, true, false, '');
         $pdf::Output('hello_world.pdf');
+
+        }
         
     
     }

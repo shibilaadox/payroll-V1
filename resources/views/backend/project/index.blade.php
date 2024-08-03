@@ -16,7 +16,7 @@
                         <button type="button" class="btn btn-primary ripple m-1" onclick="add_project()">
                             New Project</button>
 
-                            <button class="btn btn-success m-1" onclick="window.location.href='{{ route('payslip') }}'">Go to Payslip</button>
+                            <!--<button class="btn btn-success m-1" onclick="window.location.href='{{ route('payslip') }}'">Go to Payslip</button>-->
                     </div>
                 </h4>
                 <br>

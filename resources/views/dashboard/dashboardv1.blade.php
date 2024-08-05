@@ -1,10 +1,10 @@
 @extends('layouts.master')
 @section('main-content')
            <div class="breadcrumb">
-                
+
                 <ul>
                     <li><a href="" style="color:green;font-size:18px;">Admin Dashboard</a></li>
-                    
+
                 </ul>
             </div>
 
@@ -12,12 +12,12 @@
 
             <div class="row">
                 <!-- ICON BG -->
-                
+
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <a href="{{ route('employees') }}">
                     <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 bg-warning">
                         <div class="card-body text-center">
-                        <i class="i-Add-User"></i>    
+                        <i class="i-Add-User"></i>
                             <div class="content">
                                 <p class="text-white text-24 line-height-1 mb-2">{{$data['total_employees']}}</p>
                                 <p class="text-white mt-2 mb-0">Employees</p>
@@ -28,38 +28,43 @@
                 </div>
 
                 <div class="col-lg-3 col-md-6 col-sm-6">
-                    <a href="{{ route('absent_employees') }}">
+                    <a href="{{ route('client.index') }}">
                     <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 bg-danger">
                         <div class="card-body text-center">
                         <i class="i-Add-User"></i>
                             <div class="content">
-                                <p class="text-white text-24 line-height-1 mb-2">{{$data['total_absent']}}</p>
-                                <p class="text-white mt-2 mb-0">Absent</p>
+                                {{-- <p class="text-white text-24 line-height-1 mb-2">{{$data['total_absent']}}</p>
+                                <p class="text-white mt-2 mb-0">Absent</p> --}}
+                                <p class="text-white text-24 line-height-1 mb-2">{{ $totalClients }}</p>
+                                <p class="text-white mt-2 mb-0 text-nowrap">Number Of Clients</p>
                             </div>
                         </div>
                     </div>
                     </a>
                 </div>
-                
+
                 <div class="col-lg-3 col-md-6 col-sm-6">
-                    <a href="{{ route('present_employees') }}">
+                    <a href="{{ route('projects.index') }}">
                     <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 bg-success">
                         <div class="card-body text-center">
                         <i class="i-Add-User"></i>
                             <div class="content">
-                                <p class="text-white text-24 line-height-1 mb-2">{{$data['total_present']}}</p>
-                                <p class="text-white mt-2 mb-0">Present</p>
+                                {{-- <p class="text-white text-24 line-height-1 mb-2">{{$data['total_present']}}</p>
+                                <p class="text-white mt-2 mb-0">Present</p> --}}
+
+                                <p class="text-white text-24 line-height-1 mb-2">{{ $totalProjects }}</p>
+                                <p class="text-white mt-2 mb-0 text-nowrap">Number Of Projects</p>
                             </div>
                         </div>
                     </div>
                     </a>
                 </div>
-                
+
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <a href="{{route('departments.index')}}">
                     <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 bg-warning">
                         <div class="card-body text-center">
-                        <i class="i-Library"></i>    
+                        <i class="i-Library"></i>
                             <div class="content">
                                 <p class="text-white text-24 line-height-1 mb-2">{{$data['total_departments']}}</p>
                                 <p class="text-white mt-2 mb-0">Departments</p>
@@ -68,7 +73,7 @@
                     </div>
                     </a>
                 </div>
-                
+
 
             </div>
 
@@ -77,22 +82,22 @@
                     <div class="card mb-4" >
                         <div class="card-header d-flex align-items-center border-0 bg-info">
                             <h3 class="w-50 float-left card-title m-0" style="color:white;font-size:15px;">{{__('Monthly Attendance Summary')}}</h3>
-                                    
+
                         </div>
                         <div class="card-body">
-                            
+
                             <div class="m-widget3__item">
-                                                
-                                                    
+
+
                                             <canvas id="myChart1" width="200" height="100"></canvas>
-                                                
-                                                
-                                            
+
+
+
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-6 col-md-12">
 
 
@@ -105,7 +110,7 @@
                                     class="btn btn-success btn-sm"><a style="color: white"
                                     href="{{ route('present_employees') }}">
                                     View All</a></button></h4>
-                                    
+
                                 </div>
 
                                 <div class="">
@@ -118,11 +123,11 @@
                                                     <th scope="col">Avatar</th>
                                                     <th scope="col">Email</th>
                                                     <th scope="col">Status</th>
-                                                   
+
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                               
+
                                                     <?php $i=1;foreach($data['present_employees'] as $row){
                                                     if($i<6){
                                                     ?>
@@ -137,7 +142,7 @@
 
                                                     <td>{{$row->email}}</td>
                                                     <td><span class="badge badge-success">Active</span></td>
-                                                    
+
                                                 </tr>
                                                 <?php $i++;}} ?>
                                             </tbody>
@@ -152,24 +157,24 @@
 
                 </div>
             </div>
-            
-            
+
+
             <div class="row" style="margin-top:3%">
-                
+
                 <div class="col-lg-6 col-sm-12">
                     <div class="card mb-4" style="height:350px;">
                         <div class="card-header d-flex align-items-center border-0 bg-info">
                             <h3 class="w-70 float-left card-title m-0" style="color:white;font-size:15px;">{{__('Male to Female Employees')}}</h3>
                         </div>
                         <div class="card-body">
-                           
+
                             <div class="m-widget3__item">
-                                                
-                                                    
+
+
                                 <canvas id="myChart3" width="450" height="250"></canvas>
-                                                
-                                                
-                                            
+
+
+
                             </div>
                         </div>
                     </div>
@@ -180,38 +185,38 @@
                             <h3 class="w-70 float-left card-title m-0" style="color:white;font-size:15px;">{{__('Employees by Age Group')}}</h3>
                         </div>
                         <div class="card-body">
-                           
+
                             <div class="m-widget3__item">
-                                                
-                                                    
+
+
                                 <canvas id="myChart4" width="450" height="250"></canvas>
-                                                
-                                                
-                                            
+
+
+
                             </div>
                         </div>
                     </div>
                 </div>
-               
-                
+
+
                 </div>
-                
+
                 <div class="row" style="margin-top:3%">
                 <div class="col-lg-12 col-md-12">
                     <div class="card mb-4" >
                         <div class="card-header d-flex align-items-center border-0 bg-info">
                             <h3 class="w-50 float-left card-title m-0" style="color:white;font-size:15px;">{{__('Employees By Department')}}</h3>
-                                    
+
                         </div>
                         <div class="card-body">
-                            
+
                             <div class="m-widget3__item">
-                                                
-                                                    
+
+
                                             <canvas id="myChart6" width="200" height="100"></canvas>
-                                                
-                                                
-                                            
+
+
+
                             </div>
                         </div>
                     </div>
@@ -220,29 +225,29 @@
 
 
             <div class="row" style="margin-top:3%">
-                
+
                 <div class="col-lg-6 col-sm-12">
                     <div class="card mb-4" style="height:370px;">
                         <div class="card-header d-flex align-items-center border-0 bg-info">
                             <h3 class="w-70 float-left card-title m-0" style="color:white;font-size:15px;">{{__('Absentees Last 7 Days')}}</h3>
                         </div>
                         <div class="card-body">
-                           
+
                             <div class="m-widget3__item">
-                                                
-                                                    
+
+
                                 <canvas id="myChart2" width="450" height="250"></canvas>
-                                                
-                                                
-                                            
+
+
+
                             </div>
                         </div>
                     </div>
                 </div>
-                
-               
-                
-                
+
+
+
+
                 <div class="col-md-6">
                             <div class="card o-hidden mb-4">
                                 <div class="card-header d-flex align-items-center border-0 bg-info">
@@ -251,7 +256,7 @@
                                     class="btn btn-success btn-sm"><a style="color: white"
                                     href="{{ route('absent_employees') }}">
                                     View All</a></button></h4>
-                                    
+
                                 </div>
 
                                 <div class="">
@@ -264,11 +269,11 @@
                                                     <th scope="col">Email</th>
                                                     <th scope="col">Phone</th>
                                                     <th scope="col">Role</th>
-                                                   
+
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                
+
                                                 <?php $i=1;foreach($data['total_absent_emp'] as $row){
                                                 if($i<7){?>
                                                 <tr style="font-size:12px;">
@@ -279,7 +284,7 @@
                                                     <td><span
                                                     class="badge badge-success">{{ $row->user_type }}</span>
                                                     </td>
-                                                    
+
                                                 </tr>
                                                 <?php $i++;} }?>
                                             </tbody>
@@ -290,36 +295,36 @@
 
 
                         </div>
-                
-                
+
+
 
             </div>
-                    
+
                 <div class="row" style="margin-top:3%">
-                
+
                 <div class="col-lg-12 col-sm-12">
                     <div class="card mb-4">
                         <div class="card-header d-flex align-items-center border-0 bg-info">
                             <h3 class="w-70 float-left card-title m-0" style="color:white;font-size:15px;">{{__('Absentees This Month')}}</h3>
                         </div>
                         <div class="card-body">
-                           
+
                             <div class="m-widget3__item">
-                                                
-                                                    
+
+
                                 <canvas id="myChart5" width="450"></canvas>
-                                                
-                                                
-                                            
+
+
+
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 </div>
-                
-                
-                
+
+
+
 
 @endsection
 
@@ -329,11 +334,11 @@
     <script src="{{asset('assets/js/es5/echart.options.min.js')}}"></script>
     <script src="{{asset('assets/js/es5/dashboard.v1.script.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
-    
+
     <script type="text/javascript">
     var chartDiv1 = $("#myChart1");
     var monthly_attendance = <?php echo $data['monthly_attendance']?>;
-    
+
     labels1 = [];
     data1= [];
 
@@ -348,7 +353,7 @@
     backgroundColor: ["#0c0c7a"],
     barThickness: 28,
     };
- 
+
     var barChart = new Chart(chartDiv1, {
     type: 'bar',
     data: {
@@ -356,7 +361,7 @@
     datasets: [MonthlyAttendance]
     }
     });
-    
+
     var chartDiv2 = $("#myChart2");
     var absent_7days = <?php echo $data['absent_7days']?>;
     labels2 = [];
@@ -367,7 +372,7 @@
         labels2[i] = absent_7days[i].text;
         data2[i] = absent_7days[i].values;
     }
-   
+
     var myChart2 = new Chart(chartDiv2, {
     type: 'doughnut',
     data: {
@@ -397,9 +402,9 @@
         maintainAspectRatio: false,
     }
     });
-    
-    
-    
+
+
+
     var absentee_month = <?php echo $data['absentee_month']?>;
     labels5 = [];
     data5= [];
@@ -420,13 +425,13 @@
         backgroundColor: 'transparent',
     }]
     };
- 
+
     var chartOptions = {
     legend: {
     display: true,
     position: 'top',
     labels: {
-     
+
       fontColor: 'black'
     }
     }
@@ -440,10 +445,10 @@
         data: absentee_month,
         options: chartOptions
     });
-    
-    
-    
-    
+
+
+
+
     var chartDiv3 = $("#myChart3");
     var gender_counts = <?php echo $data['gender_counts']?>;
     labels3 = [];
@@ -454,7 +459,7 @@
         labels3[i] = gender_counts[i].text;
         data3[i] = gender_counts[i].values;
     }
-   
+
     var myChart3 = new Chart(chartDiv3, {
     type: 'doughnut',
     data: {
@@ -466,12 +471,12 @@
         }]
     },
     options: {
-        
+
         title: {
             display: true,
             text: 'Doughnut Chart'
         },
-       
+
         elements: {
         arc: {
             borderWidth: 0.5
@@ -482,21 +487,21 @@
         is3D: true,
     }
     });
-    
-    
+
+
     var chartDiv4 = $("#myChart4");
     var age_group = <?php echo $data['age_group']?>;
     labels4 = [];
     data4= [];
-    
+
     labels4 = ["20-30","30-40","40-50","50-60"];
 
 
     for (var i =0; i< age_group.length ;i++) {
-       
+
         data4[i] = age_group[i].values;
     }
-   
+
     var myChart4 = new Chart(chartDiv4, {
     type: 'doughnut',
     data: {
@@ -508,12 +513,12 @@
         }]
     },
     options: {
-        
+
         title: {
             display: true,
             text: 'Doughnut Chart'
         },
-       
+
         elements: {
         arc: {
             borderWidth: 0.5
@@ -524,11 +529,11 @@
         is3D: true,
     }
     });
-    
-    
+
+
     var chartDiv6 = $("#myChart6");
     var employee_department = <?php echo $data['employee_department']?>;
-    
+
     labels6 = [];
     data6= [];
 
@@ -543,7 +548,7 @@
     backgroundColor: ["#0c0c7a"],
     barThickness: 20,
     };
- 
+
     var barChart = new Chart(chartDiv6, {
     type: 'bar',
     data: {
@@ -551,9 +556,9 @@
     datasets: [EmployeeDepartment]
     }
     });
-    
+
     </script>
     @endsection
 
-     
-   
+
+

@@ -19,6 +19,7 @@ use App\Http\Controllers\DeductionController;
 use App\Http\Controllers\DetailsEmployeeController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ExcelImportController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaySlipController;
@@ -99,6 +100,10 @@ Route::resource('leaves', LeaveController::class);
 Route::resource('clients', ClientController::class);
 Route::get('/client/{id}/details', [ClientDetailsController::class, 'showDetails'])->name('client.details');
 
+// No. of clients routes
+Route::get('/client', [ClientController::class, 'index'])->name('client.index');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 // Route::get('/client/{id}/projects', [ClientDetailsController::class, 'getFilteredProjects']);
 
 
@@ -106,6 +111,9 @@ Route::get('/client/{id}/details', [ClientDetailsController::class, 'showDetails
 Route::resource('projects', ProjectController::class);
 Route::get('/project/{id}/details', [ProjectDetailsController::class, 'show'])->name('project.details');
 Route::get('/project/{id}', [ProjectDetailsController::class, 'show'])->name('project.details');
+
+// No. of project routes
+Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
 
 Route::get('/employee-details/{id}', [DetailsEmployeeController::class, 'show'])->name('employee.details');
 Route::get('/employee-invoice/{id}', [DetailsEmployeeController::class, 'invoice'])->name('employee.invoice');

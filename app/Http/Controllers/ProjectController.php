@@ -65,8 +65,13 @@ class ProjectController extends Controller
             $input['project_location'] = $request->project_location;
             $input['description'] = $request->description;
             $input['status'] = $request->project_status;
+            $input['role'] = $request->role;
+
+            // Handle roles if provided
+            $roles = $request->input('role', []);
 
             $data_project = Project::updateOrCreate(['id' => $request->project_id], $input);
+            $data_project->roles()->sync($roles);
 
             $jsonData = $request->employee_payment;
 

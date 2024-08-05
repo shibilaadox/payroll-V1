@@ -61,7 +61,13 @@ class RolesController extends Controller
 
     // Handle permissions if needed
     if ($request->has('permissions')) {
+
+        $role = Role::firstOrCreate(['name' => $request->name]);
+        $role->syncPermissions($request->permissions);
+        toast('New Role Added Succesfully!', 'success');
+        return redirect()->route('roles.index');
     }
+    toast('Something went wrong!', 'error');
 
     toast('New Role Added Successfully!', 'success');
     return redirect()->route('roles.index');

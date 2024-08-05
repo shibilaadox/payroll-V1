@@ -36,7 +36,7 @@
                             {{-- <p class="text-white text-24 line-height-1 mb-2">{{$data['total_absent']}}</p>
                                 <p class="text-white mt-2 mb-0">Absent</p> --}}
                             <p class="text-white text-24 line-height-1 mb-2">{{ $totalClients }}</p>
-                            <p class="text-white mt-2 mb-0 text-nowrap">Number Of Clients</p>
+                            <p class="text-white mt-2 mb-0 text-nowrap">Clients</p>
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                                 <p class="text-white mt-2 mb-0">Present</p> --}}
 
                             <p class="text-white text-24 line-height-1 mb-2">{{ $totalProjects }}</p>
-                            <p class="text-white mt-2 mb-0 text-nowrap">Number Of Projects</p>
+                            <p class="text-white mt-2 mb-0 text-nowrap">Projects</p>
                         </div>
                     </div>
                 </div>

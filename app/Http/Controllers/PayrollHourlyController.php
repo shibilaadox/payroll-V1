@@ -49,6 +49,8 @@ class PayrollHourlyController extends Controller
 
                     $j++;
 
+                    $id = $row->user_id;
+
                     $no_8_days = $no_8_days + $row->day8;
 
                     $RegP = $row->day8*$row->day8_rate;
@@ -143,12 +145,14 @@ class PayrollHourlyController extends Controller
                     else if($taxable_income>66666 && $GP<166666)
                     $tax = 8541.80;
 
+                    $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
+
                 }
 
             }
         }
 
-        $data['net_pay_total'] = $TOTAL_GP - $deductions - $tax;
+        $data['net_pay_total'] = $TOTAL_GP - $deductions - $tax - $DEDUCTION;
         return view('backend.payroll_hourly.payroll', ['data' => $data]);
     }
 
@@ -188,6 +192,8 @@ class PayrollHourlyController extends Controller
 
                     $j++;
 
+                    $id = $row->user_id;
+
                     $no_8_days = $no_8_days + $row->day8;
 
                     $RegP = $row->day8*$row->day8_rate;
@@ -281,13 +287,15 @@ class PayrollHourlyController extends Controller
                     $tax = 1875;
                     else if($taxable_income>66666 && $GP<166666)
                     $tax = 8541.80;
+
+                    $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
                 }
 
             }
         }
 
         $data['gross_pay_total'] = $TOTAL_GP;
-        $data['net_pay_total'] = $TOTAL_GP - $deductions - $tax;
+        $data['net_pay_total'] = $TOTAL_GP - $deductions - $tax - $DEDUCTION;
         $data['EMHMDF'] = $EMHDMF;
         $data['EMPH'] = $EMPH;
         $data['EMSSS'] = $EMSSS;
@@ -376,6 +384,8 @@ class PayrollHourlyController extends Controller
                 if($row1->id == $row->user_id){
 
                     $j++;
+
+                    $id = $row->user_id;
 
                     $no_8_days = $no_8_days + $row->day8;
 
@@ -470,13 +480,15 @@ class PayrollHourlyController extends Controller
                     $tax = 1875;
                     else if($taxable_income>66666 && $GP<166666)
                     $tax = 8541.80;
+
+                    $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
                 }
 
             }
         }
 
         $data['gross_pay_total'] = $TOTAL_GP;
-        $data['net_pay_total'] = $TOTAL_GP - $deductions - $tax;
+        $data['net_pay_total'] = $TOTAL_GP - $deductions - $tax - $DEDUCTION;
         $data['EMHMDF'] = $EMHDMF;
         $data['EMPH'] = $EMPH;
         $data['EMSSS'] = $EMSSS;
@@ -614,10 +626,11 @@ class PayrollHourlyController extends Controller
 
                                           }
 
+                                        
         if(isset($_GET['month']) && $_GET['month']!="")
-            $deduction = Deduction::where('user_id',$id)->whereMonth('created_at',$_GET['month'])->sum('ded_amount');
+            $DEDUCTION = Deduction::where('user_id',$id)->where('month',$_GET['month'])->sum('ded_amount');
         else
-            $deduction = Deduction::where('user_id',$id)->whereMonth('created_at',Carbon::now()->month-1)->sum('ded_amount');
+            $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
 
         $data['net_pay'] = $NET_PAY;
 
@@ -630,9 +643,9 @@ class PayrollHourlyController extends Controller
         $data['gross_pay']= $TOTAL_GP;
 
 
-        $data['deduction'] = $deduction;
+        $data['deduction'] = $DEDUCTION;
         $data['gross_pay'] = $TOTAL_GP;
-        $data['net_pay'] = $TOTAL_GP - $deductions - $tax;
+        $data['net_pay'] = $TOTAL_GP - $deductions - $tax - $DEDUCTION;
         $data['EMHMDF'] = $EMHDMF;
         $data['EMPH'] = $EMPH;
         $data['EMSSS'] = $EMSSS;
@@ -664,6 +677,8 @@ class PayrollHourlyController extends Controller
 
 
                 if($row1->id == $row->user_id){
+
+                    $id = $row->user_id;
 
                     $j++;
 

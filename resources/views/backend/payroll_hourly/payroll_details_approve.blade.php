@@ -204,6 +204,8 @@
                                             $tax = 1875;
                                             else if($taxable_income>66666 && $GP<166666)
                                             $tax = 8541.80;
+
+                                            $DEDUCTION = Deduction::where('user_id',$row->user_id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
     
   
                                           } }
@@ -220,7 +222,7 @@
                                             </td>
                                             
                                             <td><?php 
-                                            $NET_PAY = $TOTAL_GP - $deductions - $tax;
+                                            $NET_PAY = $TOTAL_GP - $deductions - $tax - $DEDUCTION;
                                             echo "₱".number_format($NET_PAY,2);
                                             ?></td>
                                             <td>Cheque</td>

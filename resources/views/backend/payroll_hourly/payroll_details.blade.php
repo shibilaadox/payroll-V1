@@ -213,6 +213,8 @@
                                           else if($taxable_income>66666 && $GP<166666)
                                           $tax = 8541.80;
 
+                                          $DEDUCTION = Deduction::where('user_id',$row->user_id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
+
                                         } }
                                       
                                       ?>
@@ -262,7 +264,7 @@
                                             echo "₱".number_format($tax,2);?></td>
                                             
                                             <td><?php 
-                                            $NET_PAY = $TOTAL_GP - $deductions - $tax;
+                                            $NET_PAY = $TOTAL_GP - $deductions - $tax - $DEDUCTION;
                                             echo "₱".number_format($NET_PAY,2);
                                             ?></td>
                                             <td><?php $status = Paymentstatus::where('user_id',$row1->id)->where('month',date('F',strtotime('last month')))->first();

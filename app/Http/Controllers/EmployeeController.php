@@ -50,11 +50,11 @@ class EmployeeController extends Controller
             $user->firstname = $request->first_name;
             $user->lastname = $request->last_name;
             $user->status = $request->status;
-            
+
             $user->save();
             $id = $user->id;
-            
-            
+
+
             $user_detail =  new Userdetail;
             $user_detail->user_id = $id;
             $user_detail->adhaar_no = $request->aadhaar_no;
@@ -76,10 +76,10 @@ class EmployeeController extends Controller
             $user_detail->conveyance_allowance = $request->monthly_conveyance;
             $user_detail->fixed_allowance = $request->monthly_fixed;
             $user_detail->location = $request->location_name;
-            
+
             $user_detail->save();
-            
-            
+
+
             $user_address =  new Useraddress;
             $user_address->user_id = $id;
             $user_address->residential_address = $request->present_address;
@@ -92,9 +92,9 @@ class EmployeeController extends Controller
             $user_address->permanent_state = $request->permanent_state;
             $user_address->permanent_country = $request->permanent_country;
             $user_address->permanent_pincode = $request->permanent_pincode;
-            
+
             $user_address->save();
-            
+
             toast('New User Added Successfully', 'success');
             return redirect()->route('employee.index');
         } else {
@@ -117,18 +117,18 @@ class EmployeeController extends Controller
         $designations = Designation::all();
         return view('backend.employee.edit', compact('user', 'roles', 'departments','locations','designations'));
     }
-    
-    
+
+
     public function update_status()
     {
         $id = $_GET['id'];
-       
+
         $user = User::findOrFail($id);
 
         $user->status= 0;
 
         if ($user->save()) {
-          
+
             toast('User Info Updated Successfully', 'success');
             return redirect()->route('employee.index');
         } else {
@@ -140,7 +140,7 @@ class EmployeeController extends Controller
 
     public function update(Request $request, $id)
     {
-        
+
         $user = User::findOrFail($id);
         $user->name = $request->first_name." ".$request->last_name;
         $user->email = $request->email;
@@ -189,7 +189,7 @@ class EmployeeController extends Controller
         $user = User::find($id);
         $user->delete();
     }
-    
+
     public function present_employees()
     {
         $total_present_emp = Status::where('date', date('Y-m-d'))->get();
@@ -200,12 +200,12 @@ class EmployeeController extends Controller
             $present_id[$i] = $row->user_id;
             $i++;
         }
-        
+
         $users = User::where('status',0)->with('userdetails')->whereIn('id',$present_id)->take(5)->get();
-       
+
         return view('backend.employee.present_employees', compact('users'));
     }
-    
+
     public function absent_employees()
     {
         $total_present_emp = Status::where('date', date('Y-m-d'))->get();
@@ -216,9 +216,9 @@ class EmployeeController extends Controller
             $present_id[$i] = $row->user_id;
             $i++;
         }
-        
+
         $data['present_employees'] = User::whereIn('id',$present_id)->get();
-        
+
         $total_emp = User::where('user_type','Employee')->get();
         $total_emp_id = array();
         $i=0;
@@ -227,42 +227,42 @@ class EmployeeController extends Controller
             $total_emp_id[$i] = $row->id;
             $i++;
         }
-        
+
         $users = User::where('status',0)->whereIn('id',$total_emp_id)->whereNotIn('id',$present_id)->groupBy('id')->get();
-       
+
         return view('backend.employee.present_employees', compact('users'));
     }
-    
+
     public function employees()
     {
-        
+
         $users = User::where('status',0)->with('userdetails')->where('user_type','Employee')->get();
-       
+
         return view('backend.employee.present_employees', compact('users'));
     }
-    
+
     public function get_employee_code()
     {
         $role = $_GET['role'];
-        
+
         $emp_code = User::where('user_type','Employee')->where('job_role',$role)->orderBy('id','DESC')->first();
-        
+
         if(!empty($emp_code))
         $employee_code = $emp_code->employee_code;
-    
+
         else
         $employee_code = 000;
-        
+
         $newcode = substr($employee_code, -3);
-        
+
         $new_code = str_pad(++$newcode, 3, "0", STR_PAD_LEFT);
-        
+
         if($role=="Employee")
         $new_employee_code = "ANA ".$new_code;
-        
+
         else if($role=="Trainee")
         $new_employee_code = "ANA TR ".$new_code;
-        
+
         else if($role=="New Venture")
         $new_employee_code = "ANA NV ".$new_code;
 

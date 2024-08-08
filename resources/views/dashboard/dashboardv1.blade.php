@@ -129,14 +129,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach  ($latestProjects as $project)
-                                        <tr style="font-size:12px;">
-                                            <th scope="row">{{ $loop->iteration }}</th>
-                                            <td>{{ $project->project_name }}</td>
-                                            <td>{{ $project->project_type }}</td>
-                                            <td>{{ $project->start_date }} to {{ $project->end_date }}</td>
-                                            <td>{{ $project->description }}</td>
-                                        </tr>
+                                        @foreach ($latestProjects as $project)
+                                            <tr style="font-size:12px;">
+                                                <th scope="row">{{ $loop->iteration }}</th>
+                                                <td>{{ $project->project_name }}</td>
+                                                <td>{{ $project->project_type }}</td>
+                                                <td>{{ $project->start_date }} to {{ $project->end_date }}</td>
+                                                <td>{{ $project->description }}</td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -249,9 +249,9 @@
             <div class="card o-hidden mb-4">
                 <div class="card-header d-flex align-items-center border-0 bg-info">
                     <h3 class="w-50 float-left card-title m-0" style="color:white;font-size:15px;">Clients</h3>
-                    <h4 class="card-title mt-1" style="text-align: end;margin-left:38%;"><button type="button"
-                            class="btn btn-success btn-sm"><a style="color: white"
-                                href="{{ route('clients.index') }}">
+                   
+                    <h4 class="card-title mt-1" style="text-align: end;margin-left:35%;"><button type="button"
+                            class="btn btn-success btn-sm"><a style="color: white" href="{{ route('clients.index') }}">
                                 View All</a></button></h4>
 
                 </div>
@@ -271,9 +271,9 @@
                             </thead>
                             {{-- <tbody> --}}
 
-                                <?php $i=1;foreach($data['total_absent_emp'] as $row){
+                            <?php $i=1;foreach($data['total_absent_emp'] as $row){
                                                 if($i<7){?>
-                                {{-- <tr style="font-size:12px;">
+                            {{-- <tr style="font-size:12px;">
                                     <th scope="row">{{ $i }}</th>
                                     <td>{{ $row->firstname . ' ' . $row->last_name }}</td>
                                     <td>{{ $row->email }}</td>
@@ -282,18 +282,18 @@
                                     </td>
 
                                 </tr> --}}
-                                <?php $i++;} }?>
+                            <?php $i++;} }?>
                             {{-- </tbody> --}}
 
                             <tbody>
-                                @foreach  ($latestClients as $clinets)
-                                <tr style="font-size:12px;">
-                                    <th scope="row">{{ $loop->iteration }}</th>
-                                    <td>{{ $clinets->name }}</td>
-                                    <td>{{ $clinets->email }}</td>
-                                    <td>{{ $clinets->phone }}</td>
-                                    <td>{{ $clinets->address }}</td>
-                                </tr>
+                                @foreach ($latestClients as $clinets)
+                                    <tr style="font-size:12px;">
+                                        <th scope="row">{{ $loop->iteration }}</th>
+                                        <td>{{ $clinets->name }}</td>
+                                        <td>{{ $clinets->email }}</td>
+                                        <td>{{ $clinets->phone }}</td>
+                                        <td>{{ $clinets->address }}</td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -397,10 +397,10 @@
                     text: 'Doughnut Chart'
                 },
                 /*plugins: {
-            legend: {
-            display: false
-            }
-        },*/
+                legend: {
+                display: false
+                }
+            },*/
                 elements: {
                     arc: {
                         borderWidth: 0.5

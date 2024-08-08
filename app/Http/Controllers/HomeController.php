@@ -186,6 +186,8 @@ class HomeController extends Controller
         $totalClients = Client::count();
         $totalProjects = Project::count();
         $latestProjects = Project::latest()->take(5)->get();
-        return view('dashboard.dashboardv1',['data'=>$data], compact('totalClients','totalProjects','latestProjects'));
+        $latestClients = Client::latest()->take(5)->get();
+
+        return view('dashboard.dashboardv1',['data'=>$data], compact('totalClients','totalProjects','latestProjects', 'latestClients'));
     }
 }

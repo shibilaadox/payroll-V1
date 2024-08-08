@@ -37,16 +37,20 @@ class PayrollHourlyController extends Controller
 
         })->where('user_type','Employee')->where('status',1)->get();
 
-        $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;$deductions=0;$tax=0;
+        $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
 
         foreach ($data['employees'] as $row1){
+
+            $TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
+
 
             foreach($row1->user_timesheet_hourly as $row){
 
 
                 if($row1->id == $row->user_id){
 
-
+                    $EMHDMF=0;$EMPH=0;$EMSSS=0;$tax=0;$DEDUCTION=0;
+                    
                     $j++;
 
                     $id = $row->user_id;
@@ -109,13 +113,14 @@ class PayrollHourlyController extends Controller
                     $EMPH = $GP * $EMPH_per;
                     else
                     $EMPH = 5000;
-
+                    $TOTAL_EMPH = $TOTAL_EMPH+$EMPH;
 
                     $EMHDMF_per = $role_data->hdmf;
                     if($GP<1500)
                     $EMHDMF = $GP * $EMHDMF_per;
                     else
                     $EMHDMF = 200;
+                    $TOTAL_EMHDMF = $TOTAL_EMHDMF+$EMHDMF;
 
                     if($GP<=4250)
                     $EMSSS = 180;
@@ -127,6 +132,7 @@ class PayrollHourlyController extends Controller
                     $EMSSS = 247.50;
                     else if($GP>5749.99 && $GP<6249.99)
                     $EMSSS = 270.00;
+                    $TOTAL_EMSSS = $TOTAL_EMSSS+$EMSSS;
 
                     //$taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
 
@@ -144,15 +150,18 @@ class PayrollHourlyController extends Controller
                     $tax = 1875;
                     else if($taxable_income>66666 && $GP<166666)
                     $tax = 8541.80;
+                    $TOTAL_tax = $TOTAL_tax+$tax;
 
                     $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
-
+                    $TOTAL_DEDUCTION = $TOTAL_DEDUCTION+$DEDUCTION;
                 }
 
             }
         }
 
-        $data['net_pay_total'] = $TOTAL_GP - $deductions - $tax - $DEDUCTION;
+        $TOTAL_deductions = $TOTAL_EMHDMF+$TOTAL_EMPH+$TOTAL_EMSSS;
+
+        $data['net_pay_total'] = $TOTAL_GP - $TOTAL_deductions - $TOTAL_tax - $TOTAL_DEDUCTION;
         return view('backend.payroll_hourly.payroll', ['data' => $data]);
     }
 
@@ -181,14 +190,17 @@ class PayrollHourlyController extends Controller
 
         })->with('userdetails')->where('user_type','Employee')->where('status',1)->get();
 
-        $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;$EMSSS=270;$tax=0;
+        $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
 
         foreach ($data['employees'] as $row1){
+            $TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
 
             foreach($row1->user_timesheet_hourly as $row){
 
-
+                
                 if($row1->id == $row->user_id){
+                    $EMHDMF=0;$EMPH=0;$EMSSS=0;$tax=0;$DEDUCTION=0;
+                    
 
                     $j++;
 
@@ -253,12 +265,15 @@ class PayrollHourlyController extends Controller
                     else
                     $EMPH = 5000;
 
+                    $TOTAL_EMPH = $TOTAL_EMPH+$EMPH;
+
 
                     $EMHDMF_per = $role_data->hdmf;
                     if($GP<1500)
                     $EMHDMF = $GP * $EMHDMF_per;
                     else
                     $EMHDMF = 200;
+                    $TOTAL_EMHDMF = $TOTAL_EMHDMF+$EMHDMF;
 
                     if($GP<=4250)
                     $EMSSS = 180;
@@ -270,6 +285,7 @@ class PayrollHourlyController extends Controller
                     $EMSSS = 247.50;
                     else if($GP>5749.99 && $GP<6249.99)
                     $EMSSS = 270.00;
+                    $TOTAL_EMSSS = $TOTAL_EMSSS+$EMSSS;
 
                     //$taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
 
@@ -287,19 +303,24 @@ class PayrollHourlyController extends Controller
                     $tax = 1875;
                     else if($taxable_income>66666 && $GP<166666)
                     $tax = 8541.80;
+                    $TOTAL_tax = $TOTAL_tax+$tax;
 
                     $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
+                    $TOTAL_DEDUCTION = $TOTAL_DEDUCTION+$DEDUCTION;
                 }
 
             }
         }
 
+        $TOTAL_deductions = $TOTAL_EMHDMF+$TOTAL_EMPH+$TOTAL_EMSSS;
+
         $data['gross_pay_total'] = $TOTAL_GP;
-        $data['net_pay_total'] = $TOTAL_GP - $deductions - $tax - $DEDUCTION;
-        $data['EMHMDF'] = $EMHDMF;
-        $data['EMPH'] = $EMPH;
-        $data['EMSSS'] = $EMSSS;
-        $data['deduction_total'] = $deductions;
+        $data['net_pay_total'] = $TOTAL_GP - $TOTAL_deductions - $tax - $TOTAL_DEDUCTION;
+        $data['EMHMDF'] = $TOTAL_EMHDMF;
+        $data['EMPH'] = $TOTAL_EMPH;
+        $data['EMSSS'] = $TOTAL_EMSSS;
+        $data['other_ded'] = $TOTAL_DEDUCTION;
+        $data['deduction_total'] = $TOTAL_deductions+$TOTAL_DEDUCTION;
         return view('backend.payroll_hourly.payroll_details', ['data' => $data]);
     }
 
@@ -378,11 +399,13 @@ class PayrollHourlyController extends Controller
 
         foreach ($data['employees'] as $row1){
 
+            $TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
             foreach($row1->user_timesheet_hourly as $row){
 
 
                 if($row1->id == $row->user_id){
 
+                    $EMHDMF=0;$EMPH=0;$EMSSS=0;$tax=0;$DEDUCTION=0;
                     $j++;
 
                     $id = $row->user_id;
@@ -445,6 +468,7 @@ class PayrollHourlyController extends Controller
                     $EMPH = $GP * $EMPH_per;
                     else
                     $EMPH = 5000;
+                    $TOTAL_EMPH = $TOTAL_EMPH+$EMPH;
 
 
                     $EMHDMF_per = $role_data->hdmf;
@@ -452,6 +476,7 @@ class PayrollHourlyController extends Controller
                     $EMHDMF = $GP * $EMHDMF_per;
                     else
                     $EMHDMF = 200;
+                    $TOTAL_EMHDMF = $TOTAL_EMHDMF+$EMHDMF;
 
                     if($GP<=4250)
                     $EMSSS = 180;
@@ -463,7 +488,7 @@ class PayrollHourlyController extends Controller
                     $EMSSS = 247.50;
                     else if($GP>5749.99 && $GP<6249.99)
                     $EMSSS = 270.00;
-
+                    $TOTAL_EMSSS = $TOTAL_EMSSS+$EMSSS;
                     //$taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
 
                     $TOTAL_GP = $TOTAL_GP + $GP;
@@ -480,19 +505,24 @@ class PayrollHourlyController extends Controller
                     $tax = 1875;
                     else if($taxable_income>66666 && $GP<166666)
                     $tax = 8541.80;
+                    $TOTAL_tax = $TOTAL_tax+$tax;
 
                     $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
+                    $TOTAL_DEDUCTION = $TOTAL_DEDUCTION+$DEDUCTION;
                 }
 
             }
         }
 
+        $TOTAL_deductions = $TOTAL_EMHDMF+$TOTAL_EMPH+$TOTAL_EMSSS;
+
         $data['gross_pay_total'] = $TOTAL_GP;
-        $data['net_pay_total'] = $TOTAL_GP - $deductions - $tax - $DEDUCTION;
-        $data['EMHMDF'] = $EMHDMF;
-        $data['EMPH'] = $EMPH;
-        $data['EMSSS'] = $EMSSS;
-        $data['deduction_total'] = $deductions;
+        $data['net_pay_total'] = $TOTAL_GP - $TOTAL_deductions - $TOTAL_tax - $TOTAL_DEDUCTION;
+        $data['EMHMDF'] = $TOTAL_EMHDMF;
+        $data['EMPH'] = $TOTAL_EMPH;
+        $data['EMSSS'] = $TOTAL_EMSSS;
+        $data['other_ded'] = $TOTAL_DEDUCTION;
+        $data['deduction_total'] = $TOTAL_deductions+$TOTAL_DEDUCTION;
         return view('backend.payroll_hourly.payroll_details_approve', ['data' => $data]);
     }
 
@@ -641,16 +671,14 @@ class PayrollHourlyController extends Controller
 
         $data['paid_days'] = $no_8_days;
         $data['gross_pay']= $TOTAL_GP;
-
-
-        $data['deduction'] = $DEDUCTION;
+        $data['other_ded'] = $DEDUCTION;
         $data['gross_pay'] = $TOTAL_GP;
         $data['net_pay'] = $TOTAL_GP - $deductions - $tax - $DEDUCTION;
         $data['EMHMDF'] = $EMHDMF;
         $data['EMPH'] = $EMPH;
         $data['EMSSS'] = $EMSSS;
         $data['tax'] = $tax;
-        $data['deduction_total'] = $deductions;
+        $data['deduction_total'] = $deductions+$DEDUCTION;
         return view('backend.payroll_hourly.payroll_ajax',['data'=>$data]);
     }
 

@@ -69,8 +69,12 @@
             <td class="text-right"><?php echo "₱".number_format($data['EMPH'],2);?></td>
           </tr>
           <tr>
-            <td class="payrun-label">$EMSSS</td>
+            <td class="payrun-label">EMSSS</td>
             <td class="text-right"><?php echo "₱".number_format($data['EMSSS'],2);?></td>
+          </tr>
+          <tr>
+            <td class="payrun-label">Other Deductions</td>
+            <td class="text-right"><?php echo "₱".number_format($data['other_ded'],2);?></td>
           </tr>
           <tr>
             <td class="payrun-label"><b>Total</b></td>
@@ -97,6 +101,7 @@
                                         <th scope="col">EMPH</th>
                                         <th scope="col">EMHDMF</th>
                                         <th scope="col">EMSSS</th>
+                                        <th scope="col">Other Deductions</th>
                                         <th scope="col">TOTAL DEDUCTIONS</th>
                                         <th scope="col">TAX</th>
                                         <th scope="col">NET PAY</th>
@@ -199,7 +204,8 @@
                                           //$taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
                       
                                           $TOTAL_GP = $TOTAL_GP + $GP;
-                      
+
+                                          $DEDUCTION = Deduction::where('user_id',$row->user_id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
                                           $deductions = $EMPH+$EMHDMF+$EMSSS;
                       
                                           $taxable_income = $TOTAL_GP - $deductions;
@@ -213,8 +219,7 @@
                                           else if($taxable_income>66666 && $GP<166666)
                                           $tax = 8541.80;
 
-                                          $DEDUCTION = Deduction::where('user_id',$row->user_id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
-
+                                          
                                         } }
                                       
                                       ?>
@@ -257,8 +262,11 @@
                                             
                                             echo "₱".number_format($EMSSS,2);?></td>
                                             <td><?php 
+                                            
+                                            echo "₱".number_format($DEDUCTION,2);?></td>
+                                            <td><?php 
                                             $deduction = 0;
-                                            echo "₱".number_format($deductions,2);?></td>
+                                            echo "₱".number_format($deductions+$DEDUCTION,2);?></td>
                                             <td><?php 
                                             $tax = 0;
                                             echo "₱".number_format($tax,2);?></td>

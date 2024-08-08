@@ -69,8 +69,12 @@
             <td class="text-right"><?php echo "₱".number_format($data['EMPH'],2);?></td>
           </tr>
           <tr>
-            <td class="payrun-label">$EMSSS</td>
+            <td class="payrun-label">EMSSS</td>
             <td class="text-right"><?php echo "₱".number_format($data['EMSSS'],2);?></td>
+          </tr>
+          <tr>
+            <td class="payrun-label">Other Deductions</td>
+            <td class="text-right"><?php echo "₱".number_format($data['other_ded'],2);?></td>
           </tr>
           <tr>
             <td class="payrun-label"><b>Total</b></td>
@@ -192,8 +196,9 @@
                         
                                             $TOTAL_GP = $TOTAL_GP + $GP;
                         
+                                            $DEDUCTION = Deduction::where('user_id',$row->user_id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
                                             $deductions = $EMPH+$EMHDMF+$EMSSS;
-                        
+
                                             $taxable_income = $TOTAL_GP - $deductions;
                                             
                                             if($taxable_income<=20833)
@@ -205,8 +210,7 @@
                                             else if($taxable_income>66666 && $GP<166666)
                                             $tax = 8541.80;
 
-                                            $DEDUCTION = Deduction::where('user_id',$row->user_id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
-    
+                                           
   
                                           } }
                                         

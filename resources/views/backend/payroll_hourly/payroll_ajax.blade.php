@@ -138,6 +138,20 @@
 <tr data-test-selector="earning-row">
     <td>
         <div>
+          <b>Other Deductions</b>
+<!---->        </div>
+    </td>
+    <td class="text-right">
+    <b><?php echo "₱".number_format($data['other_ded'],2);?></b>
+<!---->          </td>
+    <td class="vertical-align-middle action-column">
+<!---->    </td>
+  </tr>
+<!---->
+
+<tr data-test-selector="earning-row">
+    <td>
+        <div>
           <b>Total Deduction</b>
 <!---->        </div>
     </td>
@@ -162,21 +176,6 @@
 <!---->    </td>
   </tr>
 <!---->
-
-<tr data-test-selector="earning-row">
-    <td>
-        <div>
-          <b>Other Deductions</b>
-<!---->        </div>
-    </td>
-    <td class="text-right">
-    <b><?php echo "₱".number_format($data['deduction'],2);?></b>
-<!---->          </td>
-    <td class="vertical-align-middle action-column">
-<!---->    </td>
-  </tr>
-<!---->
-
 
       
 <tr data-test-selector="earning-row">

@@ -242,71 +242,69 @@
             </div>
         </div>
 
+        <div class="col-md-6 col-sm-12">
 
-
-
-        <div class="col-md-6">
-            <div class="card o-hidden mb-4">
+            <div class="card mb-4" style="height:370px;">
                 <div class="card-header d-flex align-items-center border-0 bg-info">
-                    <h3 class="w-50 float-left card-title m-0" style="color:white;font-size:15px;">Clients</h3>
-                   
-                    <h4 class="card-title mt-1" style="text-align: end;margin-left:35%;"><button type="button"
-                            class="btn btn-success btn-sm"><a style="color: white" href="{{ route('clients.index') }}">
-                                View All</a></button></h4>
-
+                    <h3 class="w-70 float-left card-title m-0" style="color:white;font-size:15px;">
+                        {{ __('Project Status') }}</h3>
                 </div>
+                <div class="card-body">
 
-                <div class="">
-                    <div class="table-responsive">
-                        <table id="user_table" class="table  text-center">
-                            <thead>
-                                <tr style="font-size:14px;">
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Phone</th>
-                                    <th scope="col">Address</th>
+                    <div class="m-widget3__item">
 
-                                </tr>
-                            </thead>
-                            {{-- <tbody> --}}
+                        <canvas id="myChartDonut" width="450" height="250"></canvas>
 
-                            <?php $i=1;foreach($data['total_absent_emp'] as $row){
-                                                if($i<7){?>
-                            {{-- <tr style="font-size:12px;">
-                                    <th scope="row">{{ $i }}</th>
-                                    <td>{{ $row->firstname . ' ' . $row->last_name }}</td>
-                                    <td>{{ $row->email }}</td>
-                                    <td>{{ $row->phone }}</td>
-                                    <td><span class="badge badge-success">{{ $row->user_type }}</span>
-                                    </td>
-
-                                </tr> --}}
-                            <?php $i++;} }?>
-                            {{-- </tbody> --}}
-
-                            <tbody>
-                                @foreach ($latestClients as $clinets)
-                                    <tr style="font-size:12px;">
-                                        <th scope="row">{{ $loop->iteration }}</th>
-                                        <td>{{ $clinets->name }}</td>
-                                        <td>{{ $clinets->email }}</td>
-                                        <td>{{ $clinets->phone }}</td>
-                                        <td>{{ $clinets->address }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
-
 
         </div>
 
 
 
     </div>
+
+    <div class="card o-hidden mb-4">
+        <div class="card-header d-flex align-items-center border-0 bg-info">
+            <h3 class="w-50 float-left card-title m-0" style="color:white;font-size:15px;">Clients</h3>
+            <h4 class="card-title mt-1" style="text-align: end;margin-left:35%;"><button type="button"
+                    class="btn btn-success btn-sm"><a style="color: white" href="{{ route('clients.index') }}">
+                        View All</a></button></h4>
+
+        </div>
+
+        <div class="">
+            <div class="table-responsive">
+                <table id="user_table" class="table  text-center">
+                    <thead>
+                        <tr style="font-size:14px;">
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Address</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($latestClients as $clinets)
+                            <tr style="font-size:12px;">
+                                <th scope="row">{{ $loop->iteration }}</th>
+                                <td>{{ $clinets->name }}</td>
+                                <td>{{ $clinets->email }}</td>
+                                <td>{{ $clinets->phone }}</td>
+                                <td>{{ $clinets->address }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
 
     <div class="row" style="margin-top:3%">
 
@@ -397,10 +395,10 @@
                     text: 'Doughnut Chart'
                 },
                 /*plugins: {
-                legend: {
-                display: false
-                }
-            },*/
+                    legend: {
+                    display: false
+                    }
+                },*/
                 elements: {
                     arc: {
                         borderWidth: 0.5
@@ -411,6 +409,46 @@
             }
         });
 
+        // Project status
+        var chartDivDonut = $("#myChartDonut");
+        var projectStatus = <?php echo $data['project_status']; ?>;
+        var labelsDonut = [];
+        var dataDonut = [];
+
+
+        for (var i = 0; i < projectStatus.length; i++) {
+            labelsDonut[i] = projectStatus[i].text;
+            dataDonut[i] = projectStatus[i].values;
+        }
+
+        var myChartDonut = new Chart(chartDivDonut, {
+            type: 'doughnut',
+            data: {
+                labels: labelsDonut,
+                datasets: [{
+                    data: dataDonut,
+                    backgroundColor: ["#e2e263", "#e37fe3", "#c76161", "#e2b564"]
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Project Status'
+                },
+                /*plugins: {
+                    legend: {
+                    display: false
+                    }
+                },*/
+                elements: {
+                    arc: {
+                        borderWidth: 0.5
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        });
 
 
         var absentee_month = <?php echo $data['absentee_month']; ?>;

@@ -188,6 +188,18 @@ class HomeController extends Controller
         $latestProjects = Project::latest()->take(5)->get();
         $latestClients = Client::latest()->take(5)->get();
 
+        // Project status
+        $projectStatuses = Project::select('status', DB::raw('count(*) as count'))->groupBy('status')->get();
+        $statusData = [];
+        foreach ($projectStatuses as $status){
+            $statusData[] = [
+                'text' => $status->status,
+                'values' => $status->count
+            ];
+        }
+
+        $data['project_status'] = json_encode($statusData);
+
         return view('dashboard.dashboardv1',['data'=>$data], compact('totalClients','totalProjects','latestProjects', 'latestClients'));
     }
 }

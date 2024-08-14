@@ -108,6 +108,18 @@ class EmployeeController extends Controller
         //
     }
 
+    public function single($id)
+{
+    $employee = User::find($id); // Assuming you have an Employee model
+
+    if (!$employee) {
+        abort(404, 'Employee not found');
+    }
+
+    return view('backend.employee.single_employee', compact('employee'));
+}
+
+
     public function edit(Request $request, $id)
     {
         $user = User::findOrFail($id);

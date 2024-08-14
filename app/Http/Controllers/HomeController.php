@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Status;
 use App\Models\Department;
 use App\Models\Project;
+use App\Models\Userdetail;
 use Carbon\Carbon;
 use DB;
 
@@ -200,6 +201,32 @@ class HomeController extends Controller
 
         $data['project_status'] = json_encode($statusData);
 
+        // calculate monthly basic salary total
+        for($i=0; $i<=5; $i++){
+            $monthly_salaries[] = Userdetail::whereMonth('joining_date', date("m", strtotime(date('Y-m-01')." -$i months")))->sum('basic_salary');
+        }
+
+        // Prepare the data for the chart
+        for ($j=5, $m=0; $j>=0, $m<=5; $j--, $m++){
+            $result1[$m]['values'] = $monthly_salaries[$j];
+            $result1[$m]['text'] = date("F", strtotime(date('Y-m-01')."-$j months"));
+        }
+
+        $data['monthly_basic_salaries'] = json_encode($result1);
+
+        // Total Payment
+        $data['total_payment'] = DB::table('employee_projects')->sum('payment');
+
         return view('dashboard.dashboardv1',['data'=>$data], compact('totalClients','totalProjects','latestProjects', 'latestClients'));
+    }
+
+    // total Hour
+    public function dashboard(){
+        $totalHours = DB::table('employee_timesheet_hourly')
+        ->select(DB::raw(
+            'SUM(ot1_hrs + ot2_hrs + ot3_hrs + ot4_hrs + ot5_hrs + ot6_hrs + ot7_hrs + ot8_hrs + ot9_hrs + ot10_hrs + ot11_hrs + ot12_hrs + ot13_hrs) as total_hours'
+        ))->value('total_hours');
+
+        return view('dashboard.dashboardv1', compact('totalHours'));
     }
 }

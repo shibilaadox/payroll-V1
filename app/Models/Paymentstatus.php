@@ -9,7 +9,7 @@ class Paymentstatus extends Model
 {
     use HasFactory;
     protected $table = 'payment_status';
-    protected $fillable = ['user_id','status','month'];
+    protected $fillable = ['user_id','status','month','amount'];
 
     public function users()
     {

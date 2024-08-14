@@ -8,7 +8,11 @@ use App\Models\User;
 use App\Models\Status;
 use App\Models\Department;
 use App\Models\Project;
+// <<<<<<< HEAD
 use App\Models\Userdetail;
+// =======
+use App\Models\Paymentstatus;
+// >>>>>>> e70de13ba8604930f64214fc3cc4201854d4bb63
 use Carbon\Carbon;
 use DB;
 
@@ -71,6 +75,22 @@ class HomeController extends Controller
         }
 
         $data['monthly_attendance'] = json_encode($result1);
+
+
+
+        for ($i = 0; $i <= 5; $i++)
+        {
+
+            $monthly_payment[] = Paymentstatus::where('month',date("F", strtotime( date( 'Y-m-01' )." -$i months")))->sum('amount');
+        }
+
+        for ($j=5,$m=0; $j>=0,$m<=5; $j--,$m++)
+        {
+            $result1[$m]['values'] = $monthly_payment[$j];
+            $result1[$m]['text'] = date("F", strtotime( date( 'Y-m-01' )." -$j months"));
+        }
+
+        $data['monthly_payment'] = json_encode($result1);
 
         $date_array = array();
         $absent_count = array();

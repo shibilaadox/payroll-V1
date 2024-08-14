@@ -532,13 +532,15 @@ class PayrollHourlyController extends Controller
         //$array = explode(',', $id);
         foreach ($id as $row)
         {
-            $check = Paymentstatus::where('user_id',$row)->where('month',date('F',strtotime('last month')))->first();
+            $array = explode(',', $row);
+            $check = Paymentstatus::where('user_id',$array[0])->where('month',date('F',strtotime('last month')))->first();
 
             if(empty($check)){
             Paymentstatus::create([
                 'user_id'=> $row,
                 'status'=>1,
                 'month'=>date('F',strtotime('last month')),
+                'amount'=>$array[1]
             ]);
             }
         }

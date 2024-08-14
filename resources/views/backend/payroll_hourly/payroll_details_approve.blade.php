@@ -217,16 +217,17 @@
                                         ?>
 
                                         <tr>
-                                            <th scope="row"><input type="checkbox" name="user_status_id" value="{{$row1->id}}"></th>
+                                            <?php 
+                                            $NET_PAY = $TOTAL_GP - $deductions - $tax - $DEDUCTION;?>
+                                            <th scope="row"><input type="checkbox" name="user_status_id" value="{{$row1->id}},{{$NET_PAY}}"></th>
                                             <th scope="row">{{ $i++ }}</th>
                                             <td><?php echo $row1->firstname." ".$row1->lastname?></td>
                                             <td><?php 
                                             echo $no_8_days;
                                             ?>
                                             </td>
-                                            
+                                           
                                             <td><?php 
-                                            $NET_PAY = $TOTAL_GP - $deductions - $tax - $DEDUCTION;
                                             echo "₱".number_format($NET_PAY,2);
                                             ?></td>
                                             <td>Cheque</td>
@@ -297,6 +298,7 @@
            var id = [];
             $("input:checkbox[name=user_status_id]:checked").each(function() {
                 id.push($(this).val());
+              
             });
         
            $.ajax({

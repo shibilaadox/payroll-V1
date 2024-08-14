@@ -358,6 +358,30 @@
         </div>
 
     </div>
+
+    <div class="row" style="margin-top:3%">
+
+<div class="col-lg-6 col-sm-6">
+    <div class="card mb-4">
+        <div class="card-header d-flex align-items-center border-0 bg-info">
+            <h3 class="w-70 float-left card-title m-0" style="color:white;font-size:15px;">
+                {{ __('Payment--Last 6 Months') }}</h3>
+        </div>
+        <div class="card-body">
+
+            <div class="m-widget3__item">
+
+
+                <canvas id="myChart8" width="450"></canvas>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
 @endsection
 
 @section('page-js')
@@ -393,6 +417,32 @@
             data: {
                 labels: labels1,
                 datasets: [MonthlyBasicSalaries]
+            }
+        });
+
+        var chartDiv8 = $("#myChart8");
+        var monthly_payment = <?php echo $data['monthly_payment']; ?>;
+
+        labels8 = [];
+        data8 = [];
+
+        for (var i = 0; i < monthly_payment.length; i++) {
+            labels8[i] = monthly_payment[i].text;
+            data8[i] = monthly_payment[i].values;
+        }
+
+        var MonthlyPayment = {
+            label: "Payment",
+            data: data8,
+            backgroundColor: ["#0c0c7a"],
+            barThickness: 28,
+        };
+
+        var barChart = new Chart(chartDiv8, {
+            type: 'bar',
+            data: {
+                labels: labels8,
+                datasets: [MonthlyPayment]
             }
         });
 

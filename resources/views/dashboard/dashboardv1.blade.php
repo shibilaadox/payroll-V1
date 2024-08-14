@@ -89,12 +89,14 @@
         </div>
 
         <div class="col-lg-2 col-md-6 col-sm-6">
-            <a href="{{ route('departments.index') }}">
+            <a href="">
                 <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 bg-success">
                     <div class="card-body text-center">
                         <i class="i-Library"></i>
                         <div class="content">
-                            <p class="text-white text-24 line-height-1 mb-2">{{ number_format($data['total_payment']) }}</p>
+                            <p class="text-white text-24 line-height-1 mb-2">
+                                {{ number_format($data['total_payment']) }}
+                            </p>
 
                             <p class="text-white mt-2 mb-0 text-nowrap">Total Payment</p>
                         </div>

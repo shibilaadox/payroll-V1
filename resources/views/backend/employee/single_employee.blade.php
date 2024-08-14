@@ -29,13 +29,13 @@
     <div class="container-fluid">
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item me-5 border">
+          <li class="nav-item me-1 border">
             <a class="nav-link ps-5 pe-5 active" aria-current="page" href="#">Profile</a>
           </li>
-          <li class="nav-item me-5 border" style="border-bottom: 3px solid transparent;">
+          <li class="nav-item me-1 border" style="border-bottom: 3px solid transparent;">
             <a class="nav-link ps-5 pe-5" href="#">Projects</a>
           </li>
-          <li class="nav-item me-5 border">
+          <li class="nav-item me-1 border">
             <a class="nav-link ps-5 pe-5 " href="#">Timesheet</a>
           </li>
         </ul>

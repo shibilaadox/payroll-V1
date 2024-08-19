@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\TimesheetController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
@@ -29,6 +30,7 @@ use App\Http\Controllers\RateController;
 use App\Models\EmployeeProject;
 use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +85,23 @@ Route::resource('employee', EmployeeController::class);
 
 //Department routes
 Route::resource('departments', DepartmentController::class);
+
+// Hourly
+Route::resource('timesheet', TimesheetController::class);
+Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+
+// single employee
+Route::get('/employee/{id}/single', [EmployeeController::class, 'single'])->name('employee.single');
+
+// profile
+Route::get('/profile', function (){
+    return view('backend.employee.profile');
+})->name('profile');
+
+Route::get('/employee/{id}/profile', [EmployeeController::class, 'showProfile'])->name('employee.profile');
+Route::get('/employee/{id}/projects', [EmployeeController::class, 'showProjects'])->name('employee.projects');
+Route::get('/employee/{id}/timesheet', [EmployeeController::class, 'showTimesheet'])->name('employee.timesheet');
+
 
 //Designation routes
 Route::resource('designations', DesignationController::class);

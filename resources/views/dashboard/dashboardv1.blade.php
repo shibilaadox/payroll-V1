@@ -13,7 +13,7 @@
     <div class="row">
         <!-- ICON BG -->
 
-        <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="col-lg-2 col-md-6 col-sm-6">
             <a href="{{ route('employees') }}">
                 <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 bg-warning">
                     <div class="card-body text-center">
@@ -27,7 +27,7 @@
             </a>
         </div>
 
-        <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="col-lg-2 col-md-6 col-sm-6">
             <a href="{{ route('client.index') }}">
                 <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 bg-danger">
                     <div class="card-body text-center">
@@ -43,7 +43,7 @@
             </a>
         </div>
 
-        <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="col-lg-2 col-md-6 col-sm-6">
             <a href="{{ route('projects.index') }}">
                 <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 bg-success">
                     <div class="card-body text-center">
@@ -60,7 +60,7 @@
             </a>
         </div>
 
-        <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="col-lg-2 col-md-6 col-sm-6">
             <a href="{{ route('departments.index') }}">
                 <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 bg-warning">
                     <div class="card-body text-center">
@@ -68,6 +68,37 @@
                         <div class="content">
                             <p class="text-white text-24 line-height-1 mb-2">{{ $data['total_departments'] }}</p>
                             <p class="text-white mt-2 mb-0">Departments</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-lg-2 col-md-6 col-sm-6">
+            <a href="{{ route('timesheet.index') }}">
+                <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 bg-danger">
+                    <div class="card-body text-center">
+                        <i class="i-Library"></i>
+                        <div class="content">
+                            <p class="text-white text-24 line-height-1 mb-2">{{ $totalHours ?? '0' }}</p>
+                            <p class="text-white mt-2 mb-0 text-nowrap">Total Hours</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-lg-2 col-md-6 col-sm-6">
+            <a href="">
+                <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 bg-success">
+                    <div class="card-body text-center">
+                        <i class="i-Library"></i>
+                        <div class="content">
+                            <p class="text-white text-24 line-height-1 mb-2">
+                                {{ number_format($data['total_payment']) }}
+                            </p>
+
+                            <p class="text-white mt-2 mb-0 text-nowrap">Total Payment</p>
                         </div>
                     </div>
                 </div>
@@ -82,7 +113,7 @@
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center border-0 bg-info">
                     <h3 class="w-50 float-left card-title m-0" style="color:white;font-size:15px;">
-                        {{ __('Monthly Attendance Summary') }}</h3>
+                        {{ __('Total Salaries Paid') }}</h3>
 
                 </div>
                 <div class="card-body">
@@ -109,7 +140,7 @@
                             <h3 class="w-50 float-left card-title m-0" style="color:white;font-size:15px;">Latest Projects
                             </h3>
                             <h4 class="card-title mt-1" style="text-align: end;margin-left:35%;"><button type="button"
-                                    class="btn btn-success btn-sm"><a style="color: white"
+                                    class="btn btn-success btn-sm text-nowrap"><a style="color: white"
                                         href="{{ route('projects.index') }}">
                                         View All</a></button></h4>
 
@@ -242,7 +273,7 @@
             </div>
         </div>
 
-        <div class="col-md-6 col-sm-12">
+        <div class="col-lg-6 col-sm-12">
 
             <div class="card mb-4" style="height:370px;">
                 <div class="card-header d-flex align-items-center border-0 bg-info">
@@ -268,8 +299,8 @@
     <div class="card o-hidden mb-4">
         <div class="card-header d-flex align-items-center border-0 bg-info">
             <h3 class="w-50 float-left card-title m-0" style="color:white;font-size:15px;">Clients</h3>
-            <h4 class="card-title mt-1" style="text-align: end;margin-left:35%;"><button type="button"
-                    class="btn btn-success btn-sm"><a style="color: white" href="{{ route('clients.index') }}">
+            <h4 class="card-title mt-1" style="text-align: end;margin-left:45%;"><button type="button"
+                    class="btn btn-success btn-sm text-nowrap"><a style="color: white" href="{{ route('clients.index') }}">
                         View All</a></button></h4>
 
         </div>
@@ -366,18 +397,18 @@
 
     <script type="text/javascript">
         var chartDiv1 = $("#myChart1");
-        var monthly_attendance = <?php echo $data['monthly_attendance']; ?>;
+        var monthly_basic_salaries = <?php echo $data['monthly_basic_salaries']; ?>;
 
         labels1 = [];
         data1 = [];
 
-        for (var i = 0; i < monthly_attendance.length; i++) {
-            labels1[i] = monthly_attendance[i].text;
-            data1[i] = monthly_attendance[i].values;
+        for (var i = 0; i < monthly_basic_salaries.length; i++) {
+            labels1[i] = monthly_basic_salaries[i].text;
+            data1[i] = monthly_basic_salaries[i].values;
         }
 
-        var MonthlyAttendance = {
-            label: "Count",
+        var MonthlyBasicSalaries = {
+            label: "Basic Salary",
             data: data1,
             backgroundColor: ["#0c0c7a"],
             barThickness: 28,
@@ -387,7 +418,7 @@
             type: 'bar',
             data: {
                 labels: labels1,
-                datasets: [MonthlyAttendance]
+                datasets: [MonthlyBasicSalaries]
             }
         });
 

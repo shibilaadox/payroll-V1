@@ -13,6 +13,13 @@ use Illuminate\Support\Carbon;
 
 class TimesheetController extends BaseController
 {
+    // redirect to user_timesheet
+    public function index(){
+        $data = User::all();
+        $timesheet = User::all();
+        return view('backend.users.user_timesheet', compact('data','timesheet'));
+    }
+
     public function updateAttendance(Request $request)
     {
         $user_id = auth('sanctum')->user()->id;
@@ -23,7 +30,7 @@ class TimesheetController extends BaseController
         $status = $request->status;
         $lat = (float)$request->lat;
         $lng = (float)$request->lng;
-        $date = $request->date;
+        $date = $request->date; 
 
         $post_data[] = array(
             'status' => $status,
@@ -243,7 +250,7 @@ class TimesheetController extends BaseController
         } else {
             $datas = Timesheet::select('*')->where('user_id', $user_id)->with('user:id,firstname')->orderBy('id', 'DESC')->get();
         }
-        
+
 
 
         if (!empty($datas)) {

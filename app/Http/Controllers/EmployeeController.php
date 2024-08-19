@@ -12,6 +12,7 @@ use App\Models\Useraddress;
 use App\Models\Userdetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Toaster;
 
@@ -280,5 +281,39 @@ class EmployeeController extends Controller
 
         return $new_employee_code;
     }
+
+    public function showEmployee($id){
+        $employee = User::findOrFail($id);
+        $employee = User::with('userdetails.departments')->findOrFail($id);
+        $employee = User::with('useraddresses')->findOrFail($id);
+        $employee = User::with('projects')->findOrFail($id);
+
+        return view('backend.employee.single_employee', compact('employee'));
+    }
+
+public function showProfile($id)
+{
+    $employee = User::findOrFail($id);
+    return view('backend.employee.single_employee', compact('employee'));
+}
+
+public function showProjects($id)
+{
+    $employee = User::findOrFail($id);
+    // Load projects or whatever logic you need here
+    return view('backend.employee.single_employee', compact('employee'))->with('tab', 'projects');
+}
+
+public function showTimesheet($id)
+{
+    $employee = User::findOrFail($id);
+    // Load timesheet data
+
+    // fetch timesheet data for the selected employee
+    $timesheet = DB::table('employee_projects')->where('user_id', $id)->get();
+
+    return view('backend.employee.single_employee', compact('employee', 'timesheet'))->with('tab', 'timesheet');
+}
+
 
 }

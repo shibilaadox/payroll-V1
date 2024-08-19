@@ -11,17 +11,6 @@
                 <div class="triangle"></div>
             </li>
 
-
-
-            <li class="nav-item {{ request()->is('users/*') ? 'active' : '' }}" data-item="settings">
-                <a class="nav-item-hold" href="">
-                    <i class="nav-icon i-Library" style="color:white"></i>
-                    <span class="nav-text" style="color:white">Settings</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-
-
             <li class="nav-item {{ request()->is('users/*') ? 'active' : '' }}" data-item="organization">
                 <a class="nav-item-hold" href="">
                     <i class="nav-icon i-Library" style="color:white"></i>
@@ -29,6 +18,27 @@
                 </a>
                 <div class="triangle"></div>
             </li>
+
+
+            @can('Clients')
+            <li class="nav-item {{ request()->is('clients/*') ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{route('clients.index')}}">
+                    <i class="nav-icon i-Library" style="color:white"></i>
+                    <span class="nav-text" style="color:white">{{__('Clients')}}</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+            @endcan
+
+            @can('Projects')
+             <li class="nav-item {{ request()->is('projects/*') ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{route('projects.index')}}">
+                    <i class="nav-icon i-Library" style="color:white"></i>
+                    <span class="nav-text" style="color:white">{{__('Projects')}}</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+            @endcan
 
             @can('Payroll')
             <li class="nav-item {{ request()->is('payrolls_hourly/*') ? 'active' : '' }}" data-item="payroll">
@@ -46,26 +56,6 @@
                 <a class="nav-item-hold" href="">
                     <i class="nav-icon i-Library" style="color:white"></i>
                     <span class="nav-text" style="color:white">Leave Tracker</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-            @endcan
-
-            @can('Clients')
-            <li class="nav-item {{ request()->is('clients/*') ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{route('clients.index')}}">
-                    <i class="nav-icon i-Library" style="color:white"></i>
-                    <span class="nav-text" style="color:white">{{__('Clients')}}</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-            @endcan
-
-            @can('Projects')
-             <li class="nav-item {{ request()->is('projects/*') ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{route('projects.index')}}">
-                    <i class="nav-icon i-Library" style="color:white"></i>
-                    <span class="nav-text" style="color:white">{{__('Projects')}}</span>
                 </a>
                 <div class="triangle"></div>
             </li>
@@ -102,6 +92,18 @@
             </li>
 
             @endcan
+
+
+
+            <li class="nav-item {{ request()->is('users/*') ? 'active' : '' }}" data-item="settings">
+                <a class="nav-item-hold" href="">
+                    <i class="nav-icon i-Library" style="color:white"></i>
+                    <span class="nav-text" style="color:white">Settings</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+
+
 
          </ul>
     </div>

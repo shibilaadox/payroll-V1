@@ -4,52 +4,55 @@
         .app-admin-wrap {
             float: right;
         }
+
+        .nav-link:hover {
+            border-bottom: 3px solid gray;
+        }
     </style>
 
     <link rel="stylesheet" href="{{ asset('assets/styles/vendor/datatables.min.css') }}">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-
-<style>
-    .nav-link:hover {
-        border-bottom: 3px solid gray;
-    }
-</style>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 @endsection
 
 @section('main-content')
+    <div class="container">
+        <h3 class="fw-bold ms-3">{{ $employee->firstname }} {{ $employee->lastname }}</h3>
+        <hr>
 
-<h1>{{ $employee->firstname }} {{ $employee->lastname }}</h1>
-<hr>
-
-
-<nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item me-1 border">
-            <a class="nav-link ps-5 pe-5 active" aria-current="page" href="#">Profile</a>
-          </li>
-          <li class="nav-item me-1 border" style="border-bottom: 3px solid transparent;">
-            <a class="nav-link ps-5 pe-5" href="#">Projects</a>
-          </li>
-          <li class="nav-item me-1 border">
-            <a class="nav-link ps-5 pe-5 " href="#">Timesheet</a>
-          </li>
+        <!-- Tab Navigation -->
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link {{ request('tab') == 'profile' || !request()->has('tab') ? 'active' : '' }}"
+                   href="{{ route('employee.profile', ['tab' => 'profile', 'id' => $employee->id]) }}">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request('tab') == 'projects' ? 'active' : '' }}"
+                   href="{{ route('employee.projects', ['tab' => 'projects', 'id' => $employee->id]) }}">Projects</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request('tab') == 'timesheet' ? 'active' : '' }}"
+                   href="{{ route('employee.timesheet', ['tab' => 'timesheet', 'id' => $employee->id]) }}">Timesheet</a>
+            </li>
         </ul>
-      </div>
+
+         <!-- Tab Content -->
+         <div class="tab-content">
+            @if (request('tab') == 'projects')
+                @include('backend.employee.tabs.projects', ['employee' => $employee])
+            @elseif (request('tab') == 'timesheet')
+                @include('backend.employee.tabs.timesheet', ['employee' => $employee])
+            @else
+                @include('backend.employee.tabs.profile', ['employee' => $employee])
+            @endif
+        </div>
     </div>
-
-  </nav>
-
-{{-- <p>Email: {{ $employee->email }}</p>
-     <p>Phone: {{ $employee->phone }}</p>
-     <p>Department: {{ $employee->userdetails->departments->name ?? 'N/A' }}</p> --}}
 
 @endsection
 
 @section('script')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
 @endsection

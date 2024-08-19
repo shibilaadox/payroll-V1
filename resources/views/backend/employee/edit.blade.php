@@ -237,12 +237,7 @@
                                         placeholder="Enter Phone number" required value="{{$user->phone}}">
                                             </div>
 
-                                            <div class="form-group col-md-6">
-                                            <label for="inputEmail1" class="ul-form__label">
-                                                    Whatsapp Number:</label> <span class="text-danger">*</span>
-                                                    <input type="text" class="form-control" name="whatsap_no" id="whatsap_no"
-                                        placeholder="Enter Whatsapp number" required value="{{$user->whatsapp_no}}">
-                                            </div>
+                                           
                                             
                                         </div>
 

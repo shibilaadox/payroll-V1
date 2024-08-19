@@ -61,7 +61,7 @@ class EmployeeController extends Controller
             $user_detail->adhaar_no = $request->aadhaar_no;
             $user_detail->designation = $request->designation_name;
             $user_detail->department = $request->department_name;
-            $user_detail->whatsapp_no = $request->whatsap_no;
+            
             $user_detail->academic_qualification = $request->education_details;
             $user_detail->experience_certificate = $request->work_experience;
             $user_detail->contract_starting_date = $request->contract_starting_date;
@@ -170,7 +170,7 @@ class EmployeeController extends Controller
         $user->adhaar_no = $request->aadhaar_no;
         $user->pan_no = $request->pan_no;
         $user->phone = $request->phone;
-        $user->whatsapp_no = $request->whatsap_no;
+        
         $user->residential_address = $request->present_address;
         $user->residential_city = $request->present_city;
         $user->residential_state = $request->present_state;

@@ -278,6 +278,7 @@
                                                     placeholder="Enter Phone number" required>
                                             </div>
 
+<<<<<<< HEAD
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Whatsapp Number:</label> <span class="text-danger">*</span>
@@ -285,6 +286,10 @@
                                                     id="whatsap_no" placeholder="Enter Whatsapp number" required>
                                             </div>
 
+=======
+
+                                            
+>>>>>>> c9d98cf6985e14f44d081d9299a70caa4e29a57a
                                         </div>
 
                                         <div class="form-row col-md-12">

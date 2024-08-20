@@ -19,7 +19,7 @@
             
             <div class="col-lg-12 mb-3">
                 <!--begin::form 2-->
-                <form action="{{ route('employee.update',$user->id) }}" method="POST" class="needs-validation">
+                <form action="{{ route('employee.update',$user->id) }}" method="POST" class="needs-validation" enctype="multipart/form-data">
                     <input name="_method" type="hidden" value="PATCH">
                     @csrf
                     <div class="col-lg-12">
@@ -124,8 +124,8 @@
                                                     <select class="form-control" name="status" id="status">
                                                     <option value="">Select</option>
                                                     
-                                                    <option value="0" <?php if ($user->status==0) echo "selected"?>>Active</option>
-                                                    <option value="1" <?php if ($user->status==1) echo "selected"?>>Terminated</option>
+                                                    <option value="1" <?php if ($user->status==0) echo "selected"?>>Active</option>
+                                                    <option value="0" <?php if ($user->status==1) echo "selected"?>>Terminated</option>
                                                     <option value="2" <?php if ($user->status==2) echo "selected"?>>Deceased</option>
                                                     <option value="3" <?php if ($user->status==4) echo "selected"?>>Resigned</option>
                                                     
@@ -240,6 +240,17 @@
                                            
                                             
                                         </div>
+                                        <div class="form-group col-md-6">
+
+                        <label for="imgfile" class="col-form-label">{{__('Profile Image')}}</label>
+                        <br>
+                        <input type="file" name='imgfile' id="imgfile" style="display:none">
+                        <input type="button" class="btn btn-sm btn-primary mb-1" onClick="$('#imgfile').click()" value="{{__('select File')}}">
+
+                        <br><br>
+                        <img src='<?php echo $user->profile_photo?>' id='ad_img' style='max-height:100px;max-width:100px;' />
+
+                    </div>
 
                                         <div class="form-row col-md-12">
                                         
@@ -364,6 +375,21 @@
         minYear: 1901,
         //maxYear: parseInt(moment().format('YYYY'),10)
       }); 
+
+      $("#imgfile").change(function() {
+        readURL(this);
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#ad_img').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+   
       
 
       $('input[name="joining_date"]').daterangepicker({

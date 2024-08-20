@@ -21,9 +21,11 @@ class EmployeeController extends Controller
 
     public function index()
     {
-
+        
         $data['users'] = User::with('userdetails')->where('user_type','Employee')->where('status',1)->get();
+      
         return view('backend.employee.index', ['data' => $data]);
+       
     }
 
     public function create()
@@ -40,6 +42,20 @@ class EmployeeController extends Controller
 
         if (User::where('email', $request->email)->first() == null) {
             $user =  new User;
+            if($request->file('imgfile'))
+            {
+           
+                $image = $request->file('imgfile');
+                $img_name = url('')."/uploads/".date('mdYHis').$image->getClientOriginalName();
+                $destinationPath = base_path().'/public/uploads';
+                $image->move($destinationPath, $img_name);
+            }
+         
+            else
+            {
+                $img_name = url('')."/images/Capture.png";
+            }
+
             $user->employee_code = $request->employee_code;
             $user->name = $request->first_name." ".$request->last_name;
             $user->email = $request->email;
@@ -51,9 +67,12 @@ class EmployeeController extends Controller
             $user->firstname = $request->first_name;
             $user->lastname = $request->last_name;
             $user->status = $request->status;
+            $user->profile_photo = $img_name;
 
             $user->save();
             $id = $user->id;
+
+            
 
 
             $user_detail =  new Userdetail;
@@ -170,6 +189,15 @@ class EmployeeController extends Controller
         $user->adhaar_no = $request->aadhaar_no;
         $user->pan_no = $request->pan_no;
         $user->phone = $request->phone;
+        if($request->file('imgfile'))
+        {
+           
+                $image = $request->file('imgfile');
+                $img_name = url('')."/uploads/".date('mdYHis').$image->getClientOriginalName();
+                $destinationPath = base_path().'/public/uploads';
+                $image->move($destinationPath, $img_name);
+                $user->profile_photo = $img_name;
+        } 
         
         $user->residential_address = $request->present_address;
         $user->residential_city = $request->present_city;
@@ -252,6 +280,15 @@ class EmployeeController extends Controller
         $users = User::where('status',0)->with('userdetails')->where('user_type','Employee')->get();
 
         return view('backend.employee.present_employees', compact('users'));
+    }
+    
+    public function get_employee()
+    {
+        $name = $_GET['name'];
+        $data['users'] = User::with('userdetails')->where('name', 'like', '%'.$name.'%')->orWhere('firstname', 'like', '%'.$name.'%')->orWhere('lastname', 'like', '%'.$name.'%')->where('user_type','Employee')->where('status',1)->get();
+      
+        return view('backend.employee.search_result', ['data' => $data]);
+
     }
 
     public function get_employee_code()

@@ -19,7 +19,7 @@
                     <div class="card-body text-center">
                         <i class="i-Add-User"></i>
                         <div class="content">
-                            <p class="text-white text-24 line-height-1 mb-2">{{ $data['total_employees'] }}</p>
+                            <p class="text-white text-20 line-height-1 mb-2">{{ $data['total_employees'] }}</p>
                             <p class="text-white mt-2 mb-0">Employees</p>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                         <div class="content">
                             {{-- <p class="text-white text-24 line-height-1 mb-2">{{$data['total_absent']}}</p>
                                 <p class="text-white mt-2 mb-0">Absent</p> --}}
-                            <p class="text-white text-24 line-height-1 mb-2">{{ $totalClients }}</p>
+                            <p class="text-white text-20 line-height-1 mb-2">{{ $totalClients }}</p>
                             <p class="text-white mt-2 mb-0 text-nowrap">Clients</p>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                             {{-- <p class="text-white text-24 line-height-1 mb-2">{{$data['total_present']}}</p>
                                 <p class="text-white mt-2 mb-0">Present</p> --}}
 
-                            <p class="text-white text-24 line-height-1 mb-2">{{ $totalProjects }}</p>
+                            <p class="text-white text-20 line-height-1 mb-2">{{ $totalProjects }}</p>
                             <p class="text-white mt-2 mb-0 text-nowrap">Projects</p>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                     <div class="card-body text-center">
                         <i class="i-Library"></i>
                         <div class="content">
-                            <p class="text-white text-24 line-height-1 mb-2">{{ $data['total_departments'] }}</p>
+                            <p class="text-white text-20 line-height-1 mb-2">{{ $data['total_departments'] }}</p>
                             <p class="text-white mt-2 mb-0">Departments</p>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                     <div class="card-body text-center">
                         <i class="i-Library"></i>
                         <div class="content">
-                            <p class="text-white text-24 line-height-1 mb-2">{{ $totalHours ?? '0' }}</p>
+                            <p class="text-white text-20 line-height-1 mb-2">{{ $totalHours ?? '0' }}</p>
                             <p class="text-white mt-2 mb-0 text-nowrap">Total Hours</p>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                     <div class="card-body text-center">
                         <i class="i-Library"></i>
                         <div class="content">
-                            <p class="text-white text-24 line-height-1 mb-2">
+                            <p class="text-white text-20 line-height-1 mb-2">
                                 {{ number_format($data['total_payment']) }}
                             </p>
 

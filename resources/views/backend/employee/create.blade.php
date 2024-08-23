@@ -239,7 +239,8 @@
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Tax Identification No.:</label> <span class="text-danger">*</span>
                                                 <input type="text" class="form-control" id="tax_identification_no"
-                                                    placeholder="Enter Tax Identification No" name="tax_identification_no">
+                                                    placeholder="Enter Tax Identification No"
+                                                    name="tax_identification_no">
                                             </div>
 
                                             <div class="form-group col-md-6">
@@ -256,7 +257,8 @@
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     License expiration date:</label> <span class="text-danger">*</span>
                                                 <input type="text" class="form-control" id="license_expiration_date"
-                                                    placeholder="Enter License Expiration Date No" name="license_expiration_date">
+                                                    placeholder="Enter License Expiration Date No"
+                                                    name="license_expiration_date">
 
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Bank and Account Number:</label> <span class="text-danger">*</span>
@@ -387,7 +389,6 @@
                                                     <th scope="col" style="font-size:12px;">Degree/Diploma</th>
                                                     <th scope="col" style="font-size:12px;">Specialization</th>
                                                     <th scope="col" style="font-size:12px;">Date of Completion </th>
-
                                                 </tr>
                                             </thead>
 
@@ -409,7 +410,6 @@
                                                         <input type="text" class="form-control date_of_completion"
                                                             name="date_of_completion[]" id="date_of_completion">
                                                     </td>
-
                                                     <td>
                                                         <button type="button"
                                                             class="btn btn-sm btn-default btn-icon m-1 attr"
@@ -506,16 +506,13 @@
                                         </div>
 
 
-
-
-
                                         <div style="margin-bottom:20px;;margin-top:20px;">
                                             <h6 style="font-size:15px;" class="card-title"><b>Salary Details</b></h6>
                                         </div>
 
                                         <div class="form-row col-md-12">
 
-                                            <div class="form-group col-md-3">
+                                            <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Annual CTC:</label>
                                                 <div class="input-group mb-3">
@@ -526,13 +523,76 @@
                                                     <input type="text" class="form-control" name="annual_ctc"
                                                         id="annual_ctc">&nbsp;&nbsp;&nbsp;per year
                                                 </div>
+
+
                                             </div>
 
+                                            <div class="form-group col-md-6 ms-5">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    Pay Type:</label>
+                                                <select class="form-control" name="pay_type" id="pay_type">
+                                                    <option value="">Select a Pay type</option>
+                                                    <option>Daily Rate/Weekly Pay</option>
+                                                    <option>Daily Rate/Monthly Pay</option>
+                                                    <option>Monthly Rate/Weekly Pay</option>
+                                                    <option>Monthly Rate/Monthly Pay</option>
+                                                    <option>Monthly Rate/Executive</option>
+                                                    <option>Reliever/Daily Rate</option>
+                                                    <option>Reliever/Monthly Rate</option>
+
+                                                </select>
+                                            </div>
+
+
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    Regular Rate:</label>
+                                                <input type="text" class="form-control" id="regular_rate"
+                                                    placeholder="Enter Regular rate" name="regular_rate">
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    supervisor incentive:</label>
+                                                <input type="text" class="form-control" id="supervisor_incentive"
+                                                    placeholder="Enter Supervisor Incentive" name="supervisor_incentive">
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div style="margin-bottom:20px;;margin-top:20px;">
+                                            <h6 style="font-size:15px;" class="card-title"><b>Gross Income</b></h6>
+                                        </div>
+
+                                        <div class="form-row col-md-12">
+
+                                            <div class="form-group col-md-4">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    Transportation allowance:</label>
+                                                <input type="text" class="form-control" id="transportation"
+                                                    placeholder="Enter Transportation allowance" name="transportation">
+                                            </div>
+
+                                            <div class="form-group col-md-4">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    Cost of Living Allowance:</label>
+                                                <input type="text" class="form-control" id="cost_of_living"
+                                                    placeholder="Enter Cost of Living Allowance" name="cost_of_living">
+                                            </div>
+
+                                            <div class="form-group col-md-4">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    Meal Allowance:</label>
+                                                <input type="text" class="form-control" id="meal_allowance"
+                                                    placeholder="Enter Meal Allowance" name="meal_allowance">
+                                            </div>
 
 
                                         </div>
 
-                                        <table class="table">
+                                        <table class="table mt-5">
                                             <thead>
                                                 <tr>
                                                     <th scope="col" style="font-size:12px;">SALARY COMPONENTS</th>

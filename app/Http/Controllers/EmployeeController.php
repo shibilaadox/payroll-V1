@@ -21,11 +21,11 @@ class EmployeeController extends Controller
 
     public function index()
     {
-        
+
         $data['users'] = User::with('userdetails')->where('user_type','Employee')->where('status',1)->get();
-      
+
         return view('backend.employee.index', ['data' => $data]);
-       
+
     }
 
     public function create()
@@ -44,13 +44,13 @@ class EmployeeController extends Controller
             $user =  new User;
             if($request->file('imgfile'))
             {
-           
+
                 $image = $request->file('imgfile');
                 $img_name = url('')."/uploads/".date('mdYHis').$image->getClientOriginalName();
                 $destinationPath = base_path().'/public/uploads';
                 $image->move($destinationPath, $img_name);
             }
-         
+
             else
             {
                 $img_name = url('')."/images/Capture.png";
@@ -72,7 +72,7 @@ class EmployeeController extends Controller
             $user->save();
             $id = $user->id;
 
-            
+
 
 
             $user_detail =  new Userdetail;
@@ -80,7 +80,7 @@ class EmployeeController extends Controller
             $user_detail->adhaar_no = $request->aadhaar_no;
             $user_detail->designation = $request->designation_name;
             $user_detail->department = $request->department_name;
-            
+
             $user_detail->academic_qualification = $request->education_details;
             $user_detail->experience_certificate = $request->work_experience;
             $user_detail->contract_starting_date = $request->contract_starting_date;
@@ -92,6 +92,9 @@ class EmployeeController extends Controller
             $user_detail->pan_no = $request->pan_no;
             $user_detail->emergency_no = $request->emergency;
             $user_detail->basic_salary = $request->monthly_basic;
+            $user_detail->annual_ctc_details = $request->annual_ctc;
+            $user_detail->salary_pay_type = $request->pay_type;
+            $user_detail->regular_rate_for = $request->regular_rate;
             $user_detail->house_rent_allowance = $request->monthly_house_rent;
             $user_detail->conveyance_allowance = $request->monthly_conveyance;
             $user_detail->fixed_allowance = $request->monthly_fixed;
@@ -191,14 +194,14 @@ class EmployeeController extends Controller
         $user->phone = $request->phone;
         if($request->file('imgfile'))
         {
-           
+
                 $image = $request->file('imgfile');
                 $img_name = url('')."/uploads/".date('mdYHis').$image->getClientOriginalName();
                 $destinationPath = base_path().'/public/uploads';
                 $image->move($destinationPath, $img_name);
                 $user->profile_photo = $img_name;
-        } 
-        
+        }
+
         $user->residential_address = $request->present_address;
         $user->residential_city = $request->present_city;
         $user->residential_state = $request->present_state;
@@ -281,12 +284,12 @@ class EmployeeController extends Controller
 
         return view('backend.employee.present_employees', compact('users'));
     }
-    
+
     public function get_employee()
     {
         $name = $_GET['name'];
         $data['users'] = User::with('userdetails')->where('name', 'like', '%'.$name.'%')->orWhere('firstname', 'like', '%'.$name.'%')->orWhere('lastname', 'like', '%'.$name.'%')->where('user_type','Employee')->where('status',1)->get();
-      
+
         return view('backend.employee.search_result', ['data' => $data]);
 
     }

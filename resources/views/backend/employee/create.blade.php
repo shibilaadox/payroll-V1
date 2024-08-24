@@ -15,7 +15,7 @@
 
             <div class="col-lg-12 mb-3">
 
-                <form action="{{ route('employee.store') }}" method="POST" class="needs-validation">
+                <form action="{{ route('employee.store') }}" method="POST" class="needs-validation"  enctype="multipart/form-data">
                     @csrf
                     <div class="col-lg-12">
                         <div class="row">
@@ -204,6 +204,19 @@
                                                 </select>
                                             </div>
 
+                                            <div class="form-group col-md-6">
+
+                        <label for="imgfile" class="col-form-label">{{__('Profile Image')}}</label>
+                        <br>
+                        <input type="file" name='imgfile' id="imgfile" style="display:none">
+                        <input type="button" class="btn btn-sm btn-primary mb-1" onClick="$('#imgfile').click()" value="{{__('select File')}}">
+
+                        <br><br>
+                        <img src='' id='ad_img' style='max-height:100px;max-width:100px;' />
+
+                    </div>
+
+
 
                                         </div>
 
@@ -278,12 +291,7 @@
                                                 <input type="text" class="form-control" name="phone" id="phone"
                                                     placeholder="Enter Phone number" required>
                                             </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="inputEmail1" class="ul-form__label">
-                                                    Whatsapp Number:</label> <span class="text-danger">*</span>
-                                                <input type="text" class="form-control" name="whatsap_no"
-                                                    id="whatsap_no" placeholder="Enter Whatsapp number" required>
-                                            </div>
+                                            
 
                                         </div>
 
@@ -323,6 +331,8 @@
                                             </div>
 
                                         </div>
+
+                                        
 
 
                                         <div style="margin-bottom:20px;;margin-top:20px;">
@@ -1047,5 +1057,20 @@
             $("#annual_cost").append("<b>&#x20B9; " + annual_salary + "<b>");
 
         }
+
+        $("#imgfile").change(function() {
+        readURL(this);
+        });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#ad_img').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
     </script>
 @endsection

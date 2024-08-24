@@ -231,7 +231,7 @@
                                                     placeholder="Enter PhilHealth No" name="philhealth_no">
 
                                                 <label for="inputEmail1" class="ul-form__label">
-                                                    HMDF:</label> <span class="text-danger">*</span>
+                                                    HDMF:</label> <span class="text-danger">*</span>
                                                 <input type="text" class="form-control" id="hdmf"
                                                     placeholder="Enter HDMF" name="hdmf">
 

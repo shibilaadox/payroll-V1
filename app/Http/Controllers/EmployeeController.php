@@ -80,6 +80,13 @@ class EmployeeController extends Controller
             $user_detail->adhaar_no = $request->aadhaar_no;
             $user_detail->designation = $request->designation_name;
             $user_detail->department = $request->department_name;
+            $user_detail->sss_number = $request->sss_no;
+            $user_detail->license_number = $request->license_no;
+            $user_detail->philHealth_number = $request->philhealth_no;
+            $user_detail->license_exp_date = $request->license_expiration_date;
+            $user_detail->hdmf_number = $request->hdmf;
+            $user_detail->bank_and_account_number = $request->bank_and_account_no;
+            $user_detail->tax_identification_number = $request->tax_identification_no;
 
             $user_detail->academic_qualification = $request->education_details;
             $user_detail->experience_certificate = $request->work_experience;
@@ -192,6 +199,15 @@ class EmployeeController extends Controller
         $user->adhaar_no = $request->aadhaar_no;
         $user->pan_no = $request->pan_no;
         $user->phone = $request->phone;
+
+        $user->sss_number = $request->sss_no;
+        $user->license_number = $request->license_no;
+        $user->philHealth_number = $request->philhealth_no;
+        $user->license_exp_date = $request->license_expiration_date;
+        $user->hdmf_number = $request->hdmf;
+        $user->bank_and_account_number = $request->bank_and_account_no;
+        $user->tax_identification_number = $request->tax_identification_no;
+        
         if($request->file('imgfile'))
         {
 

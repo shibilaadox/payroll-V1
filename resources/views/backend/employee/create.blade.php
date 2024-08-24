@@ -556,7 +556,7 @@
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Regular Rate:</label>
                                                 <select class="form-control" name="regular_rate" id="regular_rate">
-                                                    <option value="">Select a Pay type</option>
+                                                    <option value="">Select a Regular Rate</option>
                                                     <option>supervisor incentive</option>
                                                     <option>Transportation allowance</option>
                                                     <option>Cost of Living Allowance</option>

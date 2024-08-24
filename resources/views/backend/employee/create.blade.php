@@ -62,7 +62,6 @@
                                                 <input type="text" class="form-control" name="email" id="email"
                                                     placeholder="Enter Email" required>
                                             </div>
-
                                         </div>
 
                                         <div style="margin-bottom:20px;margin-top:20px;">
@@ -514,7 +513,7 @@
 
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
-                                                    Annual CTC:</label>
+                                                     Annual CTC:</label>
                                                 <div class="input-group mb-3">
 
                                                     <div class="input-group-append">
@@ -539,7 +538,6 @@
                                                     <option>Monthly Rate/Executive</option>
                                                     <option>Reliever/Daily Rate</option>
                                                     <option>Reliever/Monthly Rate</option>
-
                                                 </select>
                                             </div>
 
@@ -547,49 +545,14 @@
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Regular Rate:</label>
-                                                <input type="text" class="form-control" id="regular_rate"
-                                                    placeholder="Enter Regular rate" name="regular_rate">
+                                                <select class="form-control" name="regular_rate" id="regular_rate">
+                                                    <option value="">Select a Pay type</option>
+                                                    <option>supervisor incentive</option>
+                                                    <option>Transportation allowance</option>
+                                                    <option>Cost of Living Allowance</option>
+                                                    <option>Daily Meal Allowance</option>
+                                                </select>
                                             </div>
-
-                                            <div class="form-group col-md-6">
-                                                <label for="inputEmail1" class="ul-form__label">
-                                                    supervisor incentive:</label>
-                                                <input type="text" class="form-control" id="supervisor_incentive"
-                                                    placeholder="Enter Supervisor Incentive" name="supervisor_incentive">
-                                            </div>
-                                        </div>
-
-
-
-
-                                        <div style="margin-bottom:20px;;margin-top:20px;">
-                                            <h6 style="font-size:15px;" class="card-title"><b>Gross Income</b></h6>
-                                        </div>
-
-                                        <div class="form-row col-md-12">
-
-                                            <div class="form-group col-md-4">
-                                                <label for="inputEmail1" class="ul-form__label">
-                                                    Transportation allowance:</label>
-                                                <input type="text" class="form-control" id="transportation"
-                                                    placeholder="Enter Transportation allowance" name="transportation">
-                                            </div>
-
-                                            <div class="form-group col-md-4">
-                                                <label for="inputEmail1" class="ul-form__label">
-                                                    Cost of Living Allowance:</label>
-                                                <input type="text" class="form-control" id="cost_of_living"
-                                                    placeholder="Enter Cost of Living Allowance" name="cost_of_living">
-                                            </div>
-
-                                            <div class="form-group col-md-4">
-                                                <label for="inputEmail1" class="ul-form__label">
-                                                    Meal Allowance:</label>
-                                                <input type="text" class="form-control" id="meal_allowance"
-                                                    placeholder="Enter Meal Allowance" name="meal_allowance">
-                                            </div>
-
-
                                         </div>
 
                                         <table class="table mt-5">

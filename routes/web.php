@@ -177,6 +177,7 @@ Route::get('update_status', [App\Http\Controllers\EmployeeController::class, 'up
 Route::get('leave_update_status', [App\Http\Controllers\LeaveController::class, 'leave_update_status'])->name('leaves.leave_update_status');
 
 Route::get('get_employee_code', [App\Http\Controllers\EmployeeController::class, 'get_employee_code'])->name('users.get_employee_code');
+Route::get('get_employee', [App\Http\Controllers\EmployeeController::class, 'get_employee'])->name('users.get_employee');
 
 //Payroll routes
 Route::resource('payrolls', PayrollController::class);

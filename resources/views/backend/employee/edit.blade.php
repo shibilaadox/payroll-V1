@@ -238,6 +238,21 @@
                                                 </select>
                                             </div>
 
+                                            <div class="form-group col-md-6">
+
+                                            <label for="imgfile"
+                                                class="col-form-label">{{ __('Profile Image') }}</label>
+                                            <br>
+                                            <input type="file" name='imgfile' id="imgfile" style="display:none">
+                                            <input type="button" class="btn btn-sm btn-primary mb-1"
+                                                onClick="$('#imgfile').click()" value="{{ __('select File') }}">
+
+                                            <br><br>
+                                            <img src='<?php echo $user->profile_photo; ?>' id='ad_img'
+                                                style='max-height:100px;max-width:100px;' />
+
+                                        </div>
+
 
                                         </div>
 
@@ -282,20 +297,7 @@
 
 
                                         </div>
-                                        <div class="form-group col-md-6">
-
-                                            <label for="imgfile"
-                                                class="col-form-label">{{ __('Profile Image') }}</label>
-                                            <br>
-                                            <input type="file" name='imgfile' id="imgfile" style="display:none">
-                                            <input type="button" class="btn btn-sm btn-primary mb-1"
-                                                onClick="$('#imgfile').click()" value="{{ __('select File') }}">
-
-                                            <br><br>
-                                            <img src='<?php echo $user->profile_photo; ?>' id='ad_img'
-                                                style='max-height:100px;max-width:100px;' />
-
-                                        </div>
+                                        
 
                                         <div class="form-row col-md-12">
 

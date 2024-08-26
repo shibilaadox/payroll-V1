@@ -141,10 +141,10 @@
                                                 <select class="form-control" name="status" id="status">
                                                     <option value="">Select</option>
 
-                                                    <option value="1" <?php if ($user->status == 0) {
+                                                    <option value="1" <?php if ($user->status == 1) {
                                                         echo 'selected';
                                                     } ?>>Active</option>
-                                                    <option value="0" <?php if ($user->status == 1) {
+                                                    <option value="0" <?php if ($user->status == 0) {
                                                         echo 'selected';
                                                     } ?>>Terminated</option>
                                                     <option value="2" <?php if ($user->status == 2) {

@@ -291,7 +291,7 @@
                                                 <input type="text" class="form-control" name="phone" id="phone"
                                                     placeholder="Enter Phone number" required>
                                             </div>
-                                            
+
 
                                         </div>
 
@@ -332,7 +332,7 @@
 
                                         </div>
 
-                                        
+
 
 
                                         <div style="margin-bottom:20px;;margin-top:20px;">

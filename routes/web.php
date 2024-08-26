@@ -93,6 +93,10 @@ Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard'
 // single employee
 Route::get('/employee/{id}/single', [EmployeeController::class, 'single'])->name('employee.single');
 
+// store identity information
+Route::post('/employee/store', [EmployeeController::class, 'store'])->name('employee.store');
+
+
 // profile
 Route::get('/profile', function (){
     return view('backend.employee.profile');

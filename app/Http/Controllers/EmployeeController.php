@@ -40,6 +40,48 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
 
+
+        // Validate incoming request
+    $request->validate([
+        'email' => 'required|email|unique:users,email',
+        'employee_code' => 'required|string|max:255',
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'phone' => 'required|string|max:15',
+        'job_role' => 'required|string|max:255',
+        'gender' => 'required|string|max:10',
+        'dob' => 'required|date',
+        'status' => 'required|boolean',
+        'aadhaar_no' => 'required|string|max:255',
+        'designation_name' => 'required|string|max:255',
+        'department_name' => 'required|string|max:255',
+        'sss_no' => 'required|string|max:255',
+        'license_no' => 'required|string|max:255',
+        'philhealth_no' => 'required|string|max:255',
+        'license_expiration_date' => 'required|date',
+        'hdmf' => 'required|string|max:255',
+        'bank_and_account_no' => 'required|string|max:255',
+        'tax_identification_no' => 'required|string|max:255',
+        'pan_no' => 'required|string|max:255',
+        'emergency' => 'required|string|max:15',
+        'monthly_basic' => 'required|numeric',
+        'annual_ctc' => 'required|string',
+        'pay_type' => 'required|string|max:255',
+        'regular_rate' => 'required|numeric',
+        'monthly_house_rent' => 'required|numeric',
+        'monthly_conveyance' => 'required|numeric',
+        'monthly_fixed' => 'required|numeric',
+        'location_name' => 'required|string|max:255',
+        'basic_salary' => 'required|numeric',
+        'annual_ctc_details' => 'required|string',
+        'salary_pay_type' => 'required|string',
+        'regular_rate_for' => 'required|numeric',
+        'house_rent_allowance' => 'required|numeric',
+        'conveyance_allowance' => 'required|numeric',
+        'fixed_allowance' => 'required|numeric',
+    ]);
+
+
         if (User::where('email', $request->email)->first() == null) {
             $user =  new User;
             if($request->file('imgfile'))
@@ -131,6 +173,9 @@ class EmployeeController extends Controller
             toast('Sorry Email is already used!', 'error');
             return back();
         }
+
+        // return redirect()->route('employee.index');
+
     }
 
     public function show(User $user)
@@ -207,7 +252,7 @@ class EmployeeController extends Controller
         $user->hdmf_number = $request->hdmf;
         $user->bank_and_account_number = $request->bank_and_account_no;
         $user->tax_identification_number = $request->tax_identification_no;
-        
+
         if($request->file('imgfile'))
         {
 

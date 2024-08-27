@@ -32,20 +32,7 @@ class User extends Authenticatable
         'firstname',
         'latname',
         'profile_photo',
-        'status',
-        'aadhaar_no',
-        'sss_no',
-        'philhealth_no',
-        'hdmf',
-        'tax_identification_no',
-        'pan_no',
-        'license_no',
-        'license_expiration_date',
-        'bank_and_account_no',
-        'annual_ctc',
-        'pay_type',
-        'regular_rate',
-        
+        'status'
     ];
 
     /**
@@ -141,7 +128,7 @@ class User extends Authenticatable
     }
 
     public function projects()
-{
-    return $this->hasMany(Project::class, 'id');  // Ensure 'user_id' is the correct foreign key
-}
+    {
+        return $this->hasMany(Project::class, 'id');  // Ensure 'user_id' is the correct foreign key
+    }
 }

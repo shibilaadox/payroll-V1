@@ -10,7 +10,7 @@ class Userdetail extends Model
     use HasFactory;
     
     protected $table = 'userdetails';
-    protected $fillable = ['user_id','adhaar_no','designation','department','whatsapp_no','academic_qualification','experience_certificate','contract_starting_date','contract_ending_date','reason_for_leaving','blood_group','marital_status','joining_date','pan_no','emergency_no','basic_salary','house_rent_allowance','conveyance_allowance','fixed_allowance','resigned_date','location'];
+    protected $fillable = ['user_id','adhaar_no','designation','department','whatsapp_no','academic_qualification','experience_certificate','contract_starting_date','contract_ending_date','reason_for_leaving','blood_group','marital_status','joining_date','pan_no','emergency_no','basic_salary','house_rent_allowance','conveyance_allowance','fixed_allowance','resigned_date','location','sss_number','licene_number','philHealth_number','license_exp_date','hdmf_number','bank_and_account_number','tax_identification_number','salary_pay_type','regular_rate_for'];
 
     
     public function departments()

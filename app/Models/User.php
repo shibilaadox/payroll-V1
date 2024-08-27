@@ -32,6 +32,7 @@ class User extends Authenticatable
         'firstname',
         'latname',
         'profile_photo',
+<<<<<<< HEAD
         'status',
         'aadhaar_no',
         'sss_no',
@@ -50,6 +51,9 @@ class User extends Authenticatable
         'transportation_allowance',
         'supervisor_incentive',
 
+=======
+        'status'
+>>>>>>> 1c5bbe0dbc7b7a9c8cbaa34693b733262c6bba77
     ];
 
     /**
@@ -145,7 +149,7 @@ class User extends Authenticatable
     }
 
     public function projects()
-{
-    return $this->hasMany(Project::class, 'id');  // Ensure 'user_id' is the correct foreign key
-}
+    {
+        return $this->hasMany(Project::class, 'id');  // Ensure 'user_id' is the correct foreign key
+    }
 }

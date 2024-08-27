@@ -128,8 +128,8 @@
                                                 <select class="form-control" name="status" id="status">
                                                     <option value="">Select</option>
 
-                                                    <option value="0">Active</option>
-                                                    <option value="1">Terminated</option>
+                                                    <option value="1">Active</option>
+                                                    <option value="0">Terminated</option>
                                                     <option value="2">Deceased</option>
                                                     <option value="3">Resigned</option>
 

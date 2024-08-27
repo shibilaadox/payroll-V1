@@ -110,7 +110,8 @@ class EmployeeController extends Controller
             $user_detail->house_rent_allowance = $request->monthly_house_rent;
             $user_detail->conveyance_allowance = $request->monthly_conveyance;
             $user_detail->fixed_allowance = $request->monthly_fixed;
-            $user_detail->location = $request->location_name;
+
+
 
             $user_detail->save();
 

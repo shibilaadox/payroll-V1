@@ -32,7 +32,28 @@ class User extends Authenticatable
         'firstname',
         'latname',
         'profile_photo',
+<<<<<<< HEAD
+        'status',
+        'aadhaar_no',
+        'sss_no',
+        'philhealth_no',
+        'hdmf',
+        'tax_identification_no',
+        'pan_no',
+        'license_no',
+        'license_expiration_date',
+        'bank_and_account_no',
+        'annual_ctc',
+        'pay_type',
+        'regular_rate',
+        'meal_allowance',
+        'living_allowance',
+        'transportation_allowance',
+        'supervisor_incentive',
+
+=======
         'status'
+>>>>>>> 1c5bbe0dbc7b7a9c8cbaa34693b733262c6bba77
     ];
 
     /**

@@ -533,7 +533,6 @@
                                                         id="annual_ctc">
                                                 </div>
 
-
                                             </div>
 
                                             <div class="form-group col-md-6 ms-5">
@@ -552,7 +551,7 @@
                                             </div>
 
 
-                                            <div class="form-group col-md-6">
+                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Regular Rate:</label>
                                                 <!--<select class="form-control" name="regular_rate" id="regular_rate">

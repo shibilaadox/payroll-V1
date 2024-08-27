@@ -27,7 +27,12 @@ class EmployeeProject extends Model
         'bank_and_account_no',
         'annual_ctc',
         'pay_type',
-        'regular_rate'
+        'regular_rate',
+        'meal_allowance',
+        'living_allowance',
+        'transportation_allowance',
+        'supervisor_incentive',
+
     ];
 
     public function user()

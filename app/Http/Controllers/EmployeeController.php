@@ -144,10 +144,15 @@ class EmployeeController extends Controller
             $user_detail->annual_ctc_details = $request->annual_ctc;
             $user_detail->salary_pay_type = $request->pay_type;
             $user_detail->regular_rate_for = $request->regular_rate;
+            $user_detail->daily_meal_allowance = $request->meal_allowance;
+            $user_detail->cost_of_living_allowance = $request->living_allowance;
+            $user_detail->transportation_allowance = $request->transportation_allowance;
+            $user_detail->supervisor_incentive = $request->supervisor_incentive;
             $user_detail->house_rent_allowance = $request->monthly_house_rent;
             $user_detail->conveyance_allowance = $request->monthly_conveyance;
             $user_detail->fixed_allowance = $request->monthly_fixed;
-            $user_detail->location = $request->location_name;
+
+
 
             $user_detail->save();
 

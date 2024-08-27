@@ -45,7 +45,11 @@ class User extends Authenticatable
         'annual_ctc',
         'pay_type',
         'regular_rate',
-        
+        'meal_allowance',
+        'living_allowance',
+        'transportation_allowance',
+        'supervisor_incentive',
+
     ];
 
     /**

@@ -32,7 +32,6 @@ class User extends Authenticatable
         'firstname',
         'latname',
         'profile_photo',
-<<<<<<< HEAD
         'status',
         'aadhaar_no',
         'sss_no',
@@ -50,10 +49,7 @@ class User extends Authenticatable
         'living_allowance',
         'transportation_allowance',
         'supervisor_incentive',
-
-=======
         'status'
->>>>>>> 1c5bbe0dbc7b7a9c8cbaa34693b733262c6bba77
     ];
 
     /**

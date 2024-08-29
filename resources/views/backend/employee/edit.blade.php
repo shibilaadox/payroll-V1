@@ -269,6 +269,27 @@
                                                 <input type="text" class="form-control" id="aadhaar_no"
                                                     placeholder="Enter Aadhaar No" name="aadhaar_no"
                                                     value="{{ $user->adhaar_no }}">
+
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    SSS No.:</label> <span class="text-danger">*</span>
+                                                <input type="text" class="form-control" id="sss_no"
+                                                    placeholder="Enter SSS No" name="sss_no" value="{{ $user->sss_number }}">
+
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    PhilHealth No.:</label> <span class="text-danger">*</span>
+                                                <input type="text" class="form-control" id="philhealth_no"
+                                                    placeholder="Enter PhilHealth No" name="philhealth_no" value="{{ $user->philHealth_number }}">
+
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    HDMF:</label> <span class="text-danger">*</span>
+                                                <input type="text" class="form-control" id="hdmf"
+                                                    placeholder="Enter HDMF" name="hdmf" value="{{ $user->hdmf_number }}">
+
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    Tax Identification No.:</label> <span class="text-danger">*</span>
+                                                <input type="text" class="form-control" id="tax_identification_no"
+                                                    placeholder="Enter Tax Identification No"
+                                                    name="tax_identification_no" value="{{ $user->tax_identification_number }}">
                                             </div>
 
                                             <div class="form-group col-md-6">
@@ -277,6 +298,22 @@
                                                 <input type="text" class="form-control" id="pan_no"
                                                     placeholder="Enter Pan No" name="pan_no"
                                                     value="{{ $user->pan_no }}">
+
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    License No.:</label> <span class="text-danger">*</span>
+                                                <input type="text" class="form-control" id="license_no"
+                                                    placeholder="Enter License No" name="license_no" value="{{ $user->license_number }}">
+
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    License expiration date:</label> <span class="text-danger">*</span>
+                                                <input type="text" class="form-control" id="license_expiration_date"
+                                                    placeholder="Enter License Expiration Date No"
+                                                    name="license_expiration_date" value="{{ $user->license_exp_date }}">
+
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    Bank and Account Number:</label> <span class="text-danger">*</span>
+                                                <input type="text" class="form-control" id="bank_and_account_no"
+                                                    placeholder="Enter Bank And Account No" name="bank_and_account_no" value="{{ $user->bank_and_account_number }}">
                                             </div>
 
                                         </div>
@@ -297,7 +334,7 @@
 
 
                                         </div>
-                                        
+
 
                                         <div class="form-row col-md-12">
 
@@ -343,6 +380,82 @@
                                                     id="permanent_pincode" placeholder="Pincode" required
                                                     value="{{ $user->permanent_pincode }}">
                                             </div>
+
+                                        </div>
+
+
+
+                                        <div style="margin-bottom:20px;;margin-top:20px;">
+                                            <h6 style="font-size:15px;" class="card-title"><b>Salary Details</b></h6>
+                                        </div>
+
+                                        <div class="form-row col-md-12">
+
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                     Annual CTC:</label>
+                                                <div class="input-group mb-3">
+
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text" id="basic-addon2">&#x20B9;</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="annual_ctc"
+                                                        id="annual_ctc">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group col-md-6 ms-5">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    Pay Type:</label>
+                                                <select class="form-control" name="pay_type" id="pay_type">
+                                                    <option value="">Select a Pay type</option>
+                                                    <option>Daily Rate/Weekly Pay</option>
+                                                    <option>Daily Rate/Monthly Pay</option>
+                                                    <option>Monthly Rate/Weekly Pay</option>
+                                                    <option>Monthly Rate/Monthly Pay</option>
+                                                    <option>Monthly Rate/Executive</option>
+                                                    <option>Reliever/Daily Rate</option>
+                                                    <option>Reliever/Monthly Rate</option>
+                                                </select>
+                                            </div>
+
+
+                                             <div class="form-group col-md-6">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    Regular Rate:</label>
+                                                <input type="text" class="form-control" name="regular_rate"
+                                                        id="regular_rate">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                Supervisor Incentive:</label>
+
+                                                <input type="text" class="form-control" name="supervisor_incentive"
+                                                        id="supervisor_incentive">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                Transportation Allowance:</label>
+
+                                                <input type="text" class="form-control" name="trans_allowance"
+                                                        id="trans_allowance">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                Cost Of Living Allowance:</label>
+
+                                                <input type="text" class="form-control" name="COLA"
+                                                        id="COLA">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                Daily Meal Allowance:</label>
+
+                                                <input type="text" class="form-control" name="daily_meal_allowance"
+                                                        id="daily_meal_allowance">
+                                            </div> 
+
 
                                         </div>
 

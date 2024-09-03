@@ -141,7 +141,7 @@ class User extends Authenticatable
 
     public function useraddresses()
     {
-        return $this->hasOne(UserAddress::class, 'user_id');
+        return $this->hasOne(Useraddress::class, 'user_id');
     }
 
     public function projects()

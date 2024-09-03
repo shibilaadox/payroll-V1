@@ -68,15 +68,13 @@
                                         <div class="form-row col-md-12">
 
                                             <div class="form-group col-md-6">
-                                                <label for="inputEmail1" class="ul-form__label">
-                                                    Department:</label> <span class="text-danger">*</span>
-                                                <select class="form-control" name="department_name" id="department_name">
+                                                <label for="department_name" class="ul-form__label">Department:</label> <span class="text-danger">*</span>
+                                                <select class="form-control" name="department" id="department_name">
                                                     <option value="">Select</option>
                                                     @foreach ($departments as $department)
-                                                        <option value="{{ $department->id }}" <?php if ($department->id == $user->department) {
-                                                            echo 'selected';
-                                                        } ?>>
-                                                            {{ $department->name }}</option>
+                                                        <option value="{{ $department->id }}" {{ $department->id == $userdetails->department ? 'selected' : '' }}>
+                                                            {{ $department->name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -173,11 +171,18 @@
                                         </div>
                                         <div class="form-row col-md-12">
 
-                                            <div class="form-group col-md-6">
+                                            {{-- <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Date of Birth:</label> <span class="text-danger">*</span>
                                                 <input type="text" class="form-control" id="dob"
                                                     placeholder="Enter DOB" name="dob" value="{{ $user->dob }}">
+                                            </div> --}}
+
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    Date of Birth:</label> <span class="text-danger">*</span>
+                                                <input type="text" class="form-control" id="dob"
+                                                    placeholder="Enter DOB" name="dob" >
                                             </div>
 
                                             <div class="form-group col-md-6">
@@ -454,7 +459,7 @@
 
                                                 <input type="text" class="form-control" name="daily_meal_allowance"
                                                         id="daily_meal_allowance">
-                                            </div> 
+                                            </div>
 
 
                                         </div>
@@ -621,5 +626,27 @@
             $('input[name="contract_end_date"]').val('');
 
         })
+
+
+
+         function copyAddress() {
+        // Get the checkbox and address fields
+        var checkbox = document.getElementById('same_as_permanent_address');
+        var permanentAddress = document.getElementById('permanent_address');
+        var presentAddress = document.getElementById('present_address');
+
+        // Check if the checkbox is checked
+        if (checkbox.checked) {
+            // Copy the value from permanent address to present address
+            presentAddress.value = permanentAddress.value;
+            // Disable the present address field to prevent editing
+            presentAddress.setAttribute('readonly', true);
+        } else {
+            // Enable the present address field for editing
+            presentAddress.removeAttribute('readonly');
+            // Clear the present address field if needed
+            presentAddress.value = '';
+        }
+    }
     </script>
 @endsection

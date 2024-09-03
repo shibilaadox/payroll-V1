@@ -22,19 +22,21 @@ class EmployeeController extends Controller
     public function index()
     {
 
-        $data['users'] = User::with('userdetails')->where('user_type','Employee')->where('status',1)->get();
+        $data['users'] = User::with('userdetails')->where('user_type', 'Employee')->where('status', 1)->get();
 
         return view('backend.employee.index', ['data' => $data]);
-
     }
 
     public function create()
     {
+
         $roles = Roles::all();
         $departments = Department::all();
         $locations = Location::all();
         $designations = Designation::all();
-        return view('backend.employee.create', compact('roles','departments','locations','designations'));
+        $userDetails = DB::table('userdetails')->select('department')->first();
+
+        return view('backend.employee.create', compact('roles', 'departments', 'locations', 'designations', 'userDetails'));
     }
 
     public function store(Request $request)
@@ -43,22 +45,18 @@ class EmployeeController extends Controller
 
         if (User::where('email', $request->email)->first() == null) {
             $user =  new User;
-            if($request->file('imgfile'))
-            {
+            if ($request->file('imgfile')) {
 
                 $image = $request->file('imgfile');
-                $img_name = url('')."/uploads/".date('mdYHis').$image->getClientOriginalName();
-                $destinationPath = base_path().'/public/uploads';
+                $img_name = url('') . "/uploads/" . date('mdYHis') . $image->getClientOriginalName();
+                $destinationPath = base_path() . '/public/uploads';
                 $image->move($destinationPath, $img_name);
-            }
-
-            else
-            {
-                $img_name = url('')."/images/Capture.png";
+            } else {
+                $img_name = url('') . "/images/Capture.png";
             }
 
             $user->employee_code = $request->employee_code;
-            $user->name = $request->first_name." ".$request->last_name;
+            $user->name = $request->first_name . " " . $request->last_name;
             $user->email = $request->email;
             $user->user_type = 'Employee';
             $user->phone = $request->phone;
@@ -148,25 +146,26 @@ class EmployeeController extends Controller
     }
 
     public function single($id)
-{
-    $employee = User::find($id); // Assuming you have an Employee model
+    {
+        $employee = User::find($id); // Assuming you have an Employee model
 
-    if (!$employee) {
-        abort(404, 'Employee not found');
+        if (!$employee) {
+            abort(404, 'Employee not found');
+        }
+
+        return view('backend.employee.single_employee', compact('employee'));
     }
-
-    return view('backend.employee.single_employee', compact('employee'));
-}
 
 
     public function edit(Request $request, $id)
     {
+        $userdetails = Userdetail::find($id);
         $user = User::findOrFail($id);
         $roles = Roles::all();
         $departments = Department::all();
         $locations = Location::all();
         $designations = Designation::all();
-        return view('backend.employee.edit', compact('user', 'roles', 'departments','locations','designations'));
+        return view('backend.employee.edit', compact('user', 'roles', 'departments', 'locations', 'designations', 'userdetails'));
     }
 
 
@@ -176,7 +175,7 @@ class EmployeeController extends Controller
 
         $user = User::findOrFail($id);
 
-        $user->status= 0;
+        $user->status = 0;
 
         if ($user->save()) {
 
@@ -192,8 +191,40 @@ class EmployeeController extends Controller
     public function update(Request $request, $id)
     {
 
+         // Validate the incoming request data
+    $request->validate([
+        'department' => 'required', // Add other validation rules as needed
+        // Include other fields here as needed
+    ]);
+
+        // Fetch the user details record from the Userdetail model
+        $userDetails = Userdetail::where('user_id', $id)->first();
+
+        if ($userDetails) {
+            // Update user details in the Userdetail model
+            $userDetails->department = $request->department_name; // Correct field name
+            $userDetails->designation = $request->designation_name;
+            $userDetails->location = $request->location_name;
+            $userDetails->sss_number = $request->sss_no;
+            $userDetails->license_number = $request->license_no;
+            $userDetails->philHealth_number = $request->philhealth_no;
+            $userDetails->license_exp_date = $request->license_expiration_date;
+            $userDetails->hdmf_number = $request->hdmf;
+            $userDetails->bank_and_account_number = $request->bank_and_account_no;
+            $userDetails->tax_identification_number = $request->tax_identification_no;
+
+            // Save the Userdetail model
+            $userDetails->save();
+        } else {
+            // Handle case where Userdetail is not found for the given user
+            return redirect()->route('employee.index')->with('error', 'User details not found.');
+        }
+
+        toast('User Info Updated Successfully', 'success');
+        return redirect()->route('employee.index');
+
         $user = User::findOrFail($id);
-        $user->name = $request->first_name." ".$request->last_name;
+        $user->name = $request->first_name . " " . $request->last_name;
         $user->email = $request->email;
         $user->department = $request->department_name;
         $user->location = $request->location_name;
@@ -217,14 +248,13 @@ class EmployeeController extends Controller
         $user->bank_and_account_number = $request->bank_and_account_no;
         $user->tax_identification_number = $request->tax_identification_no;
 
-        if($request->file('imgfile'))
-        {
+        if ($request->file('imgfile')) {
 
-                $image = $request->file('imgfile');
-                $img_name = url('')."/uploads/".date('mdYHis').$image->getClientOriginalName();
-                $destinationPath = base_path().'/public/uploads';
-                $image->move($destinationPath, $img_name);
-                $user->profile_photo = $img_name;
+            $image = $request->file('imgfile');
+            $img_name = url('') . "/uploads/" . date('mdYHis') . $image->getClientOriginalName();
+            $destinationPath = base_path() . '/public/uploads';
+            $image->move($destinationPath, $img_name);
+            $user->profile_photo = $img_name;
         }
 
         $user->residential_address = $request->present_address;
@@ -250,6 +280,12 @@ class EmployeeController extends Controller
             toast('Something went wrong', 'error');
             return redirect()->route('employee.index');
         }
+
+        $request->validate([
+            'department' => 'required|exists:departments,id',
+        ]);
+
+
     }
 
     public function destroy($id)
@@ -263,14 +299,13 @@ class EmployeeController extends Controller
     {
         $total_present_emp = Status::where('date', date('Y-m-d'))->get();
         $present_id = array();
-        $i=0;
-        foreach($total_present_emp as $row)
-        {
+        $i = 0;
+        foreach ($total_present_emp as $row) {
             $present_id[$i] = $row->user_id;
             $i++;
         }
 
-        $users = User::where('status',0)->with('userdetails')->whereIn('id',$present_id)->take(5)->get();
+        $users = User::where('status', 0)->with('userdetails')->whereIn('id', $present_id)->take(5)->get();
 
         return view('backend.employee.present_employees', compact('users'));
     }
@@ -279,25 +314,23 @@ class EmployeeController extends Controller
     {
         $total_present_emp = Status::where('date', date('Y-m-d'))->get();
         $present_id = array();
-        $i=0;
-        foreach($total_present_emp as $row)
-        {
+        $i = 0;
+        foreach ($total_present_emp as $row) {
             $present_id[$i] = $row->user_id;
             $i++;
         }
 
-        $data['present_employees'] = User::whereIn('id',$present_id)->get();
+        $data['present_employees'] = User::whereIn('id', $present_id)->get();
 
-        $total_emp = User::where('user_type','Employee')->get();
+        $total_emp = User::where('user_type', 'Employee')->get();
         $total_emp_id = array();
-        $i=0;
-        foreach($total_emp as $row)
-        {
+        $i = 0;
+        foreach ($total_emp as $row) {
             $total_emp_id[$i] = $row->id;
             $i++;
         }
 
-        $users = User::where('status',0)->whereIn('id',$total_emp_id)->whereNotIn('id',$present_id)->groupBy('id')->get();
+        $users = User::where('status', 0)->whereIn('id', $total_emp_id)->whereNotIn('id', $present_id)->groupBy('id')->get();
 
         return view('backend.employee.present_employees', compact('users'));
     }
@@ -305,7 +338,7 @@ class EmployeeController extends Controller
     public function employees()
     {
 
-        $users = User::where('status',0)->with('userdetails')->where('user_type','Employee')->get();
+        $users = User::where('status', 0)->with('userdetails')->where('user_type', 'Employee')->get();
 
         return view('backend.employee.present_employees', compact('users'));
     }
@@ -313,41 +346,41 @@ class EmployeeController extends Controller
     public function get_employee()
     {
         $name = $_GET['name'];
-        $data['users'] = User::with('userdetails')->where('name', 'like', '%'.$name.'%')->orWhere('firstname', 'like', '%'.$name.'%')->orWhere('lastname', 'like', '%'.$name.'%')->where('user_type','Employee')->where('status',1)->get();
+        $data['users'] = User::with('userdetails')->where('name', 'like', '%' . $name . '%')->orWhere('firstname', 'like', '%' . $name . '%')->orWhere('lastname', 'like', '%' . $name . '%')->where('user_type', 'Employee')->where('status', 1)->get();
 
         return view('backend.employee.search_result', ['data' => $data]);
-
     }
 
     public function get_employee_code()
     {
         $role = $_GET['role'];
 
-        $emp_code = User::where('user_type','Employee')->where('job_role',$role)->orderBy('id','DESC')->first();
+        $emp_code = User::where('user_type', 'Employee')->where('job_role', $role)->orderBy('id', 'DESC')->first();
 
-        if(!empty($emp_code))
-        $employee_code = $emp_code->employee_code;
+        if (!empty($emp_code))
+            $employee_code = $emp_code->employee_code;
 
         else
-        $employee_code = 000;
+            $employee_code = 000;
 
         $newcode = substr($employee_code, -3);
 
         $new_code = str_pad(++$newcode, 3, "0", STR_PAD_LEFT);
 
-        if($role=="Employee")
-        $new_employee_code = "ANA ".$new_code;
+        if ($role == "Employee")
+            $new_employee_code = "ANA " . $new_code;
 
-        else if($role=="Trainee")
-        $new_employee_code = "ANA TR ".$new_code;
+        else if ($role == "Trainee")
+            $new_employee_code = "ANA TR " . $new_code;
 
-        else if($role=="New Venture")
-        $new_employee_code = "ANA NV ".$new_code;
+        else if ($role == "New Venture")
+            $new_employee_code = "ANA NV " . $new_code;
 
         return $new_employee_code;
     }
 
-    public function showEmployee($id){
+    public function showEmployee($id)
+    {
         $employee = User::findOrFail($id);
         $employee = User::with('userdetails.departments')->findOrFail($id);
         $employee = User::with('useraddresses')->findOrFail($id);
@@ -356,29 +389,27 @@ class EmployeeController extends Controller
         return view('backend.employee.single_employee', compact('employee'));
     }
 
-public function showProfile($id)
-{
-    $employee = User::findOrFail($id);
-    return view('backend.employee.single_employee', compact('employee'));
-}
+    public function showProfile($id)
+    {
+        $employee = User::findOrFail($id);
+        return view('backend.employee.single_employee', compact('employee'));
+    }
 
-public function showProjects($id)
-{
-    $employee = User::findOrFail($id);
-    // Load projects or whatever logic you need here
-    return view('backend.employee.single_employee', compact('employee'))->with('tab', 'projects');
-}
+    public function showProjects($id)
+    {
+        $employee = User::findOrFail($id);
+        // Load projects or whatever logic you need here
+        return view('backend.employee.single_employee', compact('employee'))->with('tab', 'projects');
+    }
 
-public function showTimesheet($id)
-{
-    $employee = User::findOrFail($id);
-    // Load timesheet data
+    public function showTimesheet($id)
+    {
+        $employee = User::findOrFail($id);
+        // Load timesheet data
 
-    // fetch timesheet data for the selected employee
-    $timesheet = DB::table('employee_projects')->where('user_id', $id)->get();
+        // fetch timesheet data for the selected employee
+        $timesheet = DB::table('employee_projects')->where('user_id', $id)->get();
 
-    return view('backend.employee.single_employee', compact('employee', 'timesheet'))->with('tab', 'timesheet');
-}
-
-
+        return view('backend.employee.single_employee', compact('employee', 'timesheet'))->with('tab', 'timesheet');
+    }
 }

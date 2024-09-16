@@ -567,33 +567,33 @@
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                 Supervisor Incentive:</label>
-                                               
+
                                                 <input type="text" class="form-control" name="supervisor_incentive"
                                                         id="supervisor_incentive">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                 Transportation Allowance:</label>
-                                               
+
                                                 <input type="text" class="form-control" name="trans_allowance"
                                                         id="trans_allowance">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                 Cost Of Living Allowance:</label>
-                                               
+
                                                 <input type="text" class="form-control" name="COLA"
                                                         id="COLA">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                 Daily Meal Allowance:</label>
-                                               
+
                                                 <input type="text" class="form-control" name="daily_meal_allowance"
                                                         id="daily_meal_allowance">
                                             </div>
-                             
-                             
+
+
                                         </div>
 
                                         <table class="table mt-5">

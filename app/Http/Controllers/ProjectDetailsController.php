@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;  
 use App\Models\Client;
 use App\Models\EmployeeProject;
 use App\Models\Project;
@@ -12,7 +12,8 @@ use Illuminate\Http\Request;
 class ProjectDetailsController extends Controller
 {
 
-    public function index(){
+    public function index()
+    {
         $data['projects'] = Project::all();
         $data['projects'] = Project::with('clients')->with('employees')->get();
 
@@ -34,25 +35,26 @@ class ProjectDetailsController extends Controller
         $project = Project::findOrFail($id);
 
         // Get the current month
-        $selectedMonth = $request->input('month', date('m'));
+        $selectedMonth = $request->input('month', date('m', strtotime($project->start_date)));
+        $currentMonth = date('m');
+        $currentYear = date('Y');
+        $currentMonthName = date('F');
 
-    $currentMonth = date('m');
-    $currentYear = date('Y');
-    $currentMonthName = date('F');
+        $projectMonth = date('m', strtotime($project->start_date));
 
         $employeeProjects = EmployeeProject::where('project_id', $id)
-        ->whereMonth('created_at', $currentMonth)
-        ->with('user', 'project')
-        ->get();
+            ->whereMonth('created_at', $selectedMonth)
+            ->with('user', 'project')
+            ->get();
 
         // Default to current month if no month is specified
-    $month = $request->get('month', $currentMonth);
+        $month = $request->get('month', $currentMonth);
         $current_month = date('F');
 
         // Fetch employee projects for the specified month
-    $employeeProjectsQuery = EmployeeProject::where('project_id', $id)
-    ->whereMonth('created_at', $month)
-    ->with('user', 'project');
+        $employeeProjectsQuery = EmployeeProject::where('project_id', $id)
+            ->whereMonth('created_at', $month)
+            ->with('user', 'project');
 
         $projectsQuery = Project::where('client', $id);
 
@@ -66,7 +68,7 @@ class ProjectDetailsController extends Controller
 
         $totalEmployees = $employeeProjects->count();
 
-        $totalCost = $employeeProjects->sum(function($employeeProject){
+        $totalCost = $employeeProjects->sum(function ($employeeProject) {
             return (float) $employeeProject->payment;
         });
 
@@ -75,10 +77,6 @@ class ProjectDetailsController extends Controller
         // $year = date('Y');
         // $secondSaturday = date('Y-m-d', strtotime("second saturday of $year-$month"));
 
-        return view('backend.project.details', compact('currentYear', 'selectedMonth', 'project', 'employeeProjects', 'totalEmployees', 'totalCost','current_month', 'projects', 'currentMonthName'));
+        return view('backend.project.details', compact('projectMonth','currentYear', 'selectedMonth', 'project', 'employeeProjects', 'totalEmployees', 'totalCost', 'current_month', 'projects', 'currentMonthName'));
     }
-
-
-
-
 }

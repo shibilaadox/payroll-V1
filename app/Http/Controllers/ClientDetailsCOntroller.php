@@ -62,6 +62,18 @@ class ClientDetailsController extends Controller
 
         $noProjects = $projects->isEmpty();
 
+        // Fetch the project using the given project ID
+        // $project = Project::with(['employees' => function ($query) use ($request) {
+        //     $month = $request->input('month', date('m'));
+        //     $query->whereMonth('start_date', $month);
+        // }])->findOrFail($id);
+
+        // Get employees for the selected month
+        // $employees = $project->employees;
+
+        // Fetch the current month name
+        // $current_month = date('F', mktime(0, 0, 0, $request->input('month', date('m'))));
+
         return view('backend.client.details', compact('client', 'clients', 'projects', 'totalAmount', 'completedProjects', 'ongoingProjects', 'onHoldProjects', 'current_month', 'noProjects'));
     }
 

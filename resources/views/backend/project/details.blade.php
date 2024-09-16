@@ -18,7 +18,7 @@
                             <option value="">Select Month</option>
                             @foreach (range(1, 12) as $month)
                                 <option value="{{ str_pad($month, 2, '0', STR_PAD_LEFT) }}"
-                                    {{ request('month', date('m')) == str_pad($month, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
+                                    {{ request('month', $projectMonth) == str_pad($month, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
                                     {{ DateTime::createFromFormat('!m', $month)->format('F') }}
                                 </option>
                             @endforeach
@@ -46,7 +46,8 @@
             <div class="card o-hidden">
                 <div class="card-body">
                     <h5 style="font-weight:bold">Current Month</h5>
-                    <span class="font-semibold font-mm">{{ date('F', mktime(0, 0, 0, $selectedMonth, 1)) . ' ' . $currentYear }}</span>
+                    <span
+                        class="font-semibold font-mm">{{ date('F', mktime(0, 0, 0, $selectedMonth, 1)) . ' ' . $currentYear }}</span>
                     <br><br>
                     <div class="row mb-12">
                         <div class="col-md-6 mb-6">
@@ -64,7 +65,7 @@
         <div class="col-md-2 mb-2">
             <div style="width: 300px" class="card o-hidden">
                 <div class="card-body">
-                    <div  class="text-uppercase payrun-label font-small text-center text-nowrap">PROJECT LAUNCH DATE</div>
+                    <div class="text-uppercase payrun-label font-small text-center text-nowrap">PROJECT LAUNCH DATE</div>
                     <div style="font-size: 19px" class="font-light text-center text-nowrap">
                         {{ date('F d, Y', strtotime($project->created_at)) }} </div>
                 </div>
@@ -109,14 +110,18 @@
                                             <a class="text-success mr-2" onclick="edit_project('{{ $project->id }}')">
                                                 <i class="nav-icon i-Pen-2 font-weight-bold fs-16"></i>
                                             </a>
-                                            <a class="text-danger mr-2" onclick="delete_project('{{ $project->id }}')" title="Delete Project">
+                                            <a class="text-danger mr-2" onclick="delete_project('{{ $project->id }}')"
+                                                title="Delete Project">
                                                 <i class="nav-icon i-Close-Window font-weight-bold fs-16"></i>
                                             </a>
-                                            <a href="{{ route('employee.details', $employeeProject->id) }}" class="text-primary">
+                                            <a href="{{ route('employee.details', $employeeProject->id) }}"
+                                                class="text-primary">
                                                 <i style="font-size: 17px" class="fa-solid fa-circle-info"></i>
                                             </a>
-                                            <a href="{{ route('employee.invoice', $employeeProject->id) }}" class="text-primary">
-                                                <i style="font-size: 17px" class="nav-icon i-Library font-weight-bold fs-16"></i>
+                                            <a href="{{ route('employee.invoice', $employeeProject->id) }}"
+                                                class="text-primary">
+                                                <i style="font-size: 17px"
+                                                    class="nav-icon i-Library font-weight-bold fs-16"></i>
                                             </a>
 
                                         </td>

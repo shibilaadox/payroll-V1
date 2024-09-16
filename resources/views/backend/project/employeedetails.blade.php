@@ -92,67 +92,6 @@
                             </ul>
                         </div>
 
-                        {{--  --}}
-
-                        {{-- <div class="card mt-5 text-center p-2"
-                            style="width: 100%; font-size:16px; background-color:rgb(233, 227, 227);">
-                            <h3>Work Experiance</h3>
-                        </div>
-
-                        <div class="card mt-5" style="width: 100%; font-size:16px">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Previous Company Name : {{ $userdetails->previous_company_name }}</li>
-                                <li class="list-group-item">Job Title : {{ $userdetails->job_title }}</li>
-                                <li class="list-group-item">From Date : {{ $userdetails->from_date }}</li>
-                                <li class="list-group-item">To Date : {{ $userdetails->to_date }}</li>
-                            </ul>
-                        </div>
-
-
-
-                        <div class="card mt-5 text-center p-2"
-                            style="width: 100%; font-size:16px; background-color:rgb(233, 227, 227);">
-                            <h3>Education Details</h3>
-                        </div>
-
-                        <div class="card mt-5" style="width: 100%; font-size:16px">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Institution Name : {{ $userdetails->institution_name }}</li>
-                <li class="list-group-item">Degree/Diploma : {{ $userdetails->degree_diploma }}</li>
-                <li class="list-group-item">Specialization : {{ $userdetails->specialization }}</li>
-                <li class="list-group-item">Date of Completion : {{ $userdetails->date_of_completion }}</li>
-                            </ul>
-                        </div>
-
-
-
-                        <div class="card mt-5 text-center p-2"
-                            style="width: 100%; font-size:16px; background-color:rgb(233, 227, 227);">
-                            <h3>Emergency Contacts</h3>
-                        </div>
-
-                        <div class="card mt-5" style="width: 100%; font-size:16px">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Name : </li>
-                                <li class="list-group-item">Relationship : </li>
-                                <li class="list-group-item">Phone : {{ $userdetails->emergency_no }}</li>
-                            </ul>
-                        </div>
-
-
-                        <div class="card mt-5 text-center p-2"
-                            style="width: 100%; font-size:16px; background-color:rgb(233, 227, 227);">
-                            <h3>Seperation Information</h3>
-                        </div>
-
-                        <div class="card mt-5" style="width: 100%; font-size:16px">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Contract Starting Date : {{ $userdetails->contract_starting_date }}</li>
-                <li class="list-group-item">Contract Ending Date : {{ $userdetails->contract_ending_date }}</li>
-                <li class="list-group-item">Reason For Leaving : {{ $userdetails->reason_for_leaviing }}</li>
-                            </ul>
-                        </div> --}}
-
                     </div>
                     <div class="col-lg-3"></div>
 

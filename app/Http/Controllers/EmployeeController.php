@@ -42,6 +42,17 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
 
+        $request->validate([
+            'contract_start_date' => 'required|date',
+            'contract_end_date' => 'required|date',
+        ]);
+
+        $userdetails = Userdetail::firstOrNew(['user_id' => auth()->id()]);
+
+        $userdetails->contract_starting_date = $request->input('contract_start_date');
+        $userdetails->contract_ending_date = $request->input('contract_end_date');
+        $userdetails->save();
+
 
         if (User::where('email', $request->email)->first() == null) {
             $user =  new User;
@@ -79,6 +90,7 @@ class EmployeeController extends Controller
             $user_detail->adhaar_no = $request->aadhaar_no;
             $user_detail->designation = $request->designation_name;
             $user_detail->department = $request->department_name;
+            $user_detail->location = $request->location_name;
             $user_detail->sss_number = $request->sss_no;
             $user_detail->license_number = $request->license_no;
             $user_detail->philHealth_number = $request->philhealth_no;
@@ -89,8 +101,8 @@ class EmployeeController extends Controller
 
             $user_detail->academic_qualification = $request->education_details;
             $user_detail->experience_certificate = $request->work_experience;
-            $user_detail->contract_starting_date = $request->contract_starting_date;
-            $user_detail->contract_ending_date = $request->contract_ending_date;
+            $user_detail->contract_starting_date = $request->contract_start_date;
+            $user_detail->contract_ending_date = $request->contract_end_date;
             $user_detail->reason_for_leaving = $request->reason_for_leaving;
             $user_detail->blood_group = $request->blood_group;
             $user_detail->marital_status = $request->marital_status;
@@ -100,10 +112,10 @@ class EmployeeController extends Controller
             $user_detail->basic_salary = $request->monthly_basic;
             $user_detail->annual_ctc_details = $request->annual_ctc;
             $user_detail->salary_pay_type = $request->pay_type;
-            $user_detail->regular_rate = $request->regular_rate;
+            $user_detail->regular_rate_for = $request->regular_rate;
             $user_detail->supervisor_incentive = $request->supervisor_incentive;
-            $user_detail->trans_allowance = $request->trans_allowance;
-            $user_detail->COLA = $request->COLA;
+            $user_detail->transportation_allowance = $request->trans_allowance;
+            $user_detail->cost_of_living_allowance = $request->COLA;
             $user_detail->daily_meal_allowance = $request->daily_meal_allowance;
             $user_detail->house_rent_allowance = $request->monthly_house_rent;
             $user_detail->conveyance_allowance = $request->monthly_conveyance;
@@ -147,7 +159,7 @@ class EmployeeController extends Controller
 
     public function single($id)
     {
-        $employee = User::find($id); // Assuming you have an Employee model
+        $employee = User::find($id);
 
         if (!$employee) {
             abort(404, 'Employee not found');
@@ -159,13 +171,15 @@ class EmployeeController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $userdetails = Userdetail::find($id);
+        $userdetails = Userdetail::where('user_id', $id)->first();
         $user = User::findOrFail($id);
         $roles = Roles::all();
         $departments = Department::all();
         $locations = Location::all();
         $designations = Designation::all();
-        return view('backend.employee.edit', compact('user', 'roles', 'departments', 'locations', 'designations', 'userdetails'));
+        $useraddresses = Useraddress::where('user_id', $id)->first();
+
+        return view('backend.employee.edit', compact('user', 'roles', 'departments', 'locations', 'designations', 'userdetails', 'useraddresses'));
     }
 
 
@@ -191,11 +205,32 @@ class EmployeeController extends Controller
     public function update(Request $request, $id)
     {
 
-         // Validate the incoming request data
-    $request->validate([
-        'department' => 'required', // Add other validation rules as needed
-        // Include other fields here as needed
-    ]);
+        // Validate the incoming request data
+        $request->validate([
+            'department' => 'required', // Add other validation rules as needed
+            // Include other fields here as needed
+        ]);
+
+        $user = User::find($id);
+        $user_address = UserAddress::where('user_id', $user->id)->first();
+        if ($user_address) {
+            $user_address->residential_address = $request->present_address;
+            $user_address->residential_city = $request->present_city;
+            $user_address->residential_state = $request->present_state;
+            $user_address->residential_country = $request->present_country;
+            $user_address->residential_pincode = $request->present_pincode;
+
+            $user_address->permanent_address = $request->present_address;
+            $user_address->permanent_city = $request->present_city;
+            $user_address->permanent_state = $request->present_state;
+            $user_address->permanent_country = $request->present_country;
+            $user_address->permanent_pincode = $request->present_pincode;
+
+            $user_address->save();
+        } else {
+            return redirect()->route('employee.index')->with('error', 'User address not found.');
+        }
+
 
         // Fetch the user details record from the Userdetail model
         $userDetails = Userdetail::where('user_id', $id)->first();
@@ -205,11 +240,16 @@ class EmployeeController extends Controller
             $userDetails->department = $request->department_name; // Correct field name
             $userDetails->designation = $request->designation_name;
             $userDetails->location = $request->location_name;
+            $userDetails->joining_date = $request->joining_date;
+            $userDetails->adhaar_no = $request->aadhaar_no;
             $userDetails->sss_number = $request->sss_no;
             $userDetails->license_number = $request->license_no;
             $userDetails->philHealth_number = $request->philhealth_no;
             $userDetails->license_exp_date = $request->license_expiration_date;
             $userDetails->hdmf_number = $request->hdmf;
+            $userDetails->contract_starting_date = $request->contract_start_date;
+            $userDetails->contract_ending_date = $request->contract_end_date;
+
             $userDetails->bank_and_account_number = $request->bank_and_account_no;
             $userDetails->tax_identification_number = $request->tax_identification_no;
 
@@ -228,6 +268,7 @@ class EmployeeController extends Controller
         $user->email = $request->email;
         $user->department = $request->department_name;
         $user->location = $request->location_name;
+        $user->joining_date = $request->joining_date;
         $user->designation = $request->designation_name;
         $user->job_role = $request->job_role;
         $user->status = $request->status;
@@ -238,6 +279,8 @@ class EmployeeController extends Controller
         $user->blood_group = $request->blood_group;
         $user->adhaar_no = $request->aadhaar_no;
         $user->pan_no = $request->pan_no;
+        $user->contract_starting_date = $request->contract_start_date;
+        $user->contract_ending_date = $request->contract_end_date;
         $user->phone = $request->phone;
 
         $user->sss_number = $request->sss_no;
@@ -284,8 +327,6 @@ class EmployeeController extends Controller
         $request->validate([
             'department' => 'required|exists:departments,id',
         ]);
-
-
     }
 
     public function destroy($id)

@@ -5,7 +5,9 @@
             <div class="row p-3" style="display: flex; align-items:center; justify-content:space-around">
                 <div class="col-lg-4">
                     <div class="shadow ms-5" style="width: 65%;">
-                        <img src="https://odoos.in/apps/HRMS/assets/images/faces/1.jpg" alt="">
+                        <a href={{ route('profile.invoice', $employee->id) }}>
+                            <img src="https://odoos.in/apps/HRMS/assets/images/faces/1.jpg" alt="">
+                        </a>
                     </div>
                 </div>
 
@@ -16,7 +18,7 @@
                         <h8>{{ $employee->userdetails->designation ?? 'N/A' }}</h8><br>
                         <h8>{{ $employee->userdetails->departments->name ?? 'N/A' }}</h8>
                     </div>
-                </div>
+                </div>d
             </div>
 
         </div>
@@ -45,7 +47,7 @@
         <div class="card card-profile-1 mb-4 mt-5 ">
             <div class="card-body text-start ms-5 mt-3">
                 <h6 class="fw-bold">About</h6><br>
-                <p>I am super human</p><br> 
+                <p>I am super human</p><br>
             </div>
         </div>
 

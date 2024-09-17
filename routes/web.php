@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\TimesheetController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -140,6 +141,8 @@ Route::get('/projects', [ProjectController::class, 'index'])->name('projects.ind
 
 Route::get('/employee-details/{id}', [DetailsEmployeeController::class, 'show'])->name('employee.details');
 Route::get('/employee-invoice/{id}', [DetailsEmployeeController::class, 'invoice'])->name('employee.invoice');
+Route::get('/profile-invoice/{id}', [ProfileController::class, 'invoice'])->name('profile.invoice');
+Route::get('/payslip/{id}', [PaySlipController::class, 'showInvoice'])->name('payslip.show');
 
 // Invoice
 Route::get('/getPaymentDetails/{roleId}', [PaymentController::class, 'getPaymentDetails']);

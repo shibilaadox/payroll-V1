@@ -6,6 +6,7 @@ use App\Models\Roles;
 use App\Models\User;
 use App\Models\Department;
 use App\Models\Designation;
+use App\Models\EmployeeProject;
 use App\Models\Location;
 use App\Models\Status;
 use App\Models\Useraddress;
@@ -152,10 +153,7 @@ class EmployeeController extends Controller
 
     }
 
-    public function show(User $user)
-    {
-        //
-    }
+
 
     public function single($id)
     {
@@ -452,5 +450,15 @@ class EmployeeController extends Controller
         $timesheet = DB::table('employee_projects')->where('user_id', $id)->get();
 
         return view('backend.employee.single_employee', compact('employee', 'timesheet'))->with('tab', 'timesheet');
+    }
+
+    public function invoice($id)
+    {
+        // Fetch invoice details for the employee
+        // Assuming you have an Invoice model and relationship setup
+        $invoice = User::where('employee_id', $id)->first();
+
+        // Return view with invoice details
+        return view('backend.employee.invoice', compact('invoice'));
     }
 }

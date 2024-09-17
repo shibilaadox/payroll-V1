@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;  
+use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\EmployeeProject;
 use App\Models\Project;

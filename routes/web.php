@@ -141,14 +141,18 @@ Route::get('/projects', [ProjectController::class, 'index'])->name('projects.ind
 
 Route::get('/employee-details/{id}', [DetailsEmployeeController::class, 'show'])->name('employee.details');
 Route::get('/employee-invoice/{id}', [DetailsEmployeeController::class, 'invoice'])->name('employee.invoice');
-Route::get('/profile-invoice/{id}', [ProfileController::class, 'invoice'])->name('profile.invoice');
-Route::get('/payslip/{id}', [PaySlipController::class, 'showInvoice'])->name('payslip.show');
 
 // Invoice
 Route::get('/getPaymentDetails/{roleId}', [PaymentController::class, 'getPaymentDetails']);
 
 // Payslip of Project
-// Route::get('project/payslip', [PaySlipController::class, 'show'])->name('payslip.show');
+// Route::get('/payslip/{employeeProject}', [PaySlipController::class, 'showInvoice'])->name('payslip.show');
+// Route::get('profile-invoice/{id}', [ProfileController::class, 'invoice'])->name('profile.invoice');
+Route::get('/payslip/{employeeProject}', [PaySlipController::class, 'showInvoice'])->name('payslip.show');
+Route::get('profile-invoice/{id}', [ProfileController::class, 'invoice'])->name('profile.invoice');
+Route::get('/employee/{id}/single_employee', [EmployeeController::class, 'show'])->name('employee.single_employee');
+
+
 
 Route::get('/payslip', function () {
     return view('backend/project/payslip'); // Return the payslip view

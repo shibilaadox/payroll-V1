@@ -5,7 +5,7 @@
             <div class="row p-3" style="display: flex; align-items:center; justify-content:space-around">
                 <div class="col-lg-4">
                     <div class="shadow ms-5" style="width: 65%;">
-                        <a href={{ route('profile.invoice', $employee->id) }}>
+                        <a href={{ route('payslip.show', $employee->id) }}>
                             <img src="https://odoos.in/apps/HRMS/assets/images/faces/1.jpg" alt="">
                         </a>
                     </div>

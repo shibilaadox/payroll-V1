@@ -40,6 +40,24 @@ class EmployeeController extends Controller
         return view('backend.employee.create', compact('roles', 'departments', 'locations', 'designations', 'userDetails'));
     }
 
+    public function show($id)
+    {
+        // Fetch the employee project by ID
+        $employee = EmployeeProject::where('user_id', $id)->first();
+
+        // Fetch the associated employee
+        $employee = User::find($id);
+
+        // Check if employee or employee project exists
+        if (!$employee || !$employee) {
+            abort(404); // Return a 404 page if no employee or project is found
+        }
+
+        // Pass both $employee and $employeeProject to the view
+        return view('backend.employee.tabs.profile', compact('employee', 'employeeProject'));
+    }
+
+
     public function store(Request $request)
     {
 

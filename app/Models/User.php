@@ -79,6 +79,8 @@ class User extends Authenticatable
     public function userdetails()
     {
         return $this->belongsTo(\App\Models\Userdetail::class, "id", "user_id")->with('departments')->with('locations')->with('designations');
+        return $this->hasOne(Userdetail::class, 'user_id', 'id');
+
     }
 
     public function user_timesheet()
@@ -148,4 +150,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(Project::class, 'id');  // Ensure 'user_id' is the correct foreign key
     }
+
 }

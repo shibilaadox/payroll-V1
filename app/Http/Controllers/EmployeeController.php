@@ -176,12 +176,22 @@ class EmployeeController extends Controller
     public function single($id)
     {
         $employee = User::find($id);
+        $employee_project = EmployeeProject::where('user_id', $id)
+            ->where('month',date('F',strtotime('last month')))
+            ->first();
+        
+        if(!empty($employee_project))
+        $employee_project_id = $employee_project->id;
+
+        else
+        $employee_project_id = "";
+           
 
         if (!$employee) {
             abort(404, 'Employee not found');
         }
 
-        return view('backend.employee.single_employee', compact('employee'));
+        return view('backend.employee.single_employee', compact('employee','employee_project_id'));
     }
 
 

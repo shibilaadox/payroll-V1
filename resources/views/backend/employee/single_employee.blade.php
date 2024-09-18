@@ -44,7 +44,7 @@
             @elseif (request('tab') == 'timesheet')
                 @include('backend.employee.tabs.timesheet', ['employee' => $employee])
             @else
-                @include('backend.employee.tabs.profile', ['employee' => $employee])
+                @include('backend.employee.tabs.profile', ['employee' => $employee,'employee_project_id=>$employee_project_id'])
             @endif
         </div>
     </div>

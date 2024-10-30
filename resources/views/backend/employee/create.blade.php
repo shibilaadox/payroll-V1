@@ -15,7 +15,8 @@
 
             <div class="col-lg-12 mb-3">
 
-                <form action="{{ route('employee.store') }}" method="POST" class="needs-validation"  enctype="multipart/form-data">
+                <form action="{{ route('employee.store') }}" method="POST" class="needs-validation"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="col-lg-12">
                         <div class="row">
@@ -48,7 +49,12 @@
                                         </div>
 
                                         <div class="form-row col-md-12">
-
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    Middle Name:</label> <span class="text-danger">*</span>
+                                                <input type="text" class="form-control" id="middle_name"
+                                                    placeholder="Enter middle name" name="middle_name" required>
+                                            </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Last Name:</label> <span class="text-danger">*</span>
@@ -56,12 +62,12 @@
                                                     placeholder="Enter last name" name="last_name" required>
                                             </div>
 
-                                            <div class="form-group col-md-6">
+                                            {{-- <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Email address:</label> <span class="text-danger">*</span>
                                                 <input type="text" class="form-control" name="email" id="email"
                                                     placeholder="Enter Email" required>
-                                            </div>
+                                            </div> --}}
                                         </div>
 
                                         <div style="margin-bottom:20px;margin-top:20px;">
@@ -100,7 +106,8 @@
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Deignation:</label> <span class="text-danger">*</span>
-                                                <select class="form-control" name="designation_name" id="designation_name">
+                                                <select class="form-control" name="designation_name"
+                                                    id="designation_name">
                                                     <option value="">Select</option>
                                                     @foreach ($designations as $designation)
                                                         <option value="{{ $designation->id }}">{{ $designation->name }}
@@ -206,15 +213,19 @@
 
                                             <div class="form-group col-md-6">
 
-                        <label for="imgfile" class="col-form-label">{{__('Profile Image')}}</label>
-                        <br>
-                        <input type="file" name='imgfile' id="imgfile" style="display:none">
-                        <input type="button" class="btn btn-sm btn-primary mb-1" onClick="$('#imgfile').click()" value="{{__('select File')}}">
+                                                <label for="imgfile"
+                                                    class="col-form-label">{{ __('Profile Image') }}</label>
+                                                <br>
+                                                <input type="file" name='imgfile' id="imgfile"
+                                                    style="display:none">
+                                                <input type="button" class="btn btn-sm btn-primary mb-1"
+                                                    onClick="$('#imgfile').click()" value="{{ __('select File') }}">
 
-                        <br><br>
-                        <img src='' id='ad_img' style='max-height:100px;max-width:100px;' />
+                                                <br><br>
+                                                <img src='' id='ad_img'
+                                                    style='max-height:100px;max-width:100px;' />
 
-                    </div>
+                                            </div>
 
 
 
@@ -228,10 +239,10 @@
                                         <div class="form-row col-md-12">
 
                                             <div class="form-group col-md-6">
-                                                <label for="inputEmail1" class="ul-form__label">
+                                                {{-- <label for="inputEmail1" class="ul-form__label">
                                                     Aadhaar:</label> <span class="text-danger">*</span>
                                                 <input type="text" class="form-control" id="aadhaar_no"
-                                                    placeholder="Enter Aadhaar No" name="aadhaar_no">
+                                                    placeholder="Enter Aadhaar No" name="aadhaar_no"> --}}
 
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     SSS No.:</label> <span class="text-danger">*</span>
@@ -256,10 +267,10 @@
                                             </div>
 
                                             <div class="form-group col-md-6">
-                                                <label for="inputEmail1" class="ul-form__label">
+                                                {{-- <label for="inputEmail1" class="ul-form__label">
                                                     PAN:</label> <span class="text-danger">*</span>
                                                 <input type="text" class="form-control" id="pan_no"
-                                                    placeholder="Enter Pan No" name="pan_no">
+                                                    placeholder="Enter Pan No" name="pan_no"> --}}
 
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     License No.:</label> <span class="text-danger">*</span>
@@ -308,8 +319,9 @@
                                                     id="present_state" placeholder="State" required><br>
                                                 <input type="text" class="form-control" name="present_country"
                                                     id="present_country" placeholder="Country" required><br>
-                                                <input type="text" class="form-control" name="present_pincode"
-                                                    id="present_pincode" placeholder="Pincode" required>
+                                                {{-- <input type="text" class="form-control" name="present_pincode"
+                                                    id="present_pincode" placeholder="Pincode" required> --}}
+                                                    <input type="text" class="form-control" name="present_national_id" id="present_national_id" placeholder="National ID" required>
                                             </div>
 
                                             <div class="form-group col-md-6">
@@ -326,8 +338,9 @@
                                                     id="permanent_state" placeholder="State" required><br>
                                                 <input type="text" class="form-control" name="permanent_country"
                                                     id="permanent_country" placeholder="Country" required><br>
-                                                <input type="text" class="form-control" name="permanent_pincode"
-                                                    id="permanent_pincode" placeholder="Pincode" required>
+                                                {{-- <input type="text" class="form-control" name="permanent_pincode"
+                                                    id="permanent_pincode" placeholder="Pincode" required> --}}
+                                                    <input type="text" class="form-control" name="permanent_national_id" id="permanent_national_id" placeholder="National ID" required>
                                             </div>
 
                                         </div>
@@ -523,7 +536,7 @@
 
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
-                                                     Annual CTC:</label>
+                                                    Annual CTC:</label>
                                                 <div class="input-group mb-3">
 
                                                     <div class="input-group-append">
@@ -551,46 +564,46 @@
                                             </div>
 
 
-                                             <div class="form-group col-md-6">
+                                            <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Regular Rate:</label>
                                                 <!--<select class="form-control" name="regular_rate" id="regular_rate">
-                                                    <option value="">Select a Regular Rate</option>
-                                                    <option>supervisor incentive</option>
-                                                    <option>Transportation allowance</option>
-                                                    <option>Cost of Living Allowance</option>
-                                                    <option>Daily Meal Allowance</option>
-                                                </select>-->
+                                                        <option value="">Select a Regular Rate</option>
+                                                        <option>supervisor incentive</option>
+                                                        <option>Transportation allowance</option>
+                                                        <option>Cost of Living Allowance</option>
+                                                        <option>Daily Meal Allowance</option>
+                                                    </select>-->
                                                 <input type="text" class="form-control" name="regular_rate"
-                                                        id="regular_rate">
+                                                    id="regular_rate">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
-                                                Supervisor Incentive:</label>
+                                                    Supervisor Incentive:</label>
 
                                                 <input type="text" class="form-control" name="supervisor_incentive"
-                                                        id="supervisor_incentive">
+                                                    id="supervisor_incentive">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
-                                                Transportation Allowance:</label>
+                                                    Transportation Allowance:</label>
 
                                                 <input type="text" class="form-control" name="trans_allowance"
-                                                        id="trans_allowance">
+                                                    id="trans_allowance">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
-                                                Cost Of Living Allowance:</label>
+                                                    Cost Of Living Allowance:</label>
 
                                                 <input type="text" class="form-control" name="COLA"
-                                                        id="COLA">
+                                                    id="COLA">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
-                                                Daily Meal Allowance:</label>
+                                                    Daily Meal Allowance:</label>
 
                                                 <input type="text" class="form-control" name="daily_meal_allowance"
-                                                        id="daily_meal_allowance">
+                                                    id="daily_meal_allowance">
                                             </div>
 
 
@@ -1033,6 +1046,36 @@
                     $("#employee_code").val(res);
                 }
             });
+
+            $.ajax({
+
+                type: "GET",
+                url: "<?php echo url('get_client_code'); ?>",
+                dataType: 'text',
+                cache: false,
+                data: {
+                    role: role
+                },
+                success: function(res) {
+
+                    $("#client_code").val(res);
+                }
+            });
+
+            $.ajax({
+
+                type: "GET",
+                url: "<?php echo url('get_branch_code'); ?>",
+                dataType: 'text',
+                cache: false,
+                data: {
+                    role: role
+                },
+                success: function(res) {
+
+                    $("#branch_code").val(res);
+                }
+            });
         })
 
         $("#annual_ctc").keyup(function() {
@@ -1090,18 +1133,17 @@
         }
 
         $("#imgfile").change(function() {
-        readURL(this);
+            readURL(this);
         });
 
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#ad_img').attr('src', e.target.result);
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#ad_img').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
             }
-            reader.readAsDataURL(input.files[0]);
         }
-    }
-
     </script>
 @endsection

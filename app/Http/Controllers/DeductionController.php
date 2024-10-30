@@ -39,20 +39,37 @@ class DeductionController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+            'user' => 'required',
+            'code' => 'required',
+            'description' => 'required',
+        ]);
+
+        Deduction::create([
+            'user_id' => $request->user,
+            'ded_code' => $request->code,
+            'description' => $request->description,
+        ]);
+
+        return response()->json(['code' => 200, 'message' => 'Deduction saved successfully']);
+
         try {
 
             $input['user_id'] = $request->user;
             $input['ded_code'] = $request->code;
             $input['ded_no'] = $request->number;
             $input['ded_amount'] = $request->amount;
+            $input['description'] = $request->description;
+
 
             Deduction::updateOrCreate(['id' => $request->deduction_id] ,$input);
 
-            return response()->json(['code' => '200', 'status' => 'Deduction added successfully']);
+            return response()->json(['code' => '200', 'description' => '200', 'status' => 'Deduction added successfully']);
         } catch (Throwable $e) {
 
             report($e);
-            return response()->json(['code' => '500', 'status' => $e]);
+            return response()->json(['code' => '500','description' => '500', 'status' => $e]);
         }
     }
 

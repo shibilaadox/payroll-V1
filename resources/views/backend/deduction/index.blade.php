@@ -6,15 +6,17 @@
         <div class="card text-left">
             <div class="card-body">
                 <h4 class="mb-3 fs-22 font-weight-bold">Deductions
-                    <div style="float: right"><button type="button" class="btn btn-primary ripple m-1" onclick="add_deduction()">
+                    <div style="float: right"><button type="button" class="btn btn-primary ripple m-1"
+                            onclick="add_deduction()">
                             New Deduction</button></div>
-                            <a class="btn btn-bold btn-label-brand btn-sm" data-toggle="modal" data-target="#modal_excel_deduction"
+                    <a class="btn btn-bold btn-label-brand btn-sm" data-toggle="modal" data-target="#modal_excel_deduction"
                         style="float:right;margin-right: 1%;margin-bottom: 2%"> <button
                             class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">Upload Deduction</button></a>
-                            <a class="btn btn-bold btn-label-brand btn-sm" 
-                        style="float:right;margin-right: 1%;margin-bottom: 2%" href="<?php echo url('').'/assets/format/deduction_template.xlsx'?>" target="_blank"> <button
-                            class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">Download template</button></a>	
-                        </h4>
+                    <a class="btn btn-bold btn-label-brand btn-sm" style="float:right;margin-right: 1%;margin-bottom: 2%"
+                        href="<?php echo url('') . '/assets/format/deduction_template.xlsx'; ?>" target="_blank"> <button
+                            class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">Download
+                            template</button></a>
+                </h4>
                 <p class="fs-16">All Your Deductions</p>
 
                 <div class="table-responsive">
@@ -30,7 +32,7 @@
                                                 rowspan="1" colspan="1" aria-sort="ascending"
                                                 aria-label="Name: activate to sort column descending"
                                                 style="width: 90.002px;">Id</th>
-                                            <th class="sorting_asc" tabindex="0" aria-controls="deduction_datatable"
+                                            {{-- <th class="sorting_asc" tabindex="0" aria-controls="deduction_datatable"
                                                 rowspan="1" colspan="1" aria-sort="ascending"
                                                 aria-label="Name: activate to sort column descending"
                                                 style="width: 181.002px;">User</th>
@@ -49,7 +51,18 @@
                                             <th class="sorting" tabindex="0" aria-controls="deduction_datatable"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Position: activate to sort column ascending"
-                                                style="width: 270.002px;">Month</th>
+                                                style="width: 270.002px;">Month</th> --}}
+
+                                            <th class="sorting_asc" tabindex="0" aria-controls="deduction_datatable"
+                                                rowspan="1" colspan="1" aria-sort="ascending"
+                                                aria-label="Name: activate to sort column descending"
+                                                style="width: 181.002px;">Deduction Code</th>
+
+                                            <th class="sorting_asc" tabindex="0" aria-controls="deduction_datatable"
+                                                rowspan="1" colspan="1" aria-sort="ascending"
+                                                aria-label="Name: activate to sort column descending"
+                                                style="width: 181.002px;">Description</th>
+
                                             <th class="sorting" tabindex="0" aria-controls="deduction_datatable"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Position: activate to sort column ascending"
@@ -59,20 +72,26 @@
                                     </thead>
                                     <tbody>
 
-                                    <?php $i=1;
+                                        <?php $i=1;
                                     foreach ($data['deduction'] as $row){ ?>
                                         <tr>
                                             <th scope="row">{{ $i++ }}</th>
-                                            <td>{{ $row->user->name }}</td>
+                                            {{-- <td>{{ $row->user->name }}</td>
                                             <td>{{ $row->ded_code }}</td>
                                             <td>{{ $row->ded_no }}</td>
                                             <td>{{ $row->ded_amount }}</td>
-                                            <td>{{ $row->month }}</td>
-                                            <td><button class="btn btn-success" onclick="edit_deduction('{{$row->id}}')" type="button"><i class="nav-icon i-Pen-2 font-weight-bold"></i></button>
-                                            <button class="btn btn-danger ml-3" onclick="delete_deduction('{{$row->id}}')" type="button"><i class="nav-icon i-Close-Window font-weight-bold"></i></button>
+                                            <td>{{ $row->month }}</td> --}}
+                                            <td>{{ $row->ded_code }}</td>
+                                            <td>{{ $row->description }}</td>
+                                            <td><button class="btn btn-success"
+                                                    onclick="edit_deduction('{{ $row->id }}')" type="button"><i
+                                                        class="nav-icon i-Pen-2 font-weight-bold"></i></button>
+                                                <button class="btn btn-danger ml-3"
+                                                    onclick="delete_deduction('{{ $row->id }}')" type="button"><i
+                                                        class="nav-icon i-Close-Window font-weight-bold"></i></button>
                                             </td>
                                         </tr>
-                                    <?php } ?>
+                                        <?php } ?>
                                     </tbody>
 
                                 </table>
@@ -105,13 +124,13 @@
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">User:</label>
                                 <select class="form-control" name="user" id="user">
-                                                    <option value="">Select</option>
-                                                    @foreach ($data['users'] as $row)
-                                                    <option value="{{ $row->id }}">{{ $row->firstname }}</option>
-                                                    @endforeach
-                                                    </select>
+                                    <option value="">Select</option>
+                                    @foreach ($data['users'] as $row)
+                                        <option value="{{ $row->id }}">{{ $row->firstname }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            <div class="form-group col-md-12">
+                            {{-- <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Code:</label>
                                 <input type="text" class="form-control" id="code" name="code" placeholder="Enter code" required>
 
@@ -125,6 +144,18 @@
                                 <label for="short_name" class="ul-form__label">Amount:</label>
                                 <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter amount" required>
                                 <input type="hidden" name="deduction_id" id="deduction_id" value="">
+                            </div> --}}
+
+                            <div class="form-group col-md-12">
+                                <label for="code" class="ul-form__label">Deduction Code:</label>
+                                <input type="text" class="form-control" id="code" name="code"
+                                    placeholder="Enter code" required>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="description" class="ul-form__label">Description:</label>
+                                <input type="text" class="form-control" id="description" name="description"
+                                    placeholder="Enter description" required>
+                                <input type="hidden" name="deduction_id" id="deduction_id" value="">
                             </div>
                         </div>
                     </div>
@@ -136,8 +167,8 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modal_excel_deduction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="modal_excel_deduction" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
 
@@ -151,10 +182,10 @@
                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
                         <div class="form-group">
-                            
+
 
                             <input type="file" name='file' id="file">
-                            
+
 
                         </div>
 
@@ -169,12 +200,10 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('page-js')
     <script type="text/javascript">
-
         //open model
         function add_deduction() {
             $('#deduction-modal').modal('show');
@@ -198,12 +227,12 @@
                 success: function(response) {
                     window.location.reload();
                     if (response.code == 200) {
-
                         $('#deduction-modal').modal('hide');
                         swal_success();
-
-
-
+                    }
+                    if (response.description == 200) {
+                        $('#deduction-modal').modal('hide');
+                        swal_success();
                     }
                 },
                 error: function(response) {
@@ -213,6 +242,33 @@
             });
 
         });
+
+        // save changes, add deduction
+        $.ajax({
+            url: "{{ route('deductions.store') }}",
+            type: "POST",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                console.log(response);
+                if (response.code == 200) {
+                    $('#deduction-modal').modal('hide');
+                    window.location.reload();
+                    swal_success();
+                }
+                if (response.description == 200) {
+                    $('#deduction-modal').modal('hide');
+                    window.location.reload();
+                    swal_success();
+                }
+            },
+            error: function(response) {
+                console.error(response); // Log the error response to help debug
+            }
+        });
+
 
 
         //Edit Function
@@ -227,6 +283,7 @@
                 $("#code").val(data.ded_code);
                 $("#number").val(data.ded_no);
                 $("#amount").val(data.ded_amount);
+                $("#description").val(data.description);
             });
         }
 
@@ -248,6 +305,5 @@
             //Datatable
             $('#deduction_datatable').DataTable();
         });
-
     </script>
 @endsection

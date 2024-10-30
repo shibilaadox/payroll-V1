@@ -210,9 +210,13 @@ Route::get('get_payslip_employee_hourly', [App\Http\Controllers\PayrollHourlyCon
 
 //Deduction routes
 Route::resource('deductions', DeductionController::class);
+Route::post('/deductions', [DeductionController::class, 'store'])->name('deductions.store');
+
 
 //Rate routes
 Route::resource('rates', RateController::class);
+Route::post('/rates/store', [RateController::class, 'store'])->name('rate.store');
+Route::delete('/rates/{id}', [RateController::class, 'destroy'])->name('rates.destroy');
 
 Route::post('/import-excel', [App\Http\Controllers\ExcelImportController::class,'import'])->name('import.excel');
 Route::get('import-excel', [App\Http\Controllers\ExcelImportController::class,'index'])->name('import-excel');

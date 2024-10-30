@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Roles;
 use App\Models\User;
 use App\Models\Department;
@@ -86,7 +87,9 @@ class EmployeeController extends Controller
             }
 
             $user->employee_code = $request->employee_code;
-            $user->name = $request->first_name . " " . $request->last_name;
+            $user->client_code = $request->client_code;
+            $user->brnach_code = $request->branch_code;
+            $user->name = $request->first_name . " " .$request->middle_name . " " . $request->last_name;
             $user->email = $request->email;
             $user->user_type = 'Employee';
             $user->phone = $request->phone;
@@ -94,6 +97,7 @@ class EmployeeController extends Controller
             $user->gender = $request->gender;
             $user->dob = $request->dob;
             $user->firstname = $request->first_name;
+            $user->firstname = $request->middle_name;
             $user->lastname = $request->last_name;
             $user->status = $request->status;
             $user->profile_photo = $img_name;
@@ -179,13 +183,13 @@ class EmployeeController extends Controller
         $employee_project = EmployeeProject::where('user_id', $id)
             ->where('month',date('F',strtotime('last month')))
             ->first();
-        
+
         if(!empty($employee_project))
         $employee_project_id = $employee_project->id;
 
         else
         $employee_project_id = "";
-           
+
 
         if (!$employee) {
             abort(404, 'Employee not found');
@@ -290,7 +294,7 @@ class EmployeeController extends Controller
         return redirect()->route('employee.index');
 
         $user = User::findOrFail($id);
-        $user->name = $request->first_name . " " . $request->last_name;
+        $user->name = $request->first_name. " " . $request->middle_name . " " . $request->last_name;
         $user->email = $request->email;
         $user->department = $request->department_name;
         $user->location = $request->location_name;
@@ -419,6 +423,62 @@ class EmployeeController extends Controller
     }
 
     public function get_employee_code()
+    {
+        $role = $_GET['role'];
+
+        $emp_code = User::where('user_type', 'Employee')->where('job_role', $role)->orderBy('id', 'DESC')->first();
+
+        if (!empty($emp_code))
+            $employee_code = $emp_code->employee_code;
+
+        else
+            $employee_code = 000;
+
+        $newcode = substr($employee_code, -3);
+
+        $new_code = str_pad(++$newcode, 3, "0", STR_PAD_LEFT);
+
+        if ($role == "Employee")
+            $new_employee_code = "ANA " . $new_code;
+
+        else if ($role == "Trainee")
+            $new_employee_code = "ANA TR " . $new_code;
+
+        else if ($role == "New Venture")
+            $new_employee_code = "ANA NV " . $new_code;
+
+        return $new_employee_code;
+    }
+
+    public function get_client_code()
+    {
+        $role = $_GET['role'];
+
+        $clt_code = Client::where('user_type', 'client')->where('job_role', $role)->orderBy('id', 'DESC')->first();
+
+        if (!empty($emp_code))
+            $employee_code = $emp_code->employee_code;
+
+        else
+            $employee_code = 000;
+
+        $newcode = substr($employee_code, -3);
+
+        $new_code = str_pad(++$newcode, 3, "0", STR_PAD_LEFT);
+
+        if ($role == "Employee")
+            $new_employee_code = "ANA " . $new_code;
+
+        else if ($role == "Trainee")
+            $new_employee_code = "ANA TR " . $new_code;
+
+        else if ($role == "New Venture")
+            $new_employee_code = "ANA NV " . $new_code;
+
+        return $new_employee_code;
+    }
+
+    public function get_branch_code()
     {
         $role = $_GET['role'];
 

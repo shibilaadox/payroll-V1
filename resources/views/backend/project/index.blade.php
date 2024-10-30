@@ -17,9 +17,9 @@
                             New Project</button>
 
 
-                            <!--<button class="btn btn-success m-1" onclick="window.location.href='{{ route('payslip') }}'">Go to Payslip</button>-->
+                        <!--<button class="btn btn-success m-1" onclick="window.location.href='{{ route('payslip') }}'">Go to Payslip</button>-->
 
-                        
+
                     </div>
                 </h4>
                 <br>
@@ -141,15 +141,15 @@
                                 </select>
                             </div>
                             <!--<div class="form-group col-md-12">
-                                                            <label for="actual_name" class="ul-form__label">Project Phases:</label>
-                                                            <select class="form-control" id="project_phase" name="project_phase" required>
-                                                                <option value="">Select</option>
-                                                                <option value="Construction">Construction</option>
-                                                                <option value="Consultancy">Consultancy</option>
-                                                                <option value="Proposal">Proposal</option>
-                                                            </select>
+                                                                <label for="actual_name" class="ul-form__label">Project Phases:</label>
+                                                                <select class="form-control" id="project_phase" name="project_phase" required>
+                                                                    <option value="">Select</option>
+                                                                    <option value="Construction">Construction</option>
+                                                                    <option value="Consultancy">Consultancy</option>
+                                                                    <option value="Proposal">Proposal</option>
+                                                                </select>
 
-                                                        </div>-->
+                                                            </div>-->
                             <div class="form-group col-md-12">
                                 <label for="actual_name" class="ul-form__label">Project Amount:</label>
                                 <input type="text" class="form-control" id="project_amount" name="project_amount"
@@ -208,7 +208,8 @@
 
                                             {{--  --}}
                                             <td>
-                                                <input type="text" class="form-control" name="role[]" id="role">
+                                                <input type="text" class="form-control" name="role[]"
+                                                    id="role">
                                             </td>
                                             {{--  --}}
 
@@ -269,7 +270,6 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script type="text/javascript">
-
         //open model
         function add_project() {
             $('#project-modal').modal('show');
@@ -392,7 +392,7 @@
                 '<input type="text" class="form-control" name="role[]" id="role">' +
                 '</td>' +
                 '<td>' +
-                    
+
                 '<select class="form-control" id="mode" name="mode[]">' +
                 '<option value="">Select</option>' +
 
@@ -440,7 +440,7 @@
             }
         });
 
-        function EmployeePayment(employee, mode, payment,role) {
+        function EmployeePayment(employee, mode, payment, role) {
             this.Employee = employee;
             this.Mode = mode;
             this.Payment = payment;

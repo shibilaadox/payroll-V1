@@ -58,10 +58,12 @@
                                                 aria-label="Name: activate to sort column descending"
                                                 style="width: 181.002px;">Deduction Code</th>
 
-                                            <th class="sorting_asc" tabindex="0" aria-controls="deduction_datatable"
-                                                rowspan="1" colspan="1" aria-sort="ascending"
-                                                aria-label="Name: activate to sort column descending"
-                                                style="width: 181.002px;">Description</th>
+                                            <th class="sorting" tabindex="0" aria-controls="deduction_datatable"
+                                                rowspan="1" colspan="1" style="width: 181.002px;">Type</th>
+
+
+                                            <th class="sorting" tabindex="0" aria-controls="deduction_datatable"
+                                                rowspan="1" colspan="1" style="width: 181.002px;">Description</th>
 
                                             <th class="sorting" tabindex="0" aria-controls="deduction_datatable"
                                                 rowspan="1" colspan="1"
@@ -82,6 +84,7 @@
                                             <td>{{ $row->ded_amount }}</td>
                                             <td>{{ $row->month }}</td> --}}
                                             <td>{{ $row->ded_code }}</td>
+                                            <td>{{ $row->deduction_type }}</td>
                                             <td>{{ $row->description }}</td>
                                             <td><button class="btn btn-success"
                                                     onclick="edit_deduction('{{ $row->id }}')" type="button"><i
@@ -151,6 +154,17 @@
                                 <input type="text" class="form-control" id="code" name="code"
                                     placeholder="Enter code" required>
                             </div>
+
+                            <div class="form-group col-md-12">
+                                <label for="deduction_type" class="ul-form__label">Deduction Type:</label>
+                                <select class="form-control" name="deduction_type" id="deduction_type" required>
+                                    <option value="">Select Type</option>
+                                    <option value="SSS Loan">SSS Loan</option>
+                                    <option value="Pag-IBIG Loan">Pag-IBIG Loan</option>
+                                    <option value="Personal Loan">Personal Loan</option>
+                                </select>
+                            </div>
+
                             <div class="form-group col-md-12">
                                 <label for="description" class="ul-form__label">Description:</label>
                                 <input type="text" class="form-control" id="description" name="description"
@@ -234,6 +248,10 @@
                         $('#deduction-modal').modal('hide');
                         swal_success();
                     }
+                    if (response.deduction_type == 200) {
+                        $('#deduction-modal').modal('hide');
+                        swal_success();
+                    }
                 },
                 error: function(response) {
 
@@ -263,6 +281,11 @@
                     window.location.reload();
                     swal_success();
                 }
+                if (response.deduction_type == 200) {
+                    $('#deduction-modal').modal('hide');
+                    window.location.reload();
+                    swal_success();
+                }
             },
             error: function(response) {
                 console.error(response); // Log the error response to help debug
@@ -281,6 +304,7 @@
                 $("#deduction_id").val(data.id);
                 $("#user").val(data.user_id);
                 $("#code").val(data.ded_code);
+                $("#deduction_type").val(data.deduction_type);
                 $("#number").val(data.ded_no);
                 $("#amount").val(data.ded_amount);
                 $("#description").val(data.description);

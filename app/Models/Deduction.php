@@ -9,7 +9,7 @@ class Deduction extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'code', 'ded_code', 'ded_no', 'ded_amount','user_id','month'
+        'code', 'ded_code', 'ded_no', 'ded_amount','user_id','month', 'deduction_type', 'description'
     ];
 
     public function user()

@@ -43,12 +43,14 @@ class DeductionController extends Controller
         $request->validate([
             'user' => 'required',
             'code' => 'required',
+            'deduction_type' => 'required',
             'description' => 'required',
         ]);
 
         Deduction::create([
             'user_id' => $request->user,
             'ded_code' => $request->code,
+            'deduction_type' => $request->code,
             'description' => $request->description,
         ]);
 
@@ -61,6 +63,7 @@ class DeductionController extends Controller
             $input['ded_no'] = $request->number;
             $input['ded_amount'] = $request->amount;
             $input['description'] = $request->description;
+            $input['deduction_type'] = $request->deduction_type;
 
 
             Deduction::updateOrCreate(['id' => $request->deduction_id] ,$input);

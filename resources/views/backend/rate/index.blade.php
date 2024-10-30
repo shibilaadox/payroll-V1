@@ -18,7 +18,7 @@
 
                     <div style="float: right; margin-right: 1.5%;margin-bottom: 2%">
                         <button type="button" class="btn btn-primary ripple m-1" onclick="add_rate()">
-                            New Project</button>
+                            New Rate</button>
                     </div>
                 </h4>
                 <p class="fs-16">All Your Rates</p>

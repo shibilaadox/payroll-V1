@@ -13,6 +13,7 @@ use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientDetailsController;
+use App\Http\Controllers\ClientTimesheetController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\PayrollController;
@@ -223,6 +224,11 @@ Route::get('import-excel', [App\Http\Controllers\ExcelImportController::class,'i
 Route::post('/import_hourly-excel', [App\Http\Controllers\ExcelImportController::class,'import_hourly'])->name('import_hourly.excel');
 Route::post('/import_deduction-excel', [App\Http\Controllers\ExcelImportController::class,'import_deduction'])->name('import_deduction.excel');
 Route::post('/import_rate-excel', [App\Http\Controllers\ExcelImportController::class,'import_rate'])->name('import_rate.excel');
+
+// client Timesheet
+Route::get('/client-timesheets', [ClientTimesheetController::class, 'index'])->name('clientTimesheet.index');
+Route::post('/client-timesheets', [ClientTimesheetController::class, 'store'])->name('clientTimesheet.store');
+Route::delete('/client-timesheets/{id}', [ClientTimesheetController::class, 'destroy'])->name('clientTimesheet.destroy');
 
 Route::get('pdf', [PdfController::class, 'index'])->name('pdf');
 

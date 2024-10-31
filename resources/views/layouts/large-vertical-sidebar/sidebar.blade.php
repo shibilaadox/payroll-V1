@@ -214,6 +214,13 @@
             </li>
 
             <li class="nav-item">
+                <a class="{{ Route::currentRouteName() == 'clientTimesheet.index' ? 'open' : '' }}" href="{{ route('clientTimesheet.index') }}">
+                    <i class="nav-icon i-File-Clipboard-Text--Image"></i>
+                    <span class="item-name">{{ __('Client Timesheet') }}</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a class="{{ Route::currentRouteName()=='rates' ? 'open' : '' }}" href="{{route('rates.index')}}">
                     <i class="nav-icon i-File-Clipboard-Text--Image"></i>
                     <span class="item-name">{{__('Rate')}}</span>

@@ -229,6 +229,8 @@ Route::post('/import_rate-excel', [App\Http\Controllers\ExcelImportController::c
 Route::get('/client-timesheets', [ClientTimesheetController::class, 'index'])->name('clientTimesheet.index');
 Route::post('/client-timesheets', [ClientTimesheetController::class, 'store'])->name('clientTimesheet.store');
 Route::delete('/client-timesheets/{id}', [ClientTimesheetController::class, 'destroy'])->name('clientTimesheet.destroy');
+Route::get('/client-timesheets/data', [ClientTimesheetController::class, 'getTimesheets'])->name('clientTimesheet.data');
+
 
 Route::get('pdf', [PdfController::class, 'index'])->name('pdf');
 

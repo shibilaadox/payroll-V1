@@ -11,7 +11,7 @@ class ClientTimesheet extends Model
     protected $table = 'client_timesheets';
 
     protected $fillable = [
-        'employee_id',
+        // 'employee_id',
         'client_id',
         'branch_id',
         'pay_type',
@@ -24,4 +24,14 @@ class ClientTimesheet extends Model
         'hours_worked',
         'overtime_hours',
     ];
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class, 'client_id');
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(EmployeeTimesheetHourly::class, 'branch_id');
+    }
 }

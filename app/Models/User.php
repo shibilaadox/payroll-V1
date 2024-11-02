@@ -49,7 +49,7 @@ class User extends Authenticatable
         'living_allowance',
         'transportation_allowance',
         'supervisor_incentive',
-        'status'
+        'status',
     ];
 
     /**

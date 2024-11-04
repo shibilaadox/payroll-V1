@@ -4,25 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
-use App\Models\ClientTimesheet;
-use App\Models\EmployeeTimesheetHourly;
+use App\Models\UserTimesheet;
 use App\Models\Userdetail;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Calculation\Engine\BranchPruner;
 use Yajra\DataTables\Facades\DataTables;
 
-class ClientTimesheetController extends Controller
+class UserTimesheetController extends Controller
 {
     public function index()
     {
         $clients = Client::all();
         // $timesheets = ClientTimesheet::with('client')->get();
-        $timesheets = ClientTimesheet::paginate(10);
+        $timesheets = UserTimesheet::paginate(10);
         $salaryPayTypes = Userdetail::pluck('salary_pay_type')->unique();
-        $branches = EmployeeTimesheetHourly::pluck('branch')->unique();
+        $locations = Location::select('id','location_name')->get();
 
-        $data = ClientTimesheet::get();
-        return view('backend.timesheetEntry.index', compact('timesheets', 'clients', 'salaryPayTypes','branches'));
+        $data = UserTimesheet::get();
+        return view('backend.timesheetEntry.index', compact('timesheets', 'clients', 'salaryPayTypes','locations'));
     }
 
     public function store(Request $request)
@@ -38,11 +38,10 @@ class ClientTimesheetController extends Controller
             'week_number' => 'required',
             'month' => 'required',
             'year' => 'required',
-            // 'hours_worked' => 'required|numeric',
-            'overtime_hours' => 'nullable|numeric',
+            
         ]);
-        EmployeeTimesheetHourly::create($request->all());
-        ClientTimesheet::create($validatedData);
+       
+        UserTimesheet::create($validatedData);
 
         return response()->json(['code' => 200, 'message' => 'Timesheet entry created successfully.']);
     }
@@ -51,7 +50,7 @@ class ClientTimesheetController extends Controller
     public function getTimesheets(Request $request)
     {
         if ($request->ajax()) {
-            $timesheets = ClientTimesheet::with('client', 'branch')->select('client_timesheets.*');
+            $timesheets = UserTimesheet::with('client', 'location')->select('user_timesheets.*');
             return DataTables::of($timesheets)
                 ->addColumn('payroll_period', function ($row) {
                     return $row->payroll_period_start . ' - ' . $row->payroll_period_end;
@@ -59,12 +58,12 @@ class ClientTimesheetController extends Controller
                 ->addColumn('client.name', function ($row) {
                     return $row->client ? $row->client->name : 'N/A';
                 })
-                // ->addColumn('branch.name', function ($row) {
-                //     return $row->branch ? $row->branch->name : 'N/A';
-                // })
+                 ->addColumn('location.name', function ($row) {
+                     return $row->location ? $row->location->location_name : 'N/A';
+                 })
                 ->addColumn('action', function ($row) {
                     return '
-                        <form action="' . route('clientTimesheet.destroy', $row->id) . '" method="POST" style="display: inline;">
+                        <form action="' . route('userTimesheet.destroy', $row->id) . '" method="POST" style="display: inline;">
                             ' . csrf_field() . '
                             ' . method_field('DELETE') . '
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -74,7 +73,7 @@ class ClientTimesheetController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return datatables()->of(ClientTimesheet::with(['client',
+        return datatables()->of(UserTimesheet::with(['client',
         // 'branch'
         ])->get())
             ->addColumn('action', function ($timesheet) {

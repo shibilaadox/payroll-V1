@@ -21,8 +21,7 @@
                                         <tr role="row">
                                             <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
                                                 colspan="1">Id</th>
-                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
-                                                colspan="1">Payroll Period</th>
+                                            
                                             <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
                                                 colspan="1">Payroll Date</th>
                                             <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
@@ -30,7 +29,7 @@
                                             <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
                                                 colspan="1">Client</th>
                                             <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
-                                                colspan="1">Branch</th>
+                                                colspan="1">Location</th>
                                             <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
                                                 colspan="1">Pay Type</th>
                                             <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
@@ -56,8 +55,16 @@
     {{-- Add modal --}}
     <div class="modal fade" id="timesheet-modal" tabindex="-1" role="dialog" aria-labelledby="TimesheetModalTitle"
         aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog" role="document" style="max-width: 100%;
+    margin: 0;
+    top: 0;
+    bottom: 0;
+    left: 1%;
+    right: 1%;
+    height: 100vh;
+    display: flex;">
             <div class="modal-content">
+           
                 <form id="timesheet_form" name="timesheet_form" method="POST" class="needs-validation was-validated">
                     @csrf
                     <div class="modal-header">
@@ -68,20 +75,20 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label for="payroll_period_start" class="ul-form__label">Payroll Start Date:</label>
                                 <input type="date" class="form-control" id="payroll_period_start" name="payroll_period_start" required>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label for="payroll_period_end" class="ul-form__label">Payroll End Date:</label>
                                 <input type="date" class="form-control" id="payroll_period_end" name="payroll_period_end" required>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label for="payroll_date" class="ul-form__label">Payroll Date:</label>
                                 <input type="date" class="form-control" id="payroll_date" name="payroll_date"
                                     required>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label for="week_number" class="ul-form__label">Week Number:</label>
                                 <select class="form-control" id="week_number" name="week_number" required>
                                     <option value="" disabled selected>Select Week Number</option>
@@ -94,7 +101,7 @@
                                     <option value="5">5</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label for="client_id" class="ul-form__label">Client:</label>
                                 <select class="form-control" id="client_id" name="client_id" required>
                                     <option value="" disabled selected>Select Client</option>
@@ -103,16 +110,16 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="branch" class="ul-form__label">Branch:</label>
-                                <select class="form-control" id="branch" name="branch" required>
-                                    <option value="" disabled selected>Select Branch</option>
-                                    @foreach ($branches as $branch)
-                                        <option value="{{ $branch }}">{{ $branch }}</option>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Location:</label>
+                                <select class="form-control" id="location_id" name="location_id" required>
+                                    <option value="" disabled selected>Select Location</option>
+                                    @foreach ($locations as $location)
+                                        <option value="{{ $location->id }}">{{ $location->location_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label for="pay_type" class="ul-form__label">Pay Type:</label>
                                 <select class="form-control" id="pay_type" name="pay_type" required>
                                     <option value="" disabled selected>Select Pay Type</option>
@@ -121,12 +128,20 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label for="month" class="ul-form__label">Month:</label>
                                 <input type="text" class="form-control" id="month" name="month"
                                     placeholder="MM" required>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
+                                <label for="year" class="ul-form__label">Year:</label>
+                                <input type="text" class="form-control" id="year" name="year"
+                                    placeholder="YYYY" required>
+                            </div>
+                            <div class="line" style="border-bottom: 1px solid black;
+            margin-top: 5px;
+            width: 100%;"></div>
+            <div class="form-group col-md-3">
                                 <label for="year" class="ul-form__label">Year:</label>
                                 <input type="text" class="form-control" id="year" name="year"
                                     placeholder="YYYY" required>
@@ -138,6 +153,7 @@
                         <button type="submit" class="btn btn-primary" id="saveBtn">Save changes</button>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
@@ -158,7 +174,7 @@
             var formData = new FormData(this);
 
             $.ajax({
-                url: "{{ route('clientTimesheet.store') }}",
+                url: "{{ route('userTimesheet.store') }}",
                 type: "POST",
                 data: formData,
                 cache: false,
@@ -184,15 +200,12 @@
             $('#timesheet_datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('clientTimesheet.data') }}",
+                ajax: "{{ route('userTimesheet.data') }}",
                 columns: [{
                         data: 'id',
                         name: 'id'
                     },
-                    {
-                        data: 'payroll_period',
-                        name: 'payroll_period'
-                    },
+                    
                     {
                         data: 'payroll_date',
                         name: 'payroll_date'
@@ -206,8 +219,8 @@
                         name: 'client.name'
                     },
                     {
-                        data: 'branch_id',
-                        name: 'branch_id'
+                        data: 'location.name',
+                        name: 'location.name'
                     },
                     {
                         data: 'pay_type',

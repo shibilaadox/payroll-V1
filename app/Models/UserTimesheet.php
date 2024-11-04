@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ClientTimesheet extends Model
+class UserTimesheet extends Model
 {
     use HasFactory;
-    protected $table = 'client_timesheets';
+    protected $table = 'user_timesheets';
 
     protected $fillable = [
-        // 'employee_id',
+        'user_id',
         'client_id',
-        'branch_id',
+        'location_id',
         'pay_type',
         'payroll_period_start',
         'payroll_period_end',
@@ -21,8 +21,7 @@ class ClientTimesheet extends Model
         'week_number',
         'month',
         'year',
-        'hours_worked',
-        'overtime_hours',
+        
     ];
 
     public function client()
@@ -30,8 +29,8 @@ class ClientTimesheet extends Model
         return $this->belongsTo(Client::class, 'client_id');
     }
 
-    public function branch()
+    public function location()
     {
-        return $this->belongsTo(EmployeeTimesheetHourly::class, 'branch_id');
+        return $this->belongsTo(Location::class, 'location_id');
     }
 }

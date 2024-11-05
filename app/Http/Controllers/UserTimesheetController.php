@@ -7,6 +7,8 @@ use App\Models\Client;
 use App\Models\UserTimesheet;
 use App\Models\Userdetail;
 use App\Models\Location;
+use App\Models\User;
+use App\Models\Rate;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Calculation\Engine\BranchPruner;
 use Yajra\DataTables\Facades\DataTables;
@@ -16,21 +18,22 @@ class UserTimesheetController extends Controller
     public function index()
     {
         $clients = Client::all();
-        // $timesheets = ClientTimesheet::with('client')->get();
         $timesheets = UserTimesheet::paginate(10);
         $salaryPayTypes = Userdetail::pluck('salary_pay_type')->unique();
         $locations = Location::select('id','location_name')->get();
-
+        $users = User::select('id','firstname','middlename','lastname')->get();
         $data = UserTimesheet::get();
-        return view('backend.timesheetEntry.index', compact('timesheets', 'clients', 'salaryPayTypes','locations'));
+        $rate8 = Rate::select('rate8')->first();
+        $rate12 = Rate::select('rate12')->first();
+        return view('backend.timesheetEntry.index', compact('timesheets', 'clients', 'salaryPayTypes','locations','users','rate8','rate12'));
     }
 
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            // 'employee_id' => 'required',
+            'user_id' => 'required',
             'client_id' => 'required',
-            'branch' => 'required',
+            'location_id' => 'required',
             'pay_type' => 'required',
             'payroll_period_start' => 'required|date',
             'payroll_period_end' => 'required|date',
@@ -38,6 +41,30 @@ class UserTimesheetController extends Controller
             'week_number' => 'required',
             'month' => 'required',
             'year' => 'required',
+            'date'=> 'required',
+            'employee_code'=> 'required',
+            'company_code'=> 'required',
+            'posicode'=> 'required',
+            'ot1_hrs'=> 'required',
+            'ot2_hrs'=> 'required',
+            'ot3_hrs'=> 'required',
+            'ot4_hrs'=> 'required',
+            'ot5_hrs'=> 'required',
+            'ot6_hrs'=> 'required',
+            'ot7_hrs'=> 'required',
+            'ot8_hrs'=> 'required',
+            'ot9_hrs'=> 'required',
+            'ot10_hrs'=> 'required',
+            'ot11_hrs'=> 'required',
+            'ot12_hrs'=> 'required',
+            'ot13_hrs'=> 'required',
+            'day8'=> 'required',
+            'day8_rate'=> 'required',
+            'day12'=> 'required',
+            'day12_rate'=> 'required',
+            'nd_days'=> 'required',
+            'incentive'=> 'required',
+            'undertime'=> 'required',
             
         ]);
        
@@ -61,6 +88,9 @@ class UserTimesheetController extends Controller
                  ->addColumn('location.name', function ($row) {
                      return $row->location ? $row->location->location_name : 'N/A';
                  })
+                 ->addColumn('user.name', function ($row) {
+                    return $row->user ? $row->user->name : 'N/A';
+                })
                 ->addColumn('action', function ($row) {
                     return '
                         <form action="' . route('userTimesheet.destroy', $row->id) . '" method="POST" style="display: inline;">
@@ -84,9 +114,9 @@ class UserTimesheetController extends Controller
 
     public function destroy($id)
     {
-        $timesheet = ClientTimesheet::findOrFail($id);
+        $timesheet = UserTimesheet::findOrFail($id);
         $timesheet->delete();
 
-        return redirect()->route('clientTimesheet.index')->with('success', 'Timesheet entry deleted successfully.');
+        return redirect()->route('userTimesheet.index')->with('success', 'Timesheet entry deleted successfully.');
     }
 }

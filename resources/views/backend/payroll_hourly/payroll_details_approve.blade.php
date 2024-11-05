@@ -109,7 +109,7 @@
                                         
                                         $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;
 
-                                        foreach($row1->user_timesheet_hourly as $row){
+                                        foreach($row1->usertimesheet as $row){
   
                                           if($row1->id == $row->user_id){
   

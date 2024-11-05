@@ -37,6 +37,54 @@
                                             <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
                                                 colspan="1">Year</th>
                                             <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">Employee</th>
+                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">Employee Code</th>
+                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">Company Code</th>
+                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">Position Code</th>
+                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">OT1 Hrs</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">OT2 Hrs</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">OT3 Hrs</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">OT4 Hrs</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">OT5 Hrs</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">OT6 Hrs</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">OT7 Hrs</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">OT8 Hrs</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">OT9 Hrs</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">OT10 Hrs</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">OT11 Hrs</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">OT12 Hrs</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">OT13 Hrs</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">Day8 Hrs</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">Day8 Rate</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">Day12 Hrs</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">Day12 Rate</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">ND Days</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">Undertime</th>
+                                                <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">Incentive</th>
+                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
                                                 colspan="1">Actions</th>
                                         </tr>
                                     </thead>
@@ -55,13 +103,13 @@
     {{-- Add modal --}}
     <div class="modal fade" id="timesheet-modal" tabindex="-1" role="dialog" aria-labelledby="TimesheetModalTitle"
         aria-hidden="true">
-        <div class="modal-dialog" role="document" style="max-width: 100%;
+        <div class="modal-dialog" role="document" style="max-width: 90%;
     margin: 0;
     top: 0;
     bottom: 0;
-    left: 1%;
-    right: 1%;
-    height: 100vh;
+    left: 5%;
+    right: 5%;
+    
     display: flex;">
             <div class="modal-content">
            
@@ -141,17 +189,147 @@
                             <div class="line" style="border-bottom: 1px solid black;
             margin-top: 5px;
             width: 100%;"></div>
+
             <div class="form-group col-md-3">
-                                <label for="year" class="ul-form__label">Year:</label>
-                                <input type="text" class="form-control" id="year" name="year"
-                                    placeholder="YYYY" required>
+                                <label for="payroll_period_start" class="ul-form__label">Date:</label>
+                                <input type="date" class="form-control" id="date" name="date" required>
                             </div>
+
+            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Employee:</label>
+                                <select class="form-control" id="user_id" name="user_id" required>
+                                    <option value="" disabled selected>Select User</option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}"><?php echo $user->firstname." ".$user->middlename." ".$user->lastname;?></option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Employee Code:</label>
+                                <input type="text" class="form-control" id="employee_code" name="employee_code"
+                                     required>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Company Code:</label>
+                                <input type="text" class="form-control" id="company_code" name="company_code"
+                                     required>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Position Code:</label>
+                                <input type="text" class="form-control" id="posicode" name="posicode"
+                                     required>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Overtime 1:</label>
+                                <input type="text" class="form-control" id="ot1_hrs" name="ot1_hrs"
+                                     required value=0>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Overtime 2:</label>
+                                <input type="text" class="form-control" id="ot2_hrs" name="ot2_hrs"
+                                     required value=0>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Overtime 3:</label>
+                                <input type="text" class="form-control" id="ot3_hrs" name="ot3_hrs"
+                                     required value=0>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Overtime 4:</label>
+                                <input type="text" class="form-control" id="ot4_hrs" name="ot4_hrs"
+                                     required value=0>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Overtime 5:</label>
+                                <input type="text" class="form-control" id="ot5_hrs" name="ot5_hrs"
+                                     required value=0>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Overtime 6:</label>
+                                <input type="text" class="form-control" id="ot6_hrs" name="ot6_hrs"
+                                     required value=0>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Overtime 7:</label>
+                                <input type="text" class="form-control" id="ot7_hrs" name="ot7_hrs"
+                                     required value=0> 
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Overtime 8:</label>
+                                <input type="text" class="form-control" id="ot8_hrs" name="ot8_hrs"
+                                     required value=0>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Overtime 9:</label>
+                                <input type="text" class="form-control" id="ot9_hrs" name="ot9_hrs"
+                                     required value=0>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Overtime 10:</label>
+                                <input type="text" class="form-control" id="ot10_hrs" name="ot10_hrs"
+                                     required value=0>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Overtime 11:</label>
+                                <input type="text" class="form-control" id="ot11_hrs" name="ot11_hrs"
+                                     required value=0>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Overtime 12:</label>
+                                <input type="text" class="form-control" id="ot12_hrs" name="ot12_hrs"
+                                     required value=0>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Overtime 13:</label>
+                                <input type="text" class="form-control" id="ot13_hrs" name="ot13_hrs"
+                                     required value=0>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Day8 Hrs:</label>
+                                <input type="text" class="form-control" id="day8" name="day8"
+                                     required>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Day8 Rate:</label>
+                                <input type="text" class="form-control" id="day8_rate" name="day8_rate"
+                                     required value="{{$rate8->rate8}}">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Day12 Hrs:</label>
+                                <input type="text" class="form-control" id="day12" name="day12"
+                                     required >
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Day12 Rate:</label>
+                                <input type="text" class="form-control" id="day12_rate" name="day12_rate"
+                                     required value="{{$rate12->rate12}}">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Night Differential Days:</label>
+                                <input type="text" class="form-control" id="nd_days" name="nd_days"
+                                     required >
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Undertime:</label>
+                                <input type="text" class="form-control" id="undertime" name="undertime"
+                                     required >
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="location" class="ul-form__label">Incentive:</label>
+                                <input type="text" class="form-control" id="incentive" name="incentive"
+                                     required >
+                            </div>
+
+
+
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary" id="saveBtn">Save changes</button>
+                        
                     </div>
+                    
                 </form>
 
             </div>
@@ -234,6 +412,103 @@
                         data: 'year',
                         name: 'year'
                     },
+                    {
+                        data: 'user.name',
+                        name: 'user.name'
+                    },
+                    {
+                        data: 'employee_code',
+                        name: 'employee_code'
+                    },
+                    {
+                        data: 'company_code',
+                        name: 'company_code'
+                    },
+                    {
+                        data: 'posicode',
+                        name: 'posicode'
+                    },
+                    {
+                        data: 'ot1_hrs',
+                        name: 'ot1_hrs'
+                    },
+                    {
+                        data: 'ot2_hrs',
+                        name: 'ot2_hrs'
+                    },
+                    {
+                        data: 'ot3_hrs',
+                        name: 'ot3_hrs'
+                    },
+                    {
+                        data: 'ot4_hrs',
+                        name: 'ot4_hrs'
+                    },
+                    {
+                        data: 'ot5_hrs',
+                        name: 'ot5_hrs'
+                    },
+                    {
+                        data: 'ot6_hrs',
+                        name: 'ot6_hrs'
+                    },
+                    {
+                        data: 'ot7_hrs',
+                        name: 'ot7_hrs'
+                    },
+                    {
+                        data: 'ot8_hrs',
+                        name: 'ot8_hrs'
+                    },
+                    {
+                        data: 'ot9_hrs',
+                        name: 'ot9_hrs'
+                    },
+                    {
+                        data: 'ot10_hrs',
+                        name: 'ot10_hrs'
+                    },
+                    {
+                        data: 'ot11_hrs',
+                        name: 'ot11_hrs'
+                    },
+                    {
+                        data: 'ot12_hrs',
+                        name: 'ot12_hrs'
+                    },
+                    {
+                        data: 'ot13_hrs',
+                        name: 'ot13_hrs'
+                    },
+                    {
+                        data: 'day8',
+                        name: 'day8'
+                    },
+                    {
+                        data: 'day8_rate',
+                        name: 'day8_rate'
+                    },
+                    {
+                        data: 'day12',
+                        name: 'day12'
+                    },
+                    {
+                        data: 'day12_rate',
+                        name: 'day12_rate'
+                    },
+                    {
+                        data: 'nd_days',
+                        name: 'nd_days'
+                    },
+                    {
+                        data: 'undertime',
+                        name: 'undertime'
+                    },
+                    {
+                        data: 'incentive',
+                        name: 'incentive'
+                    },
+
                     {
                         data: 'action',
                         name: 'action',

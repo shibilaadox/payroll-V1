@@ -93,6 +93,11 @@ class User extends Authenticatable
         return $this->hasMany(\App\Models\EmployeeTimesheetHourly::class, "user_id", "id");
     }
 
+    public function usertimesheet()
+    {
+        return $this->hasMany(\App\Models\UserTimesheet::class, "user_id", "id");
+    }
+
     public function useraddress()
     {
         return $this->belongsTo(\App\Models\User::class, "id", "user_id")->withDefault();

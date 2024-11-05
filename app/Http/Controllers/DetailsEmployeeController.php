@@ -44,7 +44,7 @@ class DetailsEmployeeController extends Controller
         $employeeProject = EmployeeProject::findOrFail($project_id);
         $id = $employeeProject->user_id;
 
-        $data['employee'] = User::with('userdetails')->with('user_timesheet_hourly')->has('user_timesheet_hourly')->whereHas('user_timesheet_hourly', function ($query) {
+        $data['employee'] = User::with('userdetails')->with('usertimesheet')->has('usertimesheet')->whereHas('usertimesheet', function ($query) {
 
             return $query->where('month', date('m', strtotime("-1 month")));
         })->where('id', $id)->first();
@@ -61,7 +61,7 @@ class DetailsEmployeeController extends Controller
             $TOTAL_ND = 0;
             $TOTAL_OT = 0;
 
-            foreach ($data['employee']->user_timesheet_hourly as $row) {
+            foreach ($data['employee']->usertimesheet as $row) {
 
                 $j++;
 

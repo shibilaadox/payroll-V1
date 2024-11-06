@@ -588,67 +588,6 @@
         }
 
 
-        // Save or update timesheet entry
-        $("#timesheet_form").on("submit", function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            var id = $('#timesheet_id').val();
-
-            var url = id ? '/clientTimesheet/' + id : '{{ route('clientTimesheet.store') }}';
-            var method = id ? 'POST' : 'POST';
-
-            $.ajax({
-                url: url,
-                type: method,
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    if (response.code == 200) {
-                        $('#timesheet-modal').modal('hide');
-                        window.location.reload();
-                    } else {
-                        alert('Failed to save the timesheet entry.');
-                    }
-                },
-                error: function(response) {
-                    console.log(response);
-                    alert('Failed to save the timesheet entry.');
-                }
-            });
-        });
-
-        function editTimesheet(id) {
-            $.ajax({
-                url:  '/client-timesheet/' + id + '/edit',
-                type: 'GET',
-                success: function(data) {
-                    console.log(data);
-                    if (data) {
-                $('#client_id').val(data.client_id);
-                $('#branch').val(data.branch);
-                $('#pay_type').val(data.pay_type);
-                $('#payroll_period_start').val(data.payroll_period_start);
-                $('#payroll_period_end').val(data.payroll_period_end);
-                $('#payroll_date').val(data.payroll_date);
-                $('#week_number').val(data.week_number);
-                $('#month').val(data.month);
-                $('#year').val(data.year);
-                $('#overtime_hours').val(data.overtime_hours);
-
-                $('#edit-timesheet-form').modal('show');
-            } else {
-                alert("Failed to retrieve timesheet data.");
-            }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Failed to retrieve the timesheet entry:', error);
-                    alert('Failed to retrieve the timesheet entry. Please check the console for details.');
-                }
-            });
-        }
-
         // Call the function on page load
         $(document).ready(function() {
             initializeDataTable();

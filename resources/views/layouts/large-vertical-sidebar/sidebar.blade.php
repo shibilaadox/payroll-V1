@@ -214,9 +214,9 @@
             </li>
 
             <li class="nav-item">
-                <a class="{{ Route::currentRouteName() == 'clientTimesheet.index' ? 'open' : '' }}" href="{{ route('clientTimesheet.index') }}">
+                <a class="{{ Route::currentRouteName() == 'userTimesheet.index' ? 'open' : '' }}" href="{{ route('userTimesheet.index') }}">
                     <i class="nav-icon i-File-Clipboard-Text--Image"></i>
-                    <span class="item-name">{{ __('Client Timesheet') }}</span>
+                    <span class="item-name">{{ __('Employee Timesheet') }}</span>
                 </a>
             </li>
 

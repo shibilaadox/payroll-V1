@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPayrollPeriodToClientTimesheetsTable extends Migration
+class AddPayrollPeriodToUserTimesheetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddPayrollPeriodToClientTimesheetsTable extends Migration
      */
     public function up()
     {
-        Schema::table('client_timesheets', function (Blueprint $table) {
+        Schema::table('user_timesheets', function (Blueprint $table) {
             $table->date('payroll_period_start')->nullable();
         $table->date('payroll_period_end')->nullable();
         });
@@ -26,7 +26,7 @@ class AddPayrollPeriodToClientTimesheetsTable extends Migration
      */
     public function down()
     {
-        Schema::table('client_timesheets', function (Blueprint $table) {
+        Schema::table('user_timesheets', function (Blueprint $table) {
             $table->dropColumn(['payroll_period_start', 'payroll_period_end']);
         });
     }

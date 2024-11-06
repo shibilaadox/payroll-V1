@@ -25,13 +25,13 @@ class PayrollHourlyController extends Controller
     public function index(Request $request)
     {
 
-        $data['employee'] = User::with('user_timesheet_hourly')->has('user_timesheet_hourly')->whereHas('user_timesheet_hourly', function ($query) {
+        $data['employee'] = User::with('usertimesheet')->has('usertimesheet')->whereHas('usertimesheet', function ($query) {
 
             return $query->where('month',date('m',strtotime("-1 month")));
 
         })->where('user_type','Employee')->where('status',1)->count();
 
-        $data['employees'] = User::with('userdetails')->with('user_timesheet_hourly')->has('user_timesheet_hourly')->whereHas('user_timesheet_hourly', function ($query) {
+        $data['employees'] = User::with('userdetails')->with('usertimesheet')->has('usertimesheet')->whereHas('usertimesheet', function ($query) {
 
             return $query->where('month',date('m',strtotime("-1 month")));
 
@@ -44,7 +44,7 @@ class PayrollHourlyController extends Controller
             $TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
 
 
-            foreach($row1->user_timesheet_hourly as $row){
+            foreach($row1->usertimesheet as $row){
 
 
                 if($row1->id == $row->user_id){
@@ -178,13 +178,13 @@ class PayrollHourlyController extends Controller
             });
         }*/
 
-        $data['employee_count'] = User::with('user_timesheet_hourly')->has('user_timesheet_hourly')->whereHas('user_timesheet_hourly', function ($query) {
+        $data['employee_count'] = User::with('usertimesheet')->has('usertimesheet')->whereHas('usertimesheet', function ($query) {
 
             return $query->where('month',date('m',strtotime("-1 month")));
 
         })->where('user_type','Employee')->where('status',1)->count();
 
-        $data['employees'] = User::with('user_timesheet_hourly')->has('user_timesheet_hourly')->whereHas('user_timesheet_hourly', function ($query) {
+        $data['employees'] = User::with('usertimesheet')->has('usertimesheet')->whereHas('usertimesheet', function ($query) {
 
             return $query->where('month',date('m',strtotime("-1 month")));
 
@@ -195,7 +195,7 @@ class PayrollHourlyController extends Controller
         foreach ($data['employees'] as $row1){
             $TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
 
-            foreach($row1->user_timesheet_hourly as $row){
+            foreach($row1->usertimesheet as $row){
 
                 
                 if($row1->id == $row->user_id){
@@ -383,13 +383,13 @@ class PayrollHourlyController extends Controller
     public function approve_payroll_hourly()
     {
 
-        $data['employee_count'] = User::with('user_timesheet_hourly')->has('user_timesheet_hourly')->whereHas('user_timesheet_hourly', function ($query) {
+        $data['employee_count'] = User::with('usertimesheet')->has('usertimesheet')->whereHas('usertimesheet', function ($query) {
 
             return $query->where('month',date('m',strtotime("-1 month")));
 
         })->where('user_type','Employee')->where('status',1)->count();
 
-        $data['employees'] = User::with('user_timesheet_hourly')->has('user_timesheet_hourly')->whereHas('user_timesheet_hourly', function ($query) {
+        $data['employees'] = User::with('usertimesheet')->has('usertimesheet')->whereHas('usertimesheet', function ($query) {
 
             return $query->where('month',date('m',strtotime("-1 month")));
 
@@ -400,7 +400,7 @@ class PayrollHourlyController extends Controller
         foreach ($data['employees'] as $row1){
 
             $TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
-            foreach($row1->user_timesheet_hourly as $row){
+            foreach($row1->usertimesheet as $row){
 
 
                 if($row1->id == $row->user_id){
@@ -549,7 +549,7 @@ class PayrollHourlyController extends Controller
     public function get_payslip_hourly()
     {
         $id = $_GET['id'];
-        $data['employee'] = User::with('userdetails')->with('user_timesheet_hourly')->has('user_timesheet_hourly')->whereHas('user_timesheet_hourly', function ($query) {
+        $data['employee'] = User::with('userdetails')->with('usertimesheet')->has('usertimesheet')->whereHas('usertimesheet', function ($query) {
 
             return $query->where('month',date('m',strtotime("-1 month")));
 
@@ -558,7 +558,7 @@ class PayrollHourlyController extends Controller
 
         $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;
 
-                                        foreach($data['employee']->user_timesheet_hourly as $row){
+                                        foreach($data['employee']->usertimesheet as $row){
 
                                             $j++;
 

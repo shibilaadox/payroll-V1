@@ -226,7 +226,11 @@ Route::post('/import_deduction-excel', [App\Http\Controllers\ExcelImportControll
 Route::post('/import_rate-excel', [App\Http\Controllers\ExcelImportController::class,'import_rate'])->name('import_rate.excel');
 
 // client Timesheet
+Route::resource('client-timesheet', ClientTimesheetController::class);
+Route::get('/clientTimesheet/{id}/edit', [ClientTimesheetController::class, 'edit'])->name('clientTimesheet.edit');
+Route::put('client-timesheet/{id}', [ClientTimesheetController::class, 'update'])->name('clientTimesheet.update');
 Route::get('/client-timesheets', [ClientTimesheetController::class, 'index'])->name('clientTimesheet.index');
+Route::get('/clientTimesheet/data', [ClientTimesheetController::class, 'data'])->name('clientTimesheet.data');
 Route::post('/client-timesheets', [ClientTimesheetController::class, 'store'])->name('clientTimesheet.store');
 Route::delete('/client-timesheets/{id}', [ClientTimesheetController::class, 'destroy'])->name('clientTimesheet.destroy');
 Route::get('/client-timesheets/data', [ClientTimesheetController::class, 'getTimesheets'])->name('clientTimesheet.data');

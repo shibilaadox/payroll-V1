@@ -70,11 +70,13 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="payroll_period_start" class="ul-form__label">Payroll Start Date:</label>
-                                <input type="date" class="form-control" id="payroll_period_start" name="payroll_period_start" required>
+                                <input type="date" class="form-control" id="payroll_period_start"
+                                    name="payroll_period_start" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="payroll_period_end" class="ul-form__label">Payroll End Date:</label>
-                                <input type="date" class="form-control" id="payroll_period_end" name="payroll_period_end" required>
+                                <input type="date" class="form-control" id="payroll_period_end" name="payroll_period_end"
+                                    required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="payroll_date" class="ul-form__label">Payroll Date:</label>
@@ -141,6 +143,72 @@
             </div>
         </div>
     </div>
+
+     {{-- Add/Edit modal --}}
+
+     <!-- Modal for Edit Timesheet -->
+<div class="modal" id="timesheet-modal" tabindex="-1" aria-labelledby="timesheetModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="timesheetModalLabel">Edit Timesheet</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-timesheet-form">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="client_id" class="form-label">Client</label>
+                        <input type="text" class="form-control" id="client_id" name="client_id">
+                    </div>
+                    <div class="mb-3">
+                        <label for="branch" class="form-label">Branch</label>
+                        <input type="text" class="form-control" id="branch" name="branch">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pay_type" class="form-label">Pay Type</label>
+                        <input type="text" class="form-control" id="pay_type" name="pay_type">
+                    </div>
+                    <!-- Add other fields as needed -->
+                    <div class="mb-3">
+                        <label for="payroll_period_start" class="form-label">Payroll Period Start</label>
+                        <input type="date" class="form-control" id="payroll_period_start" name="payroll_period_start">
+                    </div>
+                    <div class="mb-3">
+                        <label for="payroll_period_end" class="form-label">Payroll Period End</label>
+                        <input type="date" class="form-control" id="payroll_period_end" name="payroll_period_end">
+                    </div>
+                    <div class="mb-3">
+                        <label for="payroll_date" class="form-label">Payroll Date</label>
+                        <input type="date" class="form-control" id="payroll_date" name="payroll_date">
+                    </div>
+                    <div class="mb-3">
+                        <label for="week_number" class="form-label">Week Number</label>
+                        <input type="text" class="form-control" id="week_number" name="week_number">
+                    </div>
+                    <div class="mb-3">
+                        <label for="month" class="form-label">Month</label>
+                        <input type="text" class="form-control" id="month" name="month">
+                    </div>
+                    <div class="mb-3">
+                        <label for="year" class="form-label">Year</label>
+                        <input type="text" class="form-control" id="year" name="year">
+                    </div>
+                    <div class="mb-3">
+                        <label for="overtime_hours" class="form-label">Overtime Hours</label>
+                        <input type="text" class="form-control" id="overtime_hours" name="overtime_hours">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @endsection
 
 @section('page-js')
@@ -169,13 +237,13 @@
                         $('#timesheet-modal').modal('hide');
                         window.location.reload();
                     } else {
-                alert('Failed to save the timesheet entry.');
-            }
+                        alert('Failed to save the timesheet entry.');
+                    }
                 },
                 error: function(response) {
-            console.log(response);
-            alert('Failed to save the timesheet entry. Please check the console for details.');
-        }
+                    console.log(response);
+                    alert('Failed to save the timesheet entry. Please check the console for details.');
+                }
             });
         });
 
@@ -228,6 +296,68 @@
                         searchable: false
                     }
                 ]
+            });
+        }
+
+
+        // Save or update timesheet entry
+        $("#timesheet_form").on("submit", function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            var id = $('#timesheet_id').val();
+
+            var url = id ? '/clientTimesheet/' + id : '{{ route('clientTimesheet.store') }}';
+            var method = id ? 'POST' : 'POST';
+
+            $.ajax({
+                url: url,
+                type: method,
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    if (response.code == 200) {
+                        $('#timesheet-modal').modal('hide');
+                        window.location.reload();
+                    } else {
+                        alert('Failed to save the timesheet entry.');
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
+                    alert('Failed to save the timesheet entry.');
+                }
+            });
+        });
+
+        function editTimesheet(id) {
+            $.ajax({
+                url:  '/client-timesheet/' + id + '/edit',
+                type: 'GET',
+                success: function(data) {
+                    console.log(data);
+                    if (data) {
+                $('#client_id').val(data.client_id);
+                $('#branch').val(data.branch);
+                $('#pay_type').val(data.pay_type);
+                $('#payroll_period_start').val(data.payroll_period_start);
+                $('#payroll_period_end').val(data.payroll_period_end);
+                $('#payroll_date').val(data.payroll_date);
+                $('#week_number').val(data.week_number);
+                $('#month').val(data.month);
+                $('#year').val(data.year);
+                $('#overtime_hours').val(data.overtime_hours);
+
+                $('#edit-timesheet-form').modal('show');
+            } else {
+                alert("Failed to retrieve timesheet data.");
+            }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Failed to retrieve the timesheet entry:', error);
+                    alert('Failed to retrieve the timesheet entry. Please check the console for details.');
+                }
             });
         }
 

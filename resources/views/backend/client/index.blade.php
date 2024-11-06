@@ -1,5 +1,5 @@
 @extends('layouts.master')
- 
+
 
 @section('main-content')
     <div class="col-md-12 mb-4">
@@ -144,18 +144,18 @@
                     }
                 },
                 error: function(response) {
-                    
+
                 }
 
             });
 
         });
 
-        
+
         //Edit Function
 
         function edit_client(id) {
-            
+
             $.get("{{ route('clients.index') }}" + '/' + id + '/edit', function(data) {
                 $("#saveBtn").val("Edit-Category");
                 $("#client-modal").modal('show');

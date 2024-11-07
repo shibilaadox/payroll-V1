@@ -149,6 +149,7 @@
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
+                                    
                                 </select>
                             </div>
                             <div class="form-group col-md-3">
@@ -181,12 +182,12 @@
                             <div class="form-group col-md-3">
                                 <label for="month" class="ul-form__label">Month:</label>
                                 <input type="text" class="form-control" id="month" name="month"
-                                    placeholder="MM" required>
+                                    placeholder="MM" required value=<?php echo date('m')?>>
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="year" class="ul-form__label">Year:</label>
                                 <input type="text" class="form-control" id="year" name="year"
-                                    placeholder="YYYY" required>
+                                    placeholder="YYYY" required value="<?php echo date('Y')?>">
                             </div>
                             <div class="line" style="border-bottom: 1px solid black;
             margin-top: 5px;

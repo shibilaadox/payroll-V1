@@ -193,10 +193,10 @@ class PayrollHourlyController extends Controller
         $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
 
         foreach ($data['employees'] as $row1){
+            
             $TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
-
             foreach($row1->usertimesheet as $row){
-
+                
                 
                 if($row1->id == $row->user_id){
                     $EMHDMF=0;$EMPH=0;$EMSSS=0;$tax=0;$DEDUCTION=0;

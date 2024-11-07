@@ -230,7 +230,11 @@ Route::get('/user-timesheets', [UserTimesheetController::class, 'index'])->name(
 Route::post('/user-timesheets', [UserTimesheetController::class, 'store'])->name('userTimesheet.store');
 Route::delete('/user-timesheets/{id}', [UserTimesheetController::class, 'destroy'])->name('userTimesheet.destroy');
 Route::get('/user-timesheets/data', [UserTimesheetController::class, 'getTimesheets'])->name('userTimesheet.data');
-
+// Route::get('user-timesheets/{id}/edit', [UserTimesheetController::class, 'edit']);
+// Route::put('user-timesheets/{id}', [UserTimesheetController::class, 'update']);
+Route::put('/user-timesheets/{id}', [UserTimesheetController::class, 'update'])->name('userTimesheet.update');
+Route::get('user-timesheets/{id}/edit', [UserTimesheetController::class, 'edit'])->name('userTimesheet.edit');
+// Route::put('user-timesheets/{id}', [UserTimesheetController::class, 'update'])->name('userTimesheet.update');
 
 Route::get('pdf', [PdfController::class, 'index'])->name('pdf');
 

@@ -26,17 +26,17 @@ class UserTimesheet extends Model
         'company_code',
         'posicode',
         'ot1_hrs',
-        'ot2_hrs', 
-        'ot3_hrs', 
+        'ot2_hrs',
+        'ot3_hrs',
         'ot4_hrs',
-        'ot5_hrs', 
-        'ot6_hrs', 
+        'ot5_hrs',
+        'ot6_hrs',
         'ot7_hrs',
-        'ot8_hrs', 
-        'ot9_hrs', 
-        'ot10_hrs', 
-        'ot11_hrs', 
-        'ot12_hrs', 
+        'ot8_hrs',
+        'ot9_hrs',
+        'ot10_hrs',
+        'ot11_hrs',
+        'ot12_hrs',
         'ot13_hrs',
         'day8',
         'day8_rate',
@@ -45,12 +45,12 @@ class UserTimesheet extends Model
         'nd_days',
         'undertime',
         'incentive'
-        
+
     ];
 
     public function client()
     {
-        return $this->belongsTo(Client::class, 'client_id');
+        return $this->belongsTo(Client::class);
     }
 
     public function location()

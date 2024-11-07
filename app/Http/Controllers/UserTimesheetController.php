@@ -130,7 +130,7 @@ class UserTimesheetController extends Controller
     public function getTimesheets(Request $request)
     {
         if ($request->ajax()) {
-            $timesheets = UserTimesheet::with('client', 'location')->select('user_timesheets.*');
+            $timesheets = UserTimesheet::with('client', 'location', 'user')->select('user_timesheets.*');
             return DataTables::of($timesheets)
                 ->addColumn('payroll_period', function ($row) {
                     return $row->payroll_period_start . ' - ' . $row->payroll_period_end;
@@ -160,9 +160,7 @@ class UserTimesheetController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return datatables()->of(UserTimesheet::with(['client',
-        // 'branch'
-        ])->get())
+        return datatables()->of(UserTimesheet::with(['client','user'])->get())
             ->addColumn('action', function ($timesheet) {
                 return '<button class="btn btn-sm btn-primary" onclick="editTimesheet(' . $timesheet->id . ')">Edit</button>'; // Adjust as needed
             })

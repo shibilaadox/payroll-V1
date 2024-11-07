@@ -33,7 +33,7 @@
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Employee Code:</label> <span class="text-danger">*</span>
                                                 <input type="text" class="form-control" id="employee_code"
-                                                    placeholder="Employee Code" name="employee_code" readonly>
+                                                    placeholder="Employee Code" name="employee_code">
                                             </div>
 
 
@@ -1032,7 +1032,7 @@
 
             var role = $("#job_role").val();
 
-            $.ajax({
+            /*$.ajax({
 
                 type: "GET",
                 url: "<?php echo url('get_employee_code'); ?>",
@@ -1045,7 +1045,7 @@
 
                     $("#employee_code").val(res);
                 }
-            });
+            });*/
 
             $.ajax({
 

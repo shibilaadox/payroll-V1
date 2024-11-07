@@ -147,7 +147,7 @@ class UserTimesheetController extends Controller
                 ->addColumn('action', function ($row) {
                     return '
                     <div style="display:flex; ">
-                        <button class="btn btn-sm btn-primary mr-2" onclick="editTimesheet(' . $row->id . ')">Edit</button>
+                        <button class="btn btn-sm btn-success mr-2" onclick="editTimesheet(' . $row->id . ')">Edit</button>
 
                             <form action="' . route('userTimesheet.destroy', $row->id) . '" method="POST" style="display: inline;">
                                 ' . csrf_field() . '

@@ -729,7 +729,7 @@
 
         function editTimesheet(id) {
             $.ajax({
-                url: "/user-timesheets/" + id + "/edit",
+                url: "user-timesheets/" + id + "/edit",
                 method: 'GET',
                 success: function(response) {
                     $(' #user_id').val(response.timesheet.user_id);
@@ -767,7 +767,7 @@
                     $('#editTimesheetModal #nd_days').val(response.timesheet.nd_days);
                     $('#editTimesheetModal #undertime').val(response.timesheet.undertime);
                     $('#editTimesheetModal #incentive').val(response.timesheet.incentive);
-                    $('#editTimesheetForm').attr('action', '/user-timesheets/' + id);
+                    $('#editTimesheetForm').attr('action', 'user-timesheets/' + id);
 
                     // Show the modal
                     $('#editTimesheetModal').modal('show');

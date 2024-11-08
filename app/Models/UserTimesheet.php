@@ -62,4 +62,14 @@ class UserTimesheet extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'employee_projects', 'user_id', 'project_id');
+    }
+
+    public function employees()
+    {
+        return $this->belongsToMany(User::class, 'employee_projects', 'project_id', 'user_id');
+    }
 }

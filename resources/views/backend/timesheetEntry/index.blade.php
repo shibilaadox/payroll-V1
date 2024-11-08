@@ -143,7 +143,7 @@
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
-                                    
+
                                 </select>
                             </div>
                             <div class="form-group col-md-3">
@@ -729,7 +729,7 @@
 
         function editTimesheet(id) {
             $.ajax({
-                url: "user-timesheets/" + id + "/edit",
+                url: "/user-timesheets/" + id + "/edit",
                 method: 'GET',
                 success: function(response) {
                     $(' #user_id').val(response.timesheet.user_id);
@@ -767,7 +767,7 @@
                     $('#editTimesheetModal #nd_days').val(response.timesheet.nd_days);
                     $('#editTimesheetModal #undertime').val(response.timesheet.undertime);
                     $('#editTimesheetModal #incentive').val(response.timesheet.incentive);
-                    $('#editTimesheetForm').attr('action', 'user-timesheets/' + id);
+                    $('#editTimesheetForm').attr('action', '/user-timesheets/' + id);
 
                     // Show the modal
                     $('#editTimesheetModal').modal('show');
@@ -819,8 +819,52 @@
             });
         });
 
+        $('#client_id').on('change', function() {
+        var clientId = $(this).val();
 
-        // Call the function on page load
+        $('#user_id').empty().append('<option value="">Select Employee</option>');
+
+        if (clientId) {
+            $.ajax({
+                url: '/employees-by-client/' + clientId,
+                type: 'GET',
+                success: function(data) {
+                    $.each(data, function(key, employee) {
+                        $('#user_id').append(
+                            '<option value="' + employee.id + '">' + employee.firstname + ' ' + employee.lastname + '</option>'
+                        );
+                    });
+                },
+                error: function() {
+                    alert('Error retrieving employees.');
+                }
+            });
+        }
+    });
+
+    $(document).ready(function () {
+        $('#user_id').change(function () {
+            var employeeId = $(this).val();
+
+            if (employeeId) {
+                $.ajax({
+                    url: '/get-employee-details/' + employeeId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#employee_code').val(data.employee_code);
+                        // $('#posicode').val(data.posicode);
+                    },
+                    error: function () {
+                        alert('Failed to fetch employee details.');
+                    }
+                });
+            } else {
+                $('#employee_code').val('');
+                // $('#posicode').val('');
+            }
+        });
+    });
         $(document).ready(function() {
             initializeDataTable();
         });

@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\UserTimesheet;
 use App\Models\Userdetail;
 use App\Models\Location;
+use App\Models\Project;
 use App\Models\User;
 use App\Models\Rate;
 use Illuminate\Http\Request;
@@ -20,8 +21,8 @@ class UserTimesheetController extends Controller
         $clients = Client::all();
         $timesheets = UserTimesheet::paginate(10);
         $salaryPayTypes = Userdetail::pluck('salary_pay_type')->unique();
-        $locations = Location::select('id','location_name')->get();
-        $users = User::select('id','firstname','middlename','lastname')->get();
+        $locations = Location::select('id', 'location_name')->get();
+        $users = User::select('id', 'firstname', 'middlename', 'lastname')->get();
         $data = UserTimesheet::get();
         $rate8 = Rate::select('rate8')->first();
         $rate12 = Rate::select('rate12')->first();
@@ -75,10 +76,10 @@ class UserTimesheetController extends Controller
 
 
     public function edit($id)
-{
-    $timesheet = UserTimesheet::findOrFail($id);
-    return response()->json(['timesheet' => $timesheet]);
-}
+    {
+        $timesheet = UserTimesheet::findOrFail($id);
+        return response()->json(['timesheet' => $timesheet]);
+    }
 
     public function update(Request $request, $id)
     {
@@ -126,6 +127,29 @@ class UserTimesheetController extends Controller
         return redirect()->route('userTimesheet.index')->with('success', 'Timesheet entry updated successfully.');
     }
 
+    public function getEmployeesByClient($clientName)
+    {
+        $projectIds = Project::where('client', $clientName)->pluck('id');
+        $employees = User::whereHas('employeeProjects', function ($query) use ($projectIds) {
+            $query->whereIn('project_id', $projectIds);
+        })->select('id', 'employee_code', 'firstname', 'lastname')
+            ->get();
+
+        return response()->json($employees);
+    }
+
+    public function getEmployeeDetails($id)
+    {
+        $employee = User::select('id', 'employee_code'
+        // , 'posicode'
+        )
+            ->where('id', $id)
+            ->first();
+
+        return response()->json($employee);
+    }
+
+
 
     public function getTimesheets(Request $request)
     {
@@ -160,9 +184,9 @@ class UserTimesheetController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return datatables()->of(UserTimesheet::with(['client','user'])->get())
+        return datatables()->of(UserTimesheet::with(['client', 'user'])->get())
             ->addColumn('action', function ($timesheet) {
-                return '<button class="btn btn-sm btn-primary" onclick="editTimesheet(' . $timesheet->id . ')">Edit</button>'; // Adjust as needed
+                return '<button class="btn btn-sm btn-primary" onclick="editTimesheet(' . $timesheet->id . ')">Edit</button>';
             })
             ->make(true);
     }

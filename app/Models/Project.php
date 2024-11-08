@@ -20,7 +20,7 @@ class Project extends Model
     public function employees()
     {
         // return $this->belongsToMany(EmployeeProject::class);
-        return $this->belongsTo(\App\Models\User::class,'employee','id')->withDefault();
+        return $this->belongsTo(\App\Models\User::class,'employee','id', 'employee_projects', 'project_id', 'user_id')->withDefault();
     }
 
     public function roles()

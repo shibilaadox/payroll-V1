@@ -143,7 +143,7 @@ class User extends Authenticatable
 
     public function employeeProjects()
     {
-        return $this->hasMany(EmployeeProject::class, 'user_id', 'id');
+        return $this->hasMany(EmployeeProject::class, 'user_id', 'id', 'employee_projects', 'project_id');
     }
 
     public function useraddresses()
@@ -153,7 +153,7 @@ class User extends Authenticatable
 
     public function projects()
     {
-        return $this->hasMany(Project::class, 'id');  // Ensure 'user_id' is the correct foreign key
+        return $this->hasMany(Project::class, 'id');
     }
 
 }

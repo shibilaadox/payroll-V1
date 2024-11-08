@@ -232,7 +232,9 @@ Route::delete('/user-timesheets/{id}', [UserTimesheetController::class, 'destroy
 Route::get('/user-timesheets/data', [UserTimesheetController::class, 'getTimesheets'])->name('userTimesheet.data');
 Route::put('/user-timesheets/{id}', [UserTimesheetController::class, 'update'])->name('userTimesheet.update');
 Route::get('user-timesheets/{id}/edit', [UserTimesheetController::class, 'edit'])->name('userTimesheet.edit');
-// Route::put('user-timesheets/{id}', [UserTimesheetController::class, 'update'])->name('userTimesheet.update');
+Route::get('/employees-by-client/{clientId}', [UserTimesheetController::class, 'getEmployeesByClient']);
+Route::get('/get-employee-details/{id}', [UserTimesheetController::class, 'getEmployeeDetails'])->name('employee.details');
+
 
 Route::get('pdf', [PdfController::class, 'index'])->name('pdf');
 

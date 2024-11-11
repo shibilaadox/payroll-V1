@@ -853,7 +853,7 @@
                     dataType: 'json',
                     success: function (data) {
                         $('#employee_code').val(data.employee_code);
-                        // $('#posicode').val(data.posicode);
+                        $('#posicode').val(data.job_role);
                     },
                     error: function () {
                         alert('Failed to fetch employee details.');
@@ -861,10 +861,12 @@
                 });
             } else {
                 $('#employee_code').val('');
-                // $('#posicode').val('');
+                $('#posicode').val('');
             }
         });
     });
+
+        // Call the function on page load
         $(document).ready(function() {
             initializeDataTable();
         });

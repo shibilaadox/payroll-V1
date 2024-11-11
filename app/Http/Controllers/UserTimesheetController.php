@@ -140,9 +140,7 @@ class UserTimesheetController extends Controller
 
     public function getEmployeeDetails($id)
     {
-        $employee = User::select('id', 'employee_code'
-        // , 'posicode'
-        )
+        $employee = User::select('id', 'employee_code','job_role')
             ->where('id', $id)
             ->first();
 

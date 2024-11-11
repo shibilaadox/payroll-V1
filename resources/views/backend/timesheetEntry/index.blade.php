@@ -729,7 +729,7 @@
 
         function editTimesheet(id) {
             $.ajax({
-                url: "/user-timesheets/" + id + "/edit",
+                url: "user-timesheets/" + id + "/edit",
                 method: 'GET',
                 success: function(response) {
                     $(' #user_id').val(response.timesheet.user_id);
@@ -826,7 +826,7 @@
 
         if (clientId) {
             $.ajax({
-                url: '/employees-by-client/' + clientId,
+                url: 'employees-by-client/' + clientId,
                 type: 'GET',
                 success: function(data) {
                     $.each(data, function(key, employee) {
@@ -848,7 +848,7 @@
 
             if (employeeId) {
                 $.ajax({
-                    url: '/get-employee-details/' + employeeId,
+                    url: 'get-employee-details/' + employeeId,
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {

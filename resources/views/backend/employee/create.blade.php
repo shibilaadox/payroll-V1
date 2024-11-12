@@ -62,12 +62,12 @@
                                                     placeholder="Enter last name" name="last_name" required>
                                             </div>
 
-                                            {{-- <div class="form-group col-md-6">
+                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Email address:</label> <span class="text-danger">*</span>
                                                 <input type="text" class="form-control" name="email" id="email"
-                                                    placeholder="Enter Email" required>
-                                            </div> --}}
+                                                    placeholder="Enter Email">
+                                            </div> 
                                         </div>
 
                                         <div style="margin-bottom:20px;margin-top:20px;">

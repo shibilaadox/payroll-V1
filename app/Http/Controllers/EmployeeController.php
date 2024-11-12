@@ -62,11 +62,14 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate([
+        /*$request->validate([
             'contract_start_date' => 'required|date',
             'contract_end_date' => 'required|date',
-        ]);
-
+        ]);*/
+        if($request->email)
+        $email = $request->email;
+        else
+        $email = "";
         $userdetails = Userdetail::firstOrNew(['user_id' => auth()->id()]);
 
         $userdetails->contract_starting_date = $request->input('contract_start_date');
@@ -87,10 +90,8 @@ class EmployeeController extends Controller
             }
 
             $user->employee_code = $request->employee_code;
-            $user->client_code = $request->client_code;
-            $user->brnach_code = $request->branch_code;
             $user->name = $request->first_name . " " .$request->middle_name . " " . $request->last_name;
-            $user->email = $request->email;
+            $user->email = $email;
             $user->user_type = 'Employee';
             $user->phone = $request->phone;
             $user->job_role = $request->job_role;
@@ -135,10 +136,10 @@ class EmployeeController extends Controller
             $user_detail->basic_salary = $request->monthly_basic;
             $user_detail->annual_ctc_details = $request->annual_ctc;
             $user_detail->salary_pay_type = $request->pay_type;
-            $user_detail->regular_rate_for = $request->regular_rate;
+            $user_detail->regular_rate = $request->regular_rate;
             $user_detail->supervisor_incentive = $request->supervisor_incentive;
-            $user_detail->transportation_allowance = $request->trans_allowance;
-            $user_detail->cost_of_living_allowance = $request->COLA;
+            $user_detail->trans_allowance = $request->trans_allowance;
+            $user_detail->COLA = $request->COLA;
             $user_detail->daily_meal_allowance = $request->daily_meal_allowance;
             $user_detail->house_rent_allowance = $request->monthly_house_rent;
             $user_detail->conveyance_allowance = $request->monthly_conveyance;

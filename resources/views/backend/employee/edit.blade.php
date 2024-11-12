@@ -30,7 +30,12 @@
                                             <h6 style="font-size:15px;" class="card-title"><b>Basic Information</b></h6>
                                         </div>
                                         <div class="form-row col-md-12">
-
+                                        <div class="form-group col-md-6">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    Employee Code:</label> <span class="text-danger">*</span>
+                                                <input type="text" class="form-control" id="employee_code"
+                                                    placeholder="Employee Code" name="employee_code"  value="{{ $user->employee_code }}">
+                                            </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     First Name:</label> <span class="text-danger">*</span>

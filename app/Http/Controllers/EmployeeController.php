@@ -242,6 +242,12 @@ class EmployeeController extends Controller
         ]);
 
         $user = User::find($id);
+        $user->firstname = $request->first_name; 
+        $user->lastname = $request->last_name; 
+        $user->email = $request->email; 
+        $user->employee_code = $request->employee_code; 
+        $user->save();
+
         $user_address = UserAddress::where('user_id', $user->id)->first();
         if ($user_address) {
             $user_address->residential_address = $request->present_address;
@@ -267,6 +273,7 @@ class EmployeeController extends Controller
 
         if ($userDetails) {
             // Update user details in the Userdetail model
+            
             $userDetails->department = $request->department_name; // Correct field name
             $userDetails->designation = $request->designation_name;
             $userDetails->location = $request->location_name;

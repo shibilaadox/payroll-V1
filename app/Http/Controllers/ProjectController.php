@@ -68,10 +68,10 @@ class ProjectController extends Controller
             $input['role'] = $request->role;
 
             // Handle roles if provided
-            $roles = $request->input('role', []);
+            //$roles = $request->input('role', []);
 
             $data_project = Project::updateOrCreate(['id' => $request->project_id], $input);
-            $data_project->roles()->sync($roles);
+            //$data_project->roles()->sync($roles);
 
             $jsonData = $request->employee_payment;
 

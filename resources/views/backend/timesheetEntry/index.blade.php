@@ -23,7 +23,7 @@
                                                 colspan="1">Id</th>
 
                                             <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
-                                                colspan="1">Payroll Date</th>
+                                                colspan="1">Date</th>
                                             <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
                                                 colspan="1">Week Number</th>
                                             <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
@@ -593,8 +593,8 @@
                     },
 
                     {
-                        data: 'payroll_date',
-                        name: 'payroll_date'
+                        data: 'date',
+                        name: 'date'
                     },
                     {
                         data: 'week_number',
@@ -621,8 +621,8 @@
                         name: 'year'
                     },
                     {
-                        data: 'user.name',
-                        name: 'user.name'
+                        data: 'user.firstname',
+                        name: 'user.firstname'
                     },
                     {
                         data: 'employee_code',
@@ -767,7 +767,7 @@
                     $('#editTimesheetModal #nd_days').val(response.timesheet.nd_days);
                     $('#editTimesheetModal #undertime').val(response.timesheet.undertime);
                     $('#editTimesheetModal #incentive').val(response.timesheet.incentive);
-                    $('#editTimesheetForm').attr('action', '/user-timesheets/' + id);
+                    $('#editTimesheetForm').attr('action', 'user-timesheets/' + id);
 
                     // Show the modal
                     $('#editTimesheetModal').modal('show');

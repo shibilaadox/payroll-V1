@@ -13,11 +13,13 @@ use App\Models\Rate;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Calculation\Engine\BranchPruner;
 use Yajra\DataTables\Facades\DataTables;
+use DateTime;
 
 class UserTimesheetController extends Controller
 {
     public function index()
     {
+        
         $clients = Client::all();
         $timesheets = UserTimesheet::paginate(10);
         $salaryPayTypes = Userdetail::pluck('salary_pay_type')->unique();
@@ -31,45 +33,100 @@ class UserTimesheetController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'user_id' => 'required',
-            'client_id' => 'required',
-            'location_id' => 'required',
-            'pay_type' => 'required',
-            'payroll_period_start' => 'required|date',
-            'payroll_period_end' => 'required|date',
-            'payroll_date' => 'required|date',
-            'week_number' => 'required',
-            'month' => 'required',
-            'year' => 'required',
-            'date' => 'required',
-            'employee_code' => 'required',
-            'company_code' => 'required',
-            'posicode' => 'required',
-            'ot1_hrs' => 'required',
-            'ot2_hrs' => 'required',
-            'ot3_hrs' => 'required',
-            'ot4_hrs' => 'required',
-            'ot5_hrs' => 'required',
-            'ot6_hrs' => 'required',
-            'ot7_hrs' => 'required',
-            'ot8_hrs' => 'required',
-            'ot9_hrs' => 'required',
-            'ot10_hrs' => 'required',
-            'ot11_hrs' => 'required',
-            'ot12_hrs' => 'required',
-            'ot13_hrs' => 'required',
-            'day8' => 'required',
-            'day8_rate' => 'required',
-            'day12' => 'required',
-            'day12_rate' => 'required',
-            'nd_days' => 'required',
-            'incentive' => 'required',
-            'undertime' => 'required',
+        $rate8 = Rate::select('rate8')->first();
+        $rate12 = Rate::select('rate12')->first();
 
-        ]);
+            $input['user_id'] = $request->user_id;
+            $input['client_id'] = $request->client_id;
+            $input['location_id'] = $request->location_id;
+            $input['pay_type'] = $request->pay_type;
+            $input['payroll_period_start'] = $request->payroll_period_start;
+            $input['payroll_period_end'] = $request->payroll_period_end;
+            $input['payroll_date'] = $request->payroll_date;
+            $input['week_number'] = $request->week_number;
+            $input['month'] = $request->month;
+            $input['year'] = $request->year;
+            $input['date'] = $request->date;
+            $input['employee_code'] = $request->employee_code;
+            $input['company_code'] = $request->company_code;
+            $input['posicode'] = $request->posicode;
+            $input['ot1_hrs'] = $request->ot1_hrs;
+            $input['ot2_hrs'] = $request->ot2_hrs;
+            $input['ot3_hrs'] = $request->ot3_hrs;
+            $input['ot4_hrs'] = $request->ot4_hrs;
+            $input['ot5_hrs'] = $request->ot5_hrs;
+            $input['ot6_hrs'] = $request->ot6_hrs;
+            $input['ot7_hrs'] = $request->ot7_hrs;
+            $input['ot8_hrs'] = $request->ot8_hrs;
+            $input['ot9_hrs'] = $request->ot9_hrs;
+            $input['ot10_hrs'] = $request->ot10_hrs;
+            $input['ot11_hrs'] = $request->ot11_hrs;
+            $input['ot12_hrs'] = $request->ot12_hrs;
+            $input['ot13_hrs'] = $request->ot13_hrs;
+            $input['day8'] = $request->day8;
+            $input['day8_rate'] = $request->day8_rate;
+            $input['day12'] = $request->day12;
+            $input['day12_rate'] = $request->day12_rate;
+            $input['nd_days'] = $request->nd_days;
+            $input['incentive'] = $request->incentive;
+            $input['undertime'] = $request->undertime;
 
-        UserTimesheet::create($validatedData);
+        UserTimesheet::create($input);
+
+        $projectIds = Project::where('client', 4)->pluck('id');
+        $employees = User::whereHas('employeeProjects', function ($query) use ($projectIds) {
+            $query->whereIn('project_id', $projectIds);
+        })->select('id', 'employee_code', 'firstname', 'lastname','job_role')
+            ->get();
+            $date = date('F Y');//Current Month Year
+        
+        
+        foreach($employees as $row)
+        {
+            $date = date('F Y');//Current Month Year
+
+            while (strtotime($date) < strtotime(date('Y-m') . '-' . date('t', strtotime($date)))) {
+            
+                $date = date("Y-m-d", strtotime($date));
+                $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));//Adds 1 day onto current date
+                $input['payroll_date'] = $request->payroll_date;
+                $input['week_number'] = $request->week_number;
+                $input['month'] = $request->month;
+                $input['date'] = $date;
+                $input['year'] = $request->year;
+                $input['payroll_period_start'] = $request->payroll_period_start;
+                $input['payroll_period_end'] = $request->payroll_period_end;
+                $input['client_id'] = $request->client_id;
+                $input['location_id'] = $request->location_id;
+                $input['pay_type'] = $request->pay_type;
+                $input['user_id'] = $row->id;
+                $input['employee_code'] = $row->employee_code;
+                $input['posicode'] = $row->job_role;  
+                $input['company_code'] = "";
+                $input['ot1_hrs'] = 0;
+                $input['ot2_hrs'] = 0;
+                $input['ot3_hrs'] = 0;
+                $input['ot4_hrs'] = 0;
+                $input['ot5_hrs'] = 0;
+                $input['ot6_hrs'] = 0;
+                $input['ot7_hrs'] = 0;
+                $input['ot8_hrs'] = 0;
+                $input['ot9_hrs'] = 0;
+                $input['ot10_hrs'] = 0;
+                $input['ot11_hrs'] = 0;
+                $input['ot12_hrs'] = 0;
+                $input['ot13_hrs'] = 0;
+                $input['day8'] = 0;
+                $input['day8_rate'] = $rate8->rate8;
+                $input['day12'] = 0;
+                $input['day12_rate'] = $rate12->rate12;
+                $input['nd_days'] = 0;
+                $input['incentive'] = 0;
+                $input['undertime'] = 0;
+      
+                UserTimesheet::create($input);
+            }
+        }
 
         return response()->json(['code' => 200, 'message' => 'Timesheet entry created successfully.']);
     }
@@ -152,7 +209,7 @@ class UserTimesheetController extends Controller
     public function getTimesheets(Request $request)
     {
         if ($request->ajax()) {
-            $timesheets = UserTimesheet::with('client', 'location', 'user')->select('user_timesheets.*');
+            $timesheets = UserTimesheet::with('client', 'location', 'user')->where('month',date('m'))->select('user_timesheets.*');
             return DataTables::of($timesheets)
                 ->addColumn('payroll_period', function ($row) {
                     return $row->payroll_period_start . ' - ' . $row->payroll_period_end;

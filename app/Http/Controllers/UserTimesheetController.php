@@ -73,7 +73,7 @@ class UserTimesheetController extends Controller
 
         UserTimesheet::create($input);
 
-        $projectIds = Project::where('client', 4)->pluck('id');
+        $projectIds = Project::where('client', $request->client_id)->pluck('id');
         $employees = User::whereHas('employeeProjects', function ($query) use ($projectIds) {
             $query->whereIn('project_id', $projectIds);
         })->select('id', 'employee_code', 'firstname', 'lastname','job_role')

@@ -19,7 +19,7 @@ class UserTimesheetController extends Controller
 {
     public function index()
     {
-        
+       
         $clients = Client::all();
         $timesheets = UserTimesheet::paginate(10);
         $salaryPayTypes = Userdetail::pluck('salary_pay_type')->unique();
@@ -29,7 +29,8 @@ class UserTimesheetController extends Controller
         $rate8 = Rate::select('rate8')->first();
         $rate12 = Rate::select('rate12')->first();
         return view('backend.timesheetEntry.index', compact('timesheets', 'clients', 'salaryPayTypes', 'locations', 'users', 'rate8', 'rate12'));
-    }
+    
+        }
 
     public function store(Request $request)
     {
@@ -83,49 +84,111 @@ class UserTimesheetController extends Controller
         
         foreach($employees as $row)
         {
-            $date = date('F Y');//Current Month Year
+            $fDay = date('Y-m-01');
+            $date = date('Y-m-d');
 
-            while (strtotime($date) < strtotime(date('Y-m') . '-' . date('t', strtotime($date)))) {
-            
-                $date = date("Y-m-d", strtotime($date));
-                $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));//Adds 1 day onto current date
-                $input['payroll_date'] = $request->payroll_date;
-                $input['week_number'] = $request->week_number;
-                $input['month'] = $request->month;
-                $input['date'] = $date;
-                $input['year'] = $request->year;
-                $input['payroll_period_start'] = $request->payroll_period_start;
-                $input['payroll_period_end'] = $request->payroll_period_end;
-                $input['client_id'] = $request->client_id;
-                $input['location_id'] = $request->location_id;
-                $input['pay_type'] = $request->pay_type;
-                $input['user_id'] = $row->id;
-                $input['employee_code'] = $row->employee_code;
-                $input['posicode'] = $row->job_role;  
-                $input['company_code'] = "";
-                $input['ot1_hrs'] = 0;
-                $input['ot2_hrs'] = 0;
-                $input['ot3_hrs'] = 0;
-                $input['ot4_hrs'] = 0;
-                $input['ot5_hrs'] = 0;
-                $input['ot6_hrs'] = 0;
-                $input['ot7_hrs'] = 0;
-                $input['ot8_hrs'] = 0;
-                $input['ot9_hrs'] = 0;
-                $input['ot10_hrs'] = 0;
-                $input['ot11_hrs'] = 0;
-                $input['ot12_hrs'] = 0;
-                $input['ot13_hrs'] = 0;
-                $input['day8'] = 0;
-                $input['day8_rate'] = $rate8->rate8;
-                $input['day12'] = 0;
-                $input['day12_rate'] = $rate12->rate12;
-                $input['nd_days'] = 0;
-                $input['incentive'] = 0;
-                $input['undertime'] = 0;
-      
-                UserTimesheet::create($input);
+            if($request->week_number=="B"){
+                $hDay = date('Y-m-d', (strtotime($fDay)+ (86400 * 15)));
+                $lDay = date("Y-m-t");
+                while ($date > $hDay && $date <= $lDay) {
+                  
+                    $input['payroll_date'] = $request->payroll_date;
+                    $input['week_number'] = $request->week_number;
+                    $input['month'] = $request->month;
+                    $input['date'] = $date;
+                    $input['year'] = $request->year;
+                    $input['payroll_period_start'] = $request->payroll_period_start;
+                    $input['payroll_period_end'] = $request->payroll_period_end;
+                    $input['client_id'] = $request->client_id;
+                    $input['location_id'] = $request->location_id;
+                    $input['pay_type'] = $request->pay_type;
+                    $input['user_id'] = $row->id;
+                    $input['employee_code'] = $row->employee_code;
+                    $input['posicode'] = $row->job_role;  
+                    $input['company_code'] = "";
+                    $input['ot1_hrs'] = 0;
+                    $input['ot2_hrs'] = 0;
+                    $input['ot3_hrs'] = 0;
+                    $input['ot4_hrs'] = 0;
+                    $input['ot5_hrs'] = 0;
+                    $input['ot6_hrs'] = 0;
+                    $input['ot7_hrs'] = 0;
+                    $input['ot8_hrs'] = 0;
+                    $input['ot9_hrs'] = 0;
+                    $input['ot10_hrs'] = 0;
+                    $input['ot11_hrs'] = 0;
+                    $input['ot12_hrs'] = 0;
+                    $input['ot13_hrs'] = 0;
+                    $input['day8'] = 0;
+                    $input['day8_rate'] = $rate8->rate8;
+                    $input['day12'] = 0;
+                    $input['day12_rate'] = $rate12->rate12;
+                    $input['nd_days'] = 0;
+                    $input['incentive'] = 0;
+                    $input['undertime'] = 0;
+          
+                    $last_data = UserTimesheet::where('date',$date)->where('user_id',$row->id)->first();
+                    if(empty($last_data))
+                    UserTimesheet::create($input);
+
+                   
+                    $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));//Adds 1 day onto current date
+                    
+                }
             }
+
+            else
+            {
+                $fDay = date('Y-m-01');
+                $hDay = date('Y-m-d', (strtotime($fDay)+ (86400 * 15)));
+                while ($date >= $fDay && $date < $hDay) {
+                  
+                    $input['payroll_date'] = $request->payroll_date;
+                    $input['week_number'] = $request->week_number;
+                    $input['month'] = $request->month;
+                    $input['date'] = $date;
+                    $input['year'] = $request->year;
+                    $input['payroll_period_start'] = $request->payroll_period_start;
+                    $input['payroll_period_end'] = $request->payroll_period_end;
+                    $input['client_id'] = $request->client_id;
+                    $input['location_id'] = $request->location_id;
+                    $input['pay_type'] = $request->pay_type;
+                    $input['user_id'] = $row->id;
+                    $input['employee_code'] = $row->employee_code;
+                    $input['posicode'] = $row->job_role;  
+                    $input['company_code'] = "";
+                    $input['ot1_hrs'] = 0;
+                    $input['ot2_hrs'] = 0;
+                    $input['ot3_hrs'] = 0;
+                    $input['ot4_hrs'] = 0;
+                    $input['ot5_hrs'] = 0;
+                    $input['ot6_hrs'] = 0;
+                    $input['ot7_hrs'] = 0;
+                    $input['ot8_hrs'] = 0;
+                    $input['ot9_hrs'] = 0;
+                    $input['ot10_hrs'] = 0;
+                    $input['ot11_hrs'] = 0;
+                    $input['ot12_hrs'] = 0;
+                    $input['ot13_hrs'] = 0;
+                    $input['day8'] = 0;
+                    $input['day8_rate'] = $rate8->rate8;
+                    $input['day12'] = 0;
+                    $input['day12_rate'] = $rate12->rate12;
+                    $input['nd_days'] = 0;
+                    $input['incentive'] = 0;
+                    $input['undertime'] = 0;
+          
+                    $last_data = UserTimesheet::where('date',$date)->where('user_id',$row->id)->first();
+                    if(empty($last_data))
+                    UserTimesheet::create($input);
+
+                    $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));//Adds 1 day onto current date
+                    
+                }  
+            }
+
+            
+            
         }
 
         return response()->json(['code' => 200, 'message' => 'Timesheet entry created successfully.']);

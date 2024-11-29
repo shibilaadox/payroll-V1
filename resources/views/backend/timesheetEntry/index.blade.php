@@ -138,11 +138,11 @@
                                     <option value="" disabled selected>Select Week Number</option>
                                     <option value="A">A (1-15)</option>
                                     <option value="B">B (16-30)</option>
-                                    <option value="1">1</option>
+                                    <!--<option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
-                                    <option value="5">5</option>
+                                    <option value="5">5</option>-->
 
                                 </select>
                             </div>
@@ -363,11 +363,11 @@
                                     <option value="" disabled selected>Select Week Number</option>
                                     <option value="A">A (1-15)</option>
                                     <option value="B">B (16-30)</option>
-                                    <option value="1">1</option>
+                                    <!--<option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
-                                    <option value="5">5</option>
+                                    <option value="5">5</option>-->
                                 </select>
                             </div>
                             <div class="form-group col-md-3">

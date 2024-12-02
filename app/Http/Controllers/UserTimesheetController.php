@@ -272,7 +272,7 @@ class UserTimesheetController extends Controller
     public function getTimesheets(Request $request)
     {
         if ($request->ajax()) {
-            $timesheets = UserTimesheet::with('client', 'location', 'user')->where('month',date('m'))->select('user_timesheets.*');
+            $timesheets = UserTimesheet::with('client', 'location', 'user')->where('month',date('m'))->select('user_timesheets.*')->orderByRaw('(SELECT firstname FROM users WHERE user_timesheets.user_id = users.id)');
             return DataTables::of($timesheets)
                 ->addColumn('payroll_period', function ($row) {
                     return $row->payroll_period_start . ' - ' . $row->payroll_period_end;

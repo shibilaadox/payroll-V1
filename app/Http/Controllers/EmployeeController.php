@@ -425,7 +425,7 @@ class EmployeeController extends Controller
     public function get_employee()
     {
         $name = $_GET['name'];
-        $data['users'] = User::with('userdetails')->where('name', 'like', '%' . $name . '%')->orWhere('firstname', 'like', '%' . $name . '%')->orWhere('lastname', 'like', '%' . $name . '%')->where('user_type', 'Employee')->where('status', 1)->get();
+        $data['users'] = User::with('userdetails')->where('user_type', 'Employee')->where('status', 1)->where('name', 'like', '%' . $name . '%')->get();
 
         return view('backend.employee.search_result', ['data' => $data]);
     }

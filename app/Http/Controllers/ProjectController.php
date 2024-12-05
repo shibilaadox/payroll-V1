@@ -26,7 +26,7 @@ class ProjectController extends Controller
         $data['roles'] = Roles::all();
         $data['clients'] = Client::all();
         $employee_ids = EmployeeProject::select('user_id')->join('projects','employee_projects.project_id','=','projects.id')->where('status','!=','Completed')->groupBy('user_id')->get();
-        $data['users'] = User::whereNotIn('id',$employee_ids)->where('status', 1)->get();
+        $data['users'] = User::whereNotIn('id',$employee_ids)->where('user_type','Employee')->where('status', 1)->get();
         $projects = Project::all();
 
         $roles = Roles::all(); // Fetch all roles

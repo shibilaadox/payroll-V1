@@ -43,6 +43,14 @@
                                                     placeholder="Enter first name" name="first_name" required
                                                     value="{{ $user->firstname }}">
                                             </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    Middle Name:</label> <span class="text-danger">*</span>
+                                                <input type="text" class="form-control" id="middle_name"
+                                                    placeholder="Enter middle name" name="middle_name" required
+                                                    value="{{ $user->middlename }}">
+                                            </div>
+                                            
 
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
@@ -391,9 +399,9 @@
                                                     <input type="text" class="form-control" name="present_country"
                                                         id="present_country" placeholder="Country" required
                                                         value="{{ $useraddresses->residential_country }}"><br>
-                                                    <input type="text" class="form-control" name="present_pincode"
-                                                        id="present_pincode" placeholder="Pincode" required
-                                                        value="{{ $useraddresses->residential_pincode }}">
+                                                    <input type="text" class="form-control" name="present_national_id"
+                                                        id="present_national_id" placeholder="National ID" required
+                                                        value="{{ $useraddresses->present_national_id }}">
                                                 </div>
 
                                                 <div class="form-group col-md-6">
@@ -415,9 +423,9 @@
                                                     <input type="text" class="form-control" name="permanent_country"
                                                         id="permanent_country" placeholder="Country" required
                                                         value="{{ $useraddresses->permanent_country }}"><br>
-                                                    <input type="text" class="form-control" name="permanent_pincode"
-                                                        id="permanent_pincode" placeholder="Pincode" required
-                                                        value="{{ $useraddresses->permanent_pincode }}">
+                                                    <input type="text" class="form-control" name="permanent_national_id"
+                                                        id="permanent_national_id" placeholder="National ID" required
+                                                        value="{{ $useraddresses->permanent_national_id }}">
                                                 </div>
                                             @else
                                                 <p>No address found.</p>

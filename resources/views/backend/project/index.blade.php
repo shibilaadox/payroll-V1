@@ -1,3 +1,4 @@
+<?php use App\Models\EmployeeProject;?>
 @extends('layouts.master')
 
 @section('page-css')
@@ -55,13 +56,25 @@
                                             <tr>
                                                 <th scope="row">{{ $i++ }}</th>
                                                 <td>{{ $row->project_name }}</td>
-                                                <td>{{ $row->clients->name }}</td>
+                                                <td>{{ $row->client_name }}</td>
                                                 <td><?php echo $row->project . ' - ' . $row->project_type; ?></td>
                                                 <td>{{ $row->project_phase }}</td>
                                                 <td>{{ $row->status }}</td>
                                                 <td><?php echo $row->start_date . ' to ' . $row->end_date; ?></td>
                                                 <td>{{ $row->description }}</td>
-                                                <td>{{ $row->employees->firstname }}</td>
+                                                <td><?php $employees = EmployeeProject::join('users','employee_projects.user_id','=','users.id')->select('employee_projects.*','users.name')->where('employee_projects.project_id',$row->id)->get();
+                                                ?>
+                                                <table>
+                                                    <tr><td><b>Name</b></td><td><b>Role</b></td><td><b>Action</b></td></tr>
+                                                    <?php foreach($employees as $row1){?>
+                                                        <tr><td>{{$row1->name}}</td><td>{{$row1->mode}}</td>
+                                                    <td><a class="text-danger mr-2" onclick="delete_project_employee({{ $row1->id }})">
+                                <i class="nav-icon i-Close-Window font-weight-bold fs-16"></i>
+                            </a></td>
+                                                    </tr>
+                                               
+                                                <?php } ?> </table>
+                                                </td>
                                                 <td>{{ $row->salary }}</td>
                                                 <td class="d-flex justify-content-between align-items-center">
                                                     <a class="text-success" onclick="edit_project('{{ $row->id }}')">
@@ -201,7 +214,7 @@
                                                 <select class="form-control" id="employee" name="employee[]">
                                                     <option value="">Select</option>
                                                     <?php foreach($data['users'] as $row){?>
-                                                    <option value={{ $row->id }}>{{ $row->firstname }}</option>
+                                                    <option value={{ $row->id }}>{{ $row->name }}</option>
                                                     <?php } ?>
                                                 </select>
                                             </td>
@@ -446,5 +459,34 @@
             this.Payment = payment;
             this.Role = role;
         }
+
+        function delete_project_employee(id) {
+
+
+event.preventDefault();
+let _token = $('meta[name="csrf-token"]').attr('content');
+
+$.ajax({
+    url: "<?php echo url('delete_project_employee'); ?>",
+    type: "GET",
+    data: {
+        id: id
+    },
+    cache: false,
+
+    success: function(response) {
+
+
+        location.reload();
+
+
+    },
+    error: function(response) {
+
+    }
+
+});
+
+}
     </script>
 @endsection

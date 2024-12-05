@@ -22,10 +22,11 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $data['projects'] = Project::with('clients')->with('employees')->get();
+        $data['projects'] = Project::join('clients','clients.id','=','projects.client')->select('projects.*','clients.name as client_name')->get();
         $data['roles'] = Roles::all();
         $data['clients'] = Client::all();
-        $data['users'] = User::where('status', 1)->get();
+        $employee_ids = EmployeeProject::select('user_id')->join('projects','employee_projects.project_id','=','projects.id')->where('status','!=','Completed')->groupBy('user_id')->get();
+        $data['users'] = User::whereNotIn('id',$employee_ids)->where('status', 1)->get();
         $projects = Project::all();
 
         $roles = Roles::all(); // Fetch all roles
@@ -145,5 +146,12 @@ class ProjectController extends Controller
     {
         $project = Project::find($id);
         $project->delete();
+    }
+
+    public function delete_project_employee()
+    {
+        $id = $_GET['id'];
+        $user = EmployeeProject::find($id);
+        $user->delete();
     }
 }

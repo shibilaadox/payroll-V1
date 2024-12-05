@@ -238,6 +238,9 @@ Route::get('/get-employee-details/{id}', [UserTimesheetController::class, 'getEm
 
 Route::get('pdf', [PdfController::class, 'index'])->name('pdf');
 
+Route::get('delete_project_employee', [App\Http\Controllers\ProjectController::class, 'delete_project_employee'])->name('delete_project_employee');
+
+
 });
 
 

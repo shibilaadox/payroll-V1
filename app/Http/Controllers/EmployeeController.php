@@ -98,7 +98,7 @@ class EmployeeController extends Controller
             $user->gender = $request->gender;
             $user->dob = $request->dob;
             $user->firstname = $request->first_name;
-            $user->firstname = $request->middle_name;
+            $user->middlename = $request->middle_name;
             $user->lastname = $request->last_name;
             $user->status = $request->status;
             $user->profile_photo = $img_name;
@@ -156,12 +156,12 @@ class EmployeeController extends Controller
             $user_address->residential_city = $request->present_city;
             $user_address->residential_state = $request->present_state;
             $user_address->residential_country = $request->present_country;
-            $user_address->residential_pincode = $request->present_pincode;
+            $user_address->present_national_id = $request->present_national_id;
             $user_address->permanent_address = $request->permanent_address;
             $user_address->permanent_city = $request->permanent_city;
             $user_address->permanent_state = $request->permanent_state;
             $user_address->permanent_country = $request->permanent_country;
-            $user_address->permanent_pincode = $request->permanent_pincode;
+            $user_address->permanent_national_id = $request->permanent_national_id;
 
             $user_address->save();
 
@@ -243,8 +243,10 @@ class EmployeeController extends Controller
         ]);
 
         $user = User::find($id);
+        $user->name = $request->first_name . " " .$request->middle_name . " " . $request->last_name;
         $user->firstname = $request->first_name; 
         $user->lastname = $request->last_name; 
+        $user->middlename = $request->middle_name; 
         $user->email = $request->email; 
         $user->employee_code = $request->employee_code; 
         $user->save();
@@ -255,13 +257,13 @@ class EmployeeController extends Controller
             $user_address->residential_city = $request->present_city;
             $user_address->residential_state = $request->present_state;
             $user_address->residential_country = $request->present_country;
-            $user_address->residential_pincode = $request->present_pincode;
+            $user_address->present_national_id = $request->present_national_id;
 
             $user_address->permanent_address = $request->present_address;
             $user_address->permanent_city = $request->present_city;
             $user_address->permanent_state = $request->present_state;
             $user_address->permanent_country = $request->present_country;
-            $user_address->permanent_pincode = $request->present_pincode;
+            $user_address->permanent_national_id = $request->present_national_id;
 
             $user_address->save();
         } else {

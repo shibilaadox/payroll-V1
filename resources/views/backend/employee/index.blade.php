@@ -36,7 +36,7 @@
                         <div class="avatar box-shadow-2 mb-3">
                             <img src="<?php echo $row->profile_photo?>" alt="">
                         </div>
-                        <h7 class="m-0"><b><?php echo $row->firstname . ' ' . $row->lastname; ?></b></h7><br>
+                        <h7 class="m-0"><b><?php echo $row->firstname . ' ' . $row->middlename . ' '.$row->lastname;; ?></b></h7><br>
                         <h8><?php //echo $row->userdetails->departments->name
                         ?></h8><br>
                         <h8><?php echo $row->email; ?></h8><br>

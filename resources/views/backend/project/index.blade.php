@@ -328,6 +328,7 @@
         function edit_project(id) {
 
             $.get("{{ route('projects.index') }}" + '/' + id + '/edit', function(data) {
+                $("#employee").html("");
                 var edit_html = '<option value="">Select</option>' +
                 <?php foreach($data['users_edit'] as $row){?> '<option value={{ $row->id }}>{{ $row->name }}</option>' +
                 <?php } ?> 
@@ -347,6 +348,7 @@
                 $("#description").val(data['project'].description);
                 
                 $("#project_status").val(data['project'].status);
+
                 $("#employee").append(edit_html);
                 var res = data['employee_project'];
                 $("#employee").val(res[0].user_id);

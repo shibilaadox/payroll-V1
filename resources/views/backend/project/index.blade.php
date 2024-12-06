@@ -67,7 +67,7 @@
                                                 <table>
                                                     <tr><td><b>Name</b></td><td><b>Role</b></td><td><b>Action</b></td></tr>
                                                     <?php foreach($employees as $row1){?>
-                                                        <tr><td>{{$row1->name}}</td><td>{{$row1->mode}}</td>
+                                                        <tr><td>{{$row1->name}}</td><td>{{$row1->role}}</td>
                                                     <td><a class="text-danger mr-2" onclick="delete_project_employee({{ $row1->id }})">
                                 <i class="nav-icon i-Close-Window font-weight-bold fs-16"></i>
                             </a></td>
@@ -113,7 +113,7 @@
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="UnitModalTitle">Add Project</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close close_btn" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -270,7 +270,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary close_btn" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary" id="saveBtn">Save changes</button>
                     </div>
                 </form>
@@ -328,29 +328,70 @@
         function edit_project(id) {
 
             $.get("{{ route('projects.index') }}" + '/' + id + '/edit', function(data) {
+                var edit_html = '<option value="">Select</option>' +
+                <?php foreach($data['users_edit'] as $row){?> '<option value={{ $row->id }}>{{ $row->name }}</option>' +
+                <?php } ?> 
+                
                 $("#saveBtn").val("Edit-Category");
                 $("#project-modal").modal('show');
-                $("#project_id").val(data.id);
-                $("#project").val(data.project);
-                $("#project_type").val(data.project_type).change();
-                $("#project_name").val(data.project_name);
-                $("#client").val(data.client);
-                $("#project_phase").val(data.project_phase);
-                $("#project_amount").val(data.project_amount);
-                $("#start_date").val(data.start_date);
-                $("#end_date").val(data.end_date);
-                $("#project_location").val(data.project_location);
-                $("#description").val(data.description);
-                $("#employee").val(data.employee);
-                $("#project_status").val(data.status);
-                /*var res = data.project_phase.split(",");
+                $("#project_id").val(data['project'].id);
+                $("#project").val(data['project'].project);
+                $("#project_type").val(data['project'].project_type).change();
+                $("#project_name").val(data['project'].project_name);
+                $("#client").val(data['project'].client);
+                $("#project_phase").val(data['project'].project_phase);
+                $("#project_amount").val(data['project'].project_amount);
+                $("#start_date").val(data['project'].start_date);
+                $("#end_date").val(data['project'].end_date);
+                $("#project_location").val(data['project'].project_location);
+                $("#description").val(data['project'].description);
+                
+                $("#project_status").val(data['project'].status);
+                $("#employee").append(edit_html);
+                var res = data['employee_project'];
+                $("#employee").val(res[0].user_id);
+                $("#role").val(res[0].role);
+                $("#mode").val(res[0].mode);
+                $("#payment").val(res[0].payment);
+                for(let i = 1; i < res.length; i++) { 
+                var html =
+                '<tr><td><select class="form-control"  id="employee'+i+'" name="employee[]">' +
+                '<option value="">Select</option>' +
+                <?php foreach($data['users_edit'] as $row){?> '<option value={{ $row->id }}>{{ $row->name }}</option>' +
+                <?php } ?> '</select>' +
+                '</td>' +
+                '<td>' +
 
-                res.forEach(element =>{
+                '<input type="text" class="form-control" name="role[]" value='+res[i].role+'>' +
+                '</td>' +
+                '<td>' +
 
-                        $('#project_phase option[value='+element+']').attr('selected','selected').change();
+                '<select class="form-control" id="mode'+i+'" name="mode[]">' +
+                '<option value="">Select</option>' +
 
-                });*/
+                '<option value="Monthly">Monthly</option>' +
+                '<option value="Monthly">Hourly</option>' +
+                '</select>' +
+                '</td>' +
+                '<td>' +
+                '<input type="text" class="form-control" name="payment[]" value='+res[i].payment+'>' +
+                '</td>' +
+
+
+                '<td>  <button type="button"  class="btn btn-sm btn-default btn-icon m-1 attr payment_delete">' +
+                '<span class="ul-btn__icon"><i class="i-Close-Window" style="font-size: 20px;"></i></span>' +
+                '</button></td></tr>';
+                
+                $("#payment_row").append(html);
+                $("#mode"+i).val(res[i].mode).change();
+                $("#employee"+i).val(res[i].user_id).change();
+                
+                
+                };
+                
             });
+
+           
         }
 
         //Delete Category
@@ -395,18 +436,18 @@
 
         $("#payment_add").click(function() {
             var html =
-                '<tr><td><select class="form-control" id="employee" name="employee[]">' +
+                '<tr><td><select class="form-control" name="employee[]">' +
                 '<option value="">Select</option>' +
-                <?php foreach($data['users'] as $row){?> '<option value={{ $row->id }}>{{ $row->firstname }}</option>' +
+                <?php foreach($data['users'] as $row){?> '<option value={{ $row->id }}>{{ $row->name }}</option>' +
                 <?php } ?> '</select>' +
                 '</td>' +
                 '<td>' +
 
-                '<input type="text" class="form-control" name="role[]" id="role">' +
+                '<input type="text" class="form-control" name="role[]" >' +
                 '</td>' +
                 '<td>' +
 
-                '<select class="form-control" id="mode" name="mode[]">' +
+                '<select class="form-control"  name="mode[]">' +
                 '<option value="">Select</option>' +
 
                 '<option value="Monthly">Monthly</option>' +
@@ -414,7 +455,7 @@
                 '</select>' +
                 '</td>' +
                 '<td>' +
-                '<input type="text" class="form-control" name="payment[]" id="payment">' +
+                '<input type="text" class="form-control" name="payment[]">' +
                 '</td>' +
 
 
@@ -451,6 +492,8 @@
                 $("#employee_payment").val(JSON.stringify(yourArray_payment));
 
             }
+
+    
         });
 
         function EmployeePayment(employee, mode, payment, role) {
@@ -488,5 +531,9 @@ $.ajax({
 });
 
 }
+
+$(".close_btn").click(function(){
+    window.location.reload();
+})
     </script>
 @endsection

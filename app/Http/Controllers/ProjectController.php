@@ -26,7 +26,9 @@ class ProjectController extends Controller
         $data['roles'] = Roles::all();
         $data['clients'] = Client::all();
         $employee_ids = EmployeeProject::select('user_id')->join('projects','employee_projects.project_id','=','projects.id')->where('status','!=','Completed')->groupBy('user_id')->get();
+        
         $data['users'] = User::whereNotIn('id',$employee_ids)->where('user_type','Employee')->where('status', 1)->get();
+        $data['users_edit'] = User::where('user_type','Employee')->where('status', 1)->get();
         $projects = Project::all();
 
         $roles = Roles::all(); // Fetch all roles
@@ -73,6 +75,9 @@ class ProjectController extends Controller
 
             $data_project = Project::updateOrCreate(['id' => $request->project_id], $input);
             //$data_project->roles()->sync($roles);
+
+            $user_pro = EmployeeProject::where('project_id',$request->project_id)->delete();
+            
 
             $jsonData = $request->employee_payment;
 
@@ -121,7 +126,10 @@ class ProjectController extends Controller
     public function edit($id)
     {
         $project = Project::find($id);
-        return response()->json($project);
+        $employee_project = EmployeeProject::where('project_id',$id)->get();
+        $data['project'] = $project;
+        $data['employee_project'] = $employee_project;
+        return response()->json($data);
     }
 
     /**

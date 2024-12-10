@@ -50,6 +50,7 @@ class User extends Authenticatable
         'transportation_allowance',
         'supervisor_incentive',
         'status',
+        'client'
     ];
 
     /**

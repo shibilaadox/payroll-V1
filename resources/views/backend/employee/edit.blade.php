@@ -95,6 +95,18 @@
                                             </div>
 
                                             <div class="form-group col-md-6">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    Client:</label> <span class="text-danger">*</span>
+                                                <select class="form-control" name="client" id="client">
+                                                    <option value="">Select</option>
+                                                    @foreach ($clients as $client)
+                                                        <option value="{{ $client->id }}" {{ $client->id == $user->client ? 'selected' : '' }}>{{ $client->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">Location: <span
                                                         class="text-danger">*</span></label>
                                                 <select class="form-control" name="location_name" id="location_name">
@@ -107,6 +119,22 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail1" class="ul-form__label">Designation: <span
+                                                        class="text-danger">*</span></label>
+                                                <select class="form-control" name="designation_name" id="designation_name">
+                                                    <option value="">Select</option>
+                                                    @foreach ($designations as $designation)
+                                                        <option value="{{ $designation->id }}"
+                                                            {{ $designation->id == $userdetails->designation ? 'selected' : '' }}>
+                                                            {{ $designation->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+
 
 
                                         </div>
@@ -129,39 +157,23 @@
                                                 </select>
                                             </div> --}}
 
-                                            <div class="form-group col-md-6">
-                                                <label for="inputEmail1" class="ul-form__label">Designation: <span
-                                                        class="text-danger">*</span></label>
-                                                <select class="form-control" name="designation_name" id="designation_name">
-                                                    <option value="">Select</option>
-                                                    @foreach ($designations as $designation)
-                                                        <option value="{{ $designation->id }}"
-                                                            {{ $designation->id == $userdetails->designation ? 'selected' : '' }}>
-                                                            {{ $designation->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-
-
+                                           
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Job Role:</label> <span class="text-danger">*</span>
                                                 <select class="form-control" name="job_role" id="job_role">
                                                     <option value="">Select</option>
 
-                                                    <option value="Trainee" <?php if ($user->job_role == 'Trainee') {
+                                                    <option value="GUARD8" <?php if ($user->job_role == 'GUARD8') {
                                                         echo 'selected';
-                                                    } ?>>Trainee</option>
-                                                    <option value="Employee" <?php if ($user->job_role == 'Employee') {
+                                                    } ?>>GUARD8</option>
+                                                    <option value="GUARD10" <?php if ($user->job_role == 'GUARD10') {
                                                         echo 'selected';
-                                                    } ?>>Employee</option>
-                                                    <option value="Manager" <?php if ($user->job_role == 'Manager') {
+                                                    } ?>>GUARD10</option>
+                                                    <option value="GUARD12" <?php if ($user->job_role == 'GUARD12') {
                                                         echo 'selected';
-                                                    } ?>>Manager</option>
-                                                    <option value="Director" <?php if ($user->job_role == 'Director') {
-                                                        echo 'selected';
-                                                    } ?>>Director</option>
+                                                    } ?>>GUARD12</option>
+                                                    
 
                                                 </select>
                                             </div>
@@ -693,5 +705,33 @@
                 presentAddress.value = '';
             }
         }
+
+        $('#client').change(function () {
+            $('#location_name').html("");
+            var clientId = $(this).val();
+
+            if (clientId) {
+                $.ajax({
+                    url: '../../get-locations/' + clientId,
+                    type: 'GET',
+                   
+                    success: function(data) {
+                    
+                    $.each(data, function(key, location_data) {
+                        
+                        $('#location_name').append(
+                            '<option value="' + location_data.id + '">' + location_data.location_name + '</option>'
+                        );
+                    });
+                },
+                    error: function () {
+                        alert('Failed to fetch locations.');
+                    }
+                });
+            } 
+        });
+
+   
+
     </script>
 @endsection

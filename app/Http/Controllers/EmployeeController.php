@@ -12,6 +12,7 @@ use App\Models\Location;
 use App\Models\Status;
 use App\Models\Useraddress;
 use App\Models\Userdetail;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -35,10 +36,11 @@ class EmployeeController extends Controller
         $roles = Roles::all();
         $departments = Department::all();
         $locations = Location::all();
+        $clients = Client::all();
         $designations = Designation::all();
         $userDetails = DB::table('userdetails')->select('department')->first();
 
-        return view('backend.employee.create', compact('roles', 'departments', 'locations', 'designations', 'userDetails'));
+        return view('backend.employee.create', compact('roles', 'departments', 'locations', 'designations', 'userDetails','clients'));
     }
 
     public function show($id)
@@ -102,6 +104,7 @@ class EmployeeController extends Controller
             $user->lastname = $request->last_name;
             $user->status = $request->status;
             $user->profile_photo = $img_name;
+            $user->client = $request->client;
 
             $user->save();
             $id = $user->id;
@@ -208,9 +211,10 @@ class EmployeeController extends Controller
         $departments = Department::all();
         $locations = Location::all();
         $designations = Designation::all();
+        $clients = Client::all();
         $useraddresses = Useraddress::where('user_id', $id)->first();
 
-        return view('backend.employee.edit', compact('user', 'roles', 'departments', 'locations', 'designations', 'userdetails', 'useraddresses'));
+        return view('backend.employee.edit', compact('user', 'roles', 'departments', 'locations', 'designations', 'userdetails', 'useraddresses','clients'));
     }
 
 
@@ -249,6 +253,8 @@ class EmployeeController extends Controller
         $user->middlename = $request->middle_name; 
         $user->email = $request->email; 
         $user->employee_code = $request->employee_code; 
+        $user->client = $request->client; 
+        $user->job_role = $request->job_role; 
         $user->save();
 
         $user_address = UserAddress::where('user_id', $user->id)->first();
@@ -559,4 +565,24 @@ class EmployeeController extends Controller
         // Return view with invoice details
         return view('backend.employee.invoice', compact('invoice'));
     }
+
+    public function getLocations($id)
+    {
+        $client_details = Client::where('id',$id)->first();
+        $location_ids = $client_details->locations;
+        $n=0;
+        $locations = array();
+        $location_list = explode(',', $location_ids);
+        foreach($location_list as $row1){
+         
+             $locations[$n] = $row1;    
+             $n++;
+        }
+        $location_data = Location::select('id', 'location_name')
+            ->whereIn('id', $locations)
+            ->get();
+
+        return response()->json($location_data);
+    }
+
 }

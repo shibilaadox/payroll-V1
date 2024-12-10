@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Client;
+use App\Models\Location;
 use DataTables;
 use Throwable;
 
@@ -16,33 +17,19 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $client = Client::all();
-             return DataTables::of($client)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-
-                    $btn = '<button class="btn btn-success" onclick="edit_client('.$row->id.')" type="button"><i class="nav-icon i-Pen-2 font-weight-bold"></i></button>';
-                    $btn = $btn . '<button class="btn btn-danger ml-3" onclick="delete_client('.$row->id.')" type="button"><i class="nav-icon i-Close-Window font-weight-bold"></i></button>';
-
-                    $btn .= '<a href="' . route('client.details', $row->id) . '" class="btn btn-primary ml-3" type="button">Details</a>';
-
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-        return view('backend.client.index');
+        $client = Client::all();
+        $locations = Location::all();
+        return view('backend.client.index',compact('locations','client'));
     }
 
     public function details($id)
-{
-    // Fetch the client details
-    $client = Client::with('projects')->findOrFail($id);
+    {   
+        // Fetch the client details
+        $client = Client::with('projects')->findOrFail($id);
 
-    // Pass the client details to the view
-    return view('client.details', compact('client'));
-}
+        // Pass the client details to the view
+        return view('client.details', compact('client'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -68,6 +55,7 @@ class ClientController extends Controller
             $input['email'] = $request->email;
             $input['phone'] = $request->phone;
             $input['address'] = $request->address;
+            $input['locations'] =implode(',', $request->location);
 
             Client::updateOrCreate(['id' => $request->client_id] ,$input);
 

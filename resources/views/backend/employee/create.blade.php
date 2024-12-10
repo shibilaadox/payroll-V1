@@ -89,6 +89,19 @@
 
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
+                                                    Client:</label> <span class="text-danger">*</span>
+                                                <select class="form-control" name="client" id="client">
+                                                    <option value="">Select</option>
+                                                    @foreach ($clients as $client)
+                                                        <option value="{{ $client->id }}">{{ $client->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail1" class="ul-form__label">
                                                     Location:</label> <span class="text-danger">*</span>
                                                 <select class="form-control" name="location_name" id="location_name">
                                                     <option value="">Select</option>
@@ -98,10 +111,6 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-
-                                        </div>
-
-                                        <div class="form-row col-md-12">
 
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
@@ -116,15 +125,21 @@
                                                 </select>
                                             </div>
 
+                                        </div>
+
+                                        <div class="form-row col-md-12">
+
+                                           
+
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Job Role:</label> <span class="text-danger">*</span>
                                                 <select class="form-control" name="job_role" id="job_role">
                                                     <option value="">Select</option>
 
-                                                    <option value="Trainee">Trainee</option>
-                                                    <option value="Employee">Employee</option>
-                                                    <option value="New Venture">New Venture</option>
+                                                    <option value="GUARD8">GUARD8</option>
+                                                    <option value="GUARD10">GUARD10</option>
+                                                    <option value="GUARD12">GUARD12</option>
 
                                                 </select>
                                             </div>
@@ -1145,5 +1160,34 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
+
+        $('#client').change(function () {
+            $('#location_name').html("");
+            var clientId = $(this).val();
+
+            if (clientId) {
+                $.ajax({
+                    url: '../get-locations/' + clientId,
+                    type: 'GET',
+                   
+                    success: function(data) {
+                    
+                    $.each(data, function(key, location_data) {
+                        
+                        $('#location_name').append(
+                            '<option value="' + location_data.id + '">' + location_data.location_name + '</option>'
+                        );
+                    });
+                },
+                    error: function () {
+                        alert('Failed to fetch locations.');
+                    }
+                });
+            } 
+        });
+
+   
+
+   
     </script>
 @endsection

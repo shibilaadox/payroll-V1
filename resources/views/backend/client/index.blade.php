@@ -43,11 +43,45 @@
                                             <th class="sorting" tabindex="0" aria-controls="client_datatable"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Position: activate to sort column ascending"
+                                                style="width: 270.002px;">Locations</th>
+                                            <th class="sorting" tabindex="0" aria-controls="client_datatable"
+                                                rowspan="1" colspan="1"
+                                                aria-label="Position: activate to sort column ascending"
                                                 style="width: 270.002px;">Actions</th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    <?php $i = 1;
+                                    foreach ($client as $key => $row) { ?>
+                                    <tr>
+                                    <td>{{$i}}</td>
+                                    <td>{{$row->name;}}</td>
+                                    <td>{{$row->email;}}</td>
+                                    <td>{{$row->phone;}}</td>
+                                    <td>{{$row->address;}}</td>
+                                    <td><?php $location_id = explode(',', $row->locations);
+                                              $lastElement = end($location_id);
+                                              foreach ($location_id as $row3) {
+                                                foreach ($locations as $row1) {
+
+                                                    if ($row1->id == $row3) 
+                                                    {   
+                                                        if($row3 == $lastElement) 
+                                                        echo $row1->location_name;
+                                                        else
+                                                        echo $row1->location_name . " , ";
+                                                    }
+                                                }
+                                              }
+                                    ?>
+                                    <td><button class="btn btn-sm btn-success" onclick="edit_client('{{$row->id}}')" type="button"><i class="nav-icon i-Pen-2 font-weight-bold"></i></button>
+                                    <button class="btn btn-danger btn-sm ml-3" onclick="delete_client('{{$row->id}}')" type="button"><i class="nav-icon i-Close-Window font-weight-bold"></i></button>
+                                    <a href="{{route('client.details', $row->id)}}" class="btn btn-primary btn-sm ml-3" style="float: right;
+    position: absolute;" type="button"><i class="nav-icon i-File-Clipboard-Text--Image" title="Details"></i></a>
+                                </td>
+                                    </tr>
+                                    <?php $i++;} ?>
 
                                     </tbody>
 
@@ -96,6 +130,16 @@
                                 <label for="short_name" class="ul-form__label">Address:</label>
                                 <textarea class="form-control" aria-label="With textarea" id="address" name="address" required></textarea>
                                 <input type="hidden" name="client_id" id="client_id" value="">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="short_name" class="ul-form__label">Locations:</label>
+                                <select class="form-control m-select2 select_class" id="location" name="location[]" required  multiple="multiple">
+                                    <option value="">Please select</option>
+                                    <?php foreach($locations as $row){ ?>
+                                    <option value="{{$row->id}}">{{$row->location_name}}</option>
+                                    <?php } ?>
+                                    
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -164,6 +208,12 @@
                 $("#email").val(data.email);
                 $("#phone").val(data.phone);
                 $("#address").val(data.address);
+                var res = data.locations.split(",");
+                res.forEach(element =>{
+     
+                    $('#location option[value='+element+']').attr('selected','selected').change();
+        
+                });
             });
         }
 
@@ -183,42 +233,7 @@
             });
 
             //Datatable
-            $('#client_datatable').DataTable({
-                processing: true,
-                serverSide: true,
-                type: "POST",
-                ajax: "{{ route('clients.index') }}",
-                columns: [
-
-                    {
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
-                    },
-                    {
-                        data: 'phone',
-                        name: 'phone'
-                    },
-                    {
-                        data: 'address',
-                        name: 'address'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false
-                    },
-                ]
-            });
-
-
+            $('#client_datatable').DataTable();
         });
     </script>
 @endsection

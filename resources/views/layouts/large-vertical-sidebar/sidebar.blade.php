@@ -31,13 +31,13 @@
             @endcan
 
             @can('Projects')
-             <li class="nav-item {{ request()->is('projects/*') ? 'active' : '' }}">
+             <!--<li class="nav-item {{ request()->is('projects/*') ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{route('projects.index')}}">
                     <i class="nav-icon i-Library" style="color:white"></i>
                     <span class="nav-text" style="color:white">{{__('Projects')}}</span>
                 </a>
                 <div class="triangle"></div>
-            </li>
+            </li>-->
             @endcan
 
             @can('Payroll')
@@ -52,44 +52,44 @@
 
 
             @can('Leave Tracker')
-            <li class="nav-item {{ request()->is('holidays/*') ? 'active' : '' }}" data-item="leavetracker">
+            <!--<li class="nav-item {{ request()->is('holidays/*') ? 'active' : '' }}" data-item="leavetracker">
                 <a class="nav-item-hold" href="">
                     <i class="nav-icon i-Library" style="color:white"></i>
                     <span class="nav-text" style="color:white">Leave Tracker</span>
                 </a>
                 <div class="triangle"></div>
-            </li>
+            </li>-->
             @endcan
 
             @can('Assets')
-            <li class="nav-item {{ request()->is('assets/*') ? 'active' : '' }}">
+            <!--<li class="nav-item {{ request()->is('assets/*') ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{route('machines.index')}}">
                     <i class="nav-icon i-Library" style="color:white"></i>
                     <span class="nav-text" style="color:white">{{__('Assets')}}</span>
                 </a>
                 <div class="triangle"></div>
-            </li>
+            </li>-->
 
             @endcan
 
             @can('Track Employee')
-            <li class="nav-item {{ request()->is('track/*') ? 'active' : '' }}">
+            <!--<li class="nav-item {{ request()->is('track/*') ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{route('track')}}">
                     <i class="nav-icon i-Library" style="color:white"></i>
                     <span class="nav-text" style="color:white">{{__('Track Employees')}}</span>
                 </a>
                 <div class="triangle"></div>
-            </li>
+            </li>-->
 
             @endcan
             @can('News')
-            <li class="nav-item {{ request()->is('news/*') ? 'active' : '' }}">
+            <!--<li class="nav-item {{ request()->is('news/*') ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{route('news.index')}}">
                     <i class="nav-icon i-Library" style="color:white"></i>
                     <span class="nav-text" style="color:white">{{__('News')}}</span>
                 </a>
                 <div class="triangle"></div>
-            </li>
+            </li>-->
 
             @endcan
 

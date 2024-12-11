@@ -234,7 +234,7 @@ Route::put('/user-timesheets/{id}', [UserTimesheetController::class, 'update'])-
 Route::get('user-timesheets/{id}/edit', [UserTimesheetController::class, 'edit'])->name('userTimesheet.edit');
 Route::get('/employees-by-client/{clientId}', [UserTimesheetController::class, 'getEmployeesByClient']);
 Route::get('/get-employee-details/{id}', [UserTimesheetController::class, 'getEmployeeDetails'])->name('employee.details');
-
+Route::get('user_data_entry', [UserTimesheetController::class, 'user_data_entry'])->name('user_data_entry');
 
 Route::get('pdf', [PdfController::class, 'index'])->name('pdf');
 

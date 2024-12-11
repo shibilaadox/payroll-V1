@@ -21,16 +21,10 @@ class UserTimesheetController extends Controller
     {
        
         $clients = Client::all();
-        $timesheets = UserTimesheet::paginate(10);
-        $salaryPayTypes = Userdetail::pluck('salary_pay_type')->unique();
-        $locations = Location::select('id', 'location_name')->get();
-        $users = User::select('id', 'firstname', 'middlename', 'lastname')->get();
-        $data = UserTimesheet::get();
-        $rate8 = Rate::select('rate8')->first();
-        $rate12 = Rate::select('rate12')->first();
-        return view('backend.timesheetEntry.index', compact('timesheets', 'clients', 'salaryPayTypes', 'locations', 'users', 'rate8', 'rate12'));
+        $locations = Location::all();
+        return view('backend.timesheetEntry.index', compact('clients','locations'));
     
-        }
+    }
 
     public function store(Request $request)
     {
@@ -315,5 +309,21 @@ class UserTimesheetController extends Controller
         $timesheet->delete();
 
         return redirect()->route('userTimesheet.index')->with('success', 'Timesheet entry deleted successfully.');
+    }
+
+    public function user_data_entry()
+    {
+        
+        $input['client_id'] = $_GET['client_id'];
+        $input['location_id'] = $_GET['location_id'];
+        $input['pay_type'] = $_GET['pay_type'];
+        $input['payroll_period_start'] = $_GET['payroll_period_start'];
+        $input['payroll_period_end'] = $_GET['payroll_period_end'];
+        $input['payroll_date'] = $_GET['payroll_date'];
+        $input['week_number'] =$_GET['week_number'];
+        $input['month'] = $_GET['month'];
+        $input['year'] =$_GET['year'];
+        $employees= User::join('userdetails','users.id','=','userdetails.user_id')->where('client',$input['client_id'])->where('location',$input['location_id'])->get();
+        return view('backend.timesheetEntry.dtr_entry_employee', compact('input','employees'));
     }
 }

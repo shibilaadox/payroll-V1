@@ -14,77 +14,93 @@
                         <div class="row">
                             <div class="col-sm-12">
 
-                            <form id="timesheet_form_1" name="timesheet_form_1" action="{{route('user_data_entry')}}" method="GET" class="needs-validation was-validated">
-                    @csrf
+                            
                     
                     
                         <div class="form-row">
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-3" style="display:none">
                                 <label for="payroll_period_start" class="ul-form__label">Payroll Start Date:</label>
                                 <input type="date" class="form-control" id="payroll_period_start"
-                                    name="payroll_period_start" required>
+                                    name="payroll_period_start" required  value="{{$input['payroll_period_start']}}">
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-3" style="display:none">
                                 <label for="payroll_period_end" class="ul-form__label">Payroll End Date:</label>
                                 <input type="date" class="form-control" id="payroll_period_end"
-                                    name="payroll_period_end" required>
+                                    name="payroll_period_end" required value="{{$input['payroll_period_end']}}">
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-3" style="display:none">
                                 <label for="payroll_date" class="ul-form__label">Payroll Date:</label>
                                 <input type="date" class="form-control" id="payroll_date" name="payroll_date"
-                                    required>
+                                    required value="{{$input['payroll_date']}}">
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-3" style="display:none">
                                 <label for="week_number" class="ul-form__label">Week Number:</label>
-                                <select class="form-control" id="week_number" name="week_number" required>
-                                    <option value="" disabled selected>Select Week Number</option>
-                                    <option value="A">A (1-15)</option>
-                                    <option value="B">B (16-30)</option>
-                                    
-
-                                </select>
+                                <input type="text" class="form-control" id="week_number" name="week_number"
+                                required value="{{$input['week_number']}}">
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-3" style="display:none">
                                 <label for="client_id" class="ul-form__label">Client:</label>
-                                <select class="form-control" id="client_id" name="client_id" required>
-                                    <option value="" disabled selected>Select Client</option>
-                                    @foreach ($clients as $client)
-                                        <option value="{{ $client->id }}">{{ $client->name }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" id="client_id" name="client_id"
+                                required value="{{$input['client_id']}}">
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-3" style="display:none">
                                 <label for="location" class="ul-form__label">Location:</label>
-                                <select class="form-control" id="location_id" name="location_id" required>
-                                    <option value="" disabled selected>Select Location</option>
-                                    @foreach ($locations as $location)
-                                        <option value="{{ $location->id }}">{{ $location->location_name }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" id="location_id" name="location_id"
+                                required value="{{$input['location_id']}}">
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-3" style="display:none">
                                 <label for="pay_type" class="ul-form__label">Pay Type:</label>
-                                <select class="form-control" id="pay_type" name="pay_type" required>
-                                    <option value="" disabled selected>Select Pay Type</option>
-                                    <option>Daily Rate/Weekly Pay</option>
-                                                    <option>Daily Rate/Monthly Pay</option>
-                                                    <option>Monthly Rate/Weekly Pay</option>
-                                                    <option>Monthly Rate/Monthly Pay</option>
-                                                    <option>Monthly Rate/Executive</option>
-                                                    <option>Reliever/Daily Rate</option>
-                                                    <option>Reliever/Monthly Rate</option>
-                                </select>
+                                <input type="text" class="form-control" id="pay_type" name="pay_type"
+                                required value="{{$input['pay_type']}}">
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-3" style="display:none">
                                 <label for="month" class="ul-form__label">Month:</label>
                                 <input type="text" class="form-control" id="month" name="month"
-                                    placeholder="MM" required value=<?php echo date('m')?>>
+                                    placeholder="MM" required value="{{$input['month']}}">
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-3" style="display:none">
                                 <label for="year" class="ul-form__label">Year:</label>
                                 <input type="text" class="form-control" id="year" name="year"
-                                    placeholder="YYYY" required value="<?php echo date('Y')?>">
+                                    placeholder="YYYY" required value="{{$input['year']}}">
                             </div>
+
+
+
+
+
+                            <table id="timesheet_datatable" class="display table table-striped table-bordered dataTable"
+                                    style="width: 100%;" role="grid" aria-describedby="timesheet_table_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">Id</th>
+
+                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">Employee Code</th>
+                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">First Name</th>
+                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">Last Name</th>
+                                            
+                                           
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i=1;foreach($employees as $row){?>
+                                            <tr>
+                                            <td>{{$i}}</td>
+                                            <td>{{$row->employee_code}}</td>
+                                            <td>{{$row->firstname}}</td>
+                                            <td>{{$row->lastname}}</td>
+                                        </tr>
+                                        <?php  $i++;} ?>
+                                    </tbody>
+                                </table>
+
+
+
+
                            
                         </div>
                     
@@ -98,19 +114,8 @@
                 </div>
 
             </div>
-            <div class="card-footer">
-                                        <div class="mc-footer">
-                                            <div class="row text-right">
-                                                <div class="col-lg-10"></div>
-                                                <div class="col-lg-2 text-left">
-                                                    <button type="submit" class="btn btn-primary m-1"
-                                                        id="save">DTR Entry</button>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </form>
+            
+                                    
         </div>
     </div>
 

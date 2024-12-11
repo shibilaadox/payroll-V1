@@ -206,12 +206,12 @@
 
         <ul class="childNav" data-parent="payroll">
 
-            <li class="nav-item">
+            <!--<li class="nav-item">
                 <a class="{{ Route::currentRouteName()=='import-excel' ? 'open' : '' }}" href="{{route('import-excel')}}">
                     <i class="nav-icon i-File-Clipboard-Text--Image"></i>
                     <span class="item-name">{{__('Upload Timesheet')}}</span>
                 </a>
-            </li>
+            </li>-->
 
             <li class="nav-item">
                 <a class="{{ Route::currentRouteName() == 'userTimesheet.index' ? 'open' : '' }}" href="{{ route('userTimesheet.index') }}">

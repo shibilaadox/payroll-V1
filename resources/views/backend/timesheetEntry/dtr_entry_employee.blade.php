@@ -18,7 +18,75 @@
                     
                     
                         <div class="form-row">
-                            <div class="form-group col-md-3" style="display:none">
+                           
+
+
+                            <table id="timesheet_datatable" class="display table table-striped table-bordered dataTable"
+                                    style="width: 100%;" role="grid" aria-describedby="timesheet_table_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">Id</th>
+
+                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">Employee Code</th>
+                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">First Name</th>
+                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                                colspan="1">Last Name</th>
+                                            
+                                           
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i=1;foreach($employees as $row){?>
+                                            <tr>
+                                            <td>{{$i}}</td>
+                                            <td onclick="add_timesheet({{$row->id}})">{{$row->employee_code}}</td>
+                                            <td>{{$row->firstname}}</td>
+                                            <td>{{$row->lastname}}</td>
+                                        </tr>
+                                        <?php  $i++;} ?>
+                                    </tbody>
+                                </table>
+
+
+
+
+                           
+                        </div>
+                    
+
+             
+
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+                                    
+        </div>
+    </div>
+
+
+    {{-- Add modal --}}
+    <div class="modal fade" id="timesheet-modal" tabindex="-1" role="dialog" aria-labelledby="TimesheetModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document"
+            style="max-width: 90%; margin: 0; top: 0; bottom: 0; left: 5%; right: 5%; display: flex;">
+            <div class="modal-content">
+
+                <form id="timesheet_form" name="timesheet_form" method="POST" class="needs-validation was-validated">
+                    @csrf
+                   
+                    <div class="modal-body" id="timesheet-modal-body">
+                        <div class="form-row">
+                            
+                        <div class="form-group col-md-3" style="display:none">
                                 <label for="payroll_period_start" class="ul-form__label">Payroll Start Date:</label>
                                 <input type="date" class="form-control" id="payroll_period_start"
                                     name="payroll_period_start" required  value="{{$input['payroll_period_start']}}">
@@ -65,60 +133,21 @@
                             </div>
 
 
-
-
-
-                            <table id="timesheet_datatable" class="display table table-striped table-bordered dataTable"
-                                    style="width: 100%;" role="grid" aria-describedby="timesheet_table_info">
-                                    <thead>
-                                        <tr role="row">
-                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
-                                                colspan="1">Id</th>
-
-                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
-                                                colspan="1">Employee Code</th>
-                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
-                                                colspan="1">First Name</th>
-                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
-                                                colspan="1">Last Name</th>
-                                            
-                                           
-                                           
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php $i=1;foreach($employees as $row){?>
-                                            <tr>
-                                            <td>{{$i}}</td>
-                                            <td>{{$row->employee_code}}</td>
-                                            <td>{{$row->firstname}}</td>
-                                            <td>{{$row->lastname}}</td>
-                                        </tr>
-                                        <?php  $i++;} ?>
-                                    </tbody>
-                                </table>
-
-
-
-
-                           
-                        </div>
-                    
-
-             
-
-                               
-                            </div>
+                                
                         </div>
                     </div>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        
+                    </div>
+
+                </form>
 
             </div>
-            
-                                    
         </div>
     </div>
 
+    
 @endsection
 
 @section('page-js')
@@ -173,7 +202,7 @@
 
         // Call the function on page load
         $(document).ready(function() {
-            initializeDataTable();
+            //initializeDataTable();
         });
 
         $('#client_id').change(function () {
@@ -200,5 +229,73 @@
                 });
             } 
         });
+
+        function add_timesheet(user_id) {
+            var client_id = $("#client_id").val();
+            var location_id = $("#location_id").val();
+            var pay_type = $("#pay_type").val();
+            var payroll_period_start = $("#payroll_period_start").val();
+            var payroll_period_end = $("#payroll_period_end").val();
+            var payroll_date = $("#payroll_date").val();
+            var week_number = $("#week_number").val();
+            var month = $("#month").val();
+            var payroll_period_start = $("#payroll_period_start").val();
+            var year = $("#year").val();
+            var user_id = user_id;
+
+          
+
+            $.ajax({
+                url: "{{ route('userTimesheet.store') }}",
+                type: "POST",
+                dataType: 'text',
+                data: {user_id:user_id,client_id:client_id,location_id:location_id,pay_type:pay_type,payroll_period_start:payroll_period_start,payroll_period_end:payroll_period_end,payroll_date:payroll_date,week_number:week_number,month:month,year:year},
+                
+                success: function(response) {
+                    
+                        $('#timesheet-modal').modal('show');
+                        $("#timesheet-modal-body").html(response);
+                        
+                      
+                },
+                error: function(response) {
+                    console.log(response);
+                    //alert('Failed to save the timesheet entry. Please check the console for details.');
+                }
+            });
+        }
+
+        function delete_timesheet(id) {
+
+
+event.preventDefault();
+let _token = $('meta[name="csrf-token"]').attr('content');
+
+$.ajax({
+    url: "<?php echo url('delete_timesheet'); ?>",
+    type: "GET",
+    data: {
+        id: id
+    },
+    cache: false,
+
+    success: function(response) {
+
+
+        $("#delete"+id+"").remove();
+
+    },
+    error: function(response) {
+
+    }
+
+});
+
+}
+
+$('#timesheet-modal').on('hidden.bs.modal', function () {
+ location.reload();
+})
+
     </script>
 @endsection

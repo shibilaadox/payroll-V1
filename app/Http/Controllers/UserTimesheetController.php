@@ -28,6 +28,8 @@ class UserTimesheetController extends Controller
 
     public function store(Request $request)
     {
+        $last_employee_data = UserTimesheet::where('month',date('m'))->where('user_id',$request->user_id)->first();
+        if(empty($last_employee_data)){
         $rate8 = Rate::select('rate8')->first();
         $rate12 = Rate::select('rate12')->first();
 
@@ -41,64 +43,25 @@ class UserTimesheetController extends Controller
             $input['week_number'] = $request->week_number;
             $input['month'] = $request->month;
             $input['year'] = $request->year;
-            $input['date'] = $request->date;
-            $input['employee_code'] = $request->employee_code;
-            $input['company_code'] = $request->company_code;
-            $input['posicode'] = $request->posicode;
-            $input['ot1_hrs'] = $request->ot1_hrs;
-            $input['ot2_hrs'] = $request->ot2_hrs;
-            $input['ot3_hrs'] = $request->ot3_hrs;
-            $input['ot4_hrs'] = $request->ot4_hrs;
-            $input['ot5_hrs'] = $request->ot5_hrs;
-            $input['ot6_hrs'] = $request->ot6_hrs;
-            $input['ot7_hrs'] = $request->ot7_hrs;
-            $input['ot8_hrs'] = $request->ot8_hrs;
-            $input['ot9_hrs'] = $request->ot9_hrs;
-            $input['ot10_hrs'] = $request->ot10_hrs;
-            $input['ot11_hrs'] = $request->ot11_hrs;
-            $input['ot12_hrs'] = $request->ot12_hrs;
-            $input['ot13_hrs'] = $request->ot13_hrs;
-            $input['day8'] = $request->day8;
-            $input['day8_rate'] = $request->day8_rate;
-            $input['day12'] = $request->day12;
-            $input['day12_rate'] = $request->day12_rate;
-            $input['nd_days'] = $request->nd_days;
-            $input['incentive'] = $request->incentive;
-            $input['undertime'] = $request->undertime;
 
-        UserTimesheet::create($input);
-
-        $projectIds = Project::where('client', $request->client_id)->pluck('id');
-        $employees = User::whereHas('employeeProjects', function ($query) use ($projectIds) {
-            $query->whereIn('project_id', $projectIds);
-        })->select('id', 'employee_code', 'firstname', 'lastname','job_role')
-            ->get();
+            
+            $user_data = User::where('id',$request->user_id)->first();
+            
             $date = date('F Y');//Current Month Year
         
-        
-        foreach($employees as $row)
-        {
             $fDay = date('Y-m-01');
-            $date = date('Y-m-d');
+            $hDay = date('Y-m-d', (strtotime($fDay)+ (86400 * 15)));
+            $lDay = date("Y-m-t");
 
             if($request->week_number=="B"){
-                $hDay = date('Y-m-d', (strtotime($fDay)+ (86400 * 15)));
-                $lDay = date("Y-m-t");
-                while ($date > $hDay && $date <= $lDay) {
+
+                $date = date('Y-m-d', (strtotime($fDay)+ (86400 * 15)));
+                
+                while ($date >= $hDay && $date <= $lDay) {
                   
-                    $input['payroll_date'] = $request->payroll_date;
-                    $input['week_number'] = $request->week_number;
-                    $input['month'] = $request->month;
-                    $input['date'] = $date;
-                    $input['year'] = $request->year;
-                    $input['payroll_period_start'] = $request->payroll_period_start;
-                    $input['payroll_period_end'] = $request->payroll_period_end;
-                    $input['client_id'] = $request->client_id;
-                    $input['location_id'] = $request->location_id;
-                    $input['pay_type'] = $request->pay_type;
-                    $input['user_id'] = $row->id;
-                    $input['employee_code'] = $row->employee_code;
-                    $input['posicode'] = $row->job_role;  
+                    
+                    $input['employee_code'] = $user_data->employee_code;
+                    $input['posicode'] = $user_data->job_role;  
                     $input['company_code'] = "";
                     $input['ot1_hrs'] = 0;
                     $input['ot2_hrs'] = 0;
@@ -120,8 +83,9 @@ class UserTimesheetController extends Controller
                     $input['nd_days'] = 0;
                     $input['incentive'] = 0;
                     $input['undertime'] = 0;
+                    $input['date'] = $date;
           
-                    $last_data = UserTimesheet::where('date',$date)->where('user_id',$row->id)->first();
+                    $last_data = UserTimesheet::where('date',$date)->where('user_id',$request->user_id)->first();
                     if(empty($last_data))
                     UserTimesheet::create($input);
 
@@ -133,23 +97,13 @@ class UserTimesheetController extends Controller
 
             else
             {
-                $fDay = date('Y-m-01');
-                $hDay = date('Y-m-d', (strtotime($fDay)+ (86400 * 15)));
+                $date = $fDay;
+               
                 while ($date >= $fDay && $date < $hDay) {
                   
-                    $input['payroll_date'] = $request->payroll_date;
-                    $input['week_number'] = $request->week_number;
-                    $input['month'] = $request->month;
-                    $input['date'] = $date;
-                    $input['year'] = $request->year;
-                    $input['payroll_period_start'] = $request->payroll_period_start;
-                    $input['payroll_period_end'] = $request->payroll_period_end;
-                    $input['client_id'] = $request->client_id;
-                    $input['location_id'] = $request->location_id;
-                    $input['pay_type'] = $request->pay_type;
-                    $input['user_id'] = $row->id;
-                    $input['employee_code'] = $row->employee_code;
-                    $input['posicode'] = $row->job_role;  
+                   
+                    $input['employee_code'] = $user_data->employee_code;
+                    $input['posicode'] = $user_data->job_role;  
                     $input['company_code'] = "";
                     $input['ot1_hrs'] = 0;
                     $input['ot2_hrs'] = 0;
@@ -164,28 +118,29 @@ class UserTimesheetController extends Controller
                     $input['ot11_hrs'] = 0;
                     $input['ot12_hrs'] = 0;
                     $input['ot13_hrs'] = 0;
-                    $input['day8'] = 0;
+                    $input['day8'] = 8.00;
                     $input['day8_rate'] = $rate8->rate8;
-                    $input['day12'] = 0;
+                    $input['day12'] = 4.00;
                     $input['day12_rate'] = $rate12->rate12;
                     $input['nd_days'] = 0;
                     $input['incentive'] = 0;
                     $input['undertime'] = 0;
+                    $input['date'] = $date;
           
-                    $last_data = UserTimesheet::where('date',$date)->where('user_id',$row->id)->first();
+                    $last_data = UserTimesheet::where('date',$date)->where('user_id',$request->user_id)->first();
                     if(empty($last_data))
                     UserTimesheet::create($input);
 
                     $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));//Adds 1 day onto current date
                     
-                }  
+                } 
+            
             }
-
-            
-            
         }
 
-        return response()->json(['code' => 200, 'message' => 'Timesheet entry created successfully.']);
+            $data_employee = UserTimesheet::with('client')->with('location')->where('user_id',$request->user_id)->where('month',date('m'))->get();
+
+            return view('backend.timesheetEntry.timesheet_entry',compact('data_employee'));
     }
 
 
@@ -323,7 +278,14 @@ class UserTimesheetController extends Controller
         $input['week_number'] =$_GET['week_number'];
         $input['month'] = $_GET['month'];
         $input['year'] =$_GET['year'];
-        $employees= User::join('userdetails','users.id','=','userdetails.user_id')->where('client',$input['client_id'])->where('location',$input['location_id'])->get();
+        $employees= User::select('users.*','userdetails.location')->join('userdetails','users.id','=','userdetails.user_id')->where('client',$input['client_id'])->where('location',$input['location_id'])->get();
         return view('backend.timesheetEntry.dtr_entry_employee', compact('input','employees'));
+    }
+
+    public function delete_timesheet()
+    {
+        $id = $_GET['id'];
+        $timesheet = UserTimesheet::findOrFail($id);
+        $timesheet->delete();
     }
 }

@@ -288,4 +288,20 @@ class UserTimesheetController extends Controller
         $timesheet = UserTimesheet::findOrFail($id);
         $timesheet->delete();
     }
+
+    // inline edit
+    public function update_entry()
+    {
+
+        $id = $_GET['id'];
+        $column = $_GET['column'];
+        $value = $_GET['value'];
+        $timesheet = UserTimesheet::findOrFail($id);
+
+        $timesheet->$column = $value;
+        $timesheet->save();
+
+    }
+
+    
 }

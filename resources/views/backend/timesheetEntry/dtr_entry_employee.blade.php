@@ -21,18 +21,18 @@
                            
 
 
-                            <table id="timesheet_datatable" class="display table table-striped table-bordered dataTable"
+                            <table id="timesheet_datatable_1" class="display table table-striped table-bordered dataTable"
                                     style="width: 100%;" role="grid" aria-describedby="timesheet_table_info">
                                     <thead>
                                         <tr role="row">
-                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                            <th tabindex="0" aria-controls="timesheet_datatable_1" rowspan="1"
                                                 colspan="1">Id</th>
 
-                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                            <th tabindex="0" aria-controls="timesheet_datatable_1" rowspan="1"
                                                 colspan="1">Employee Code</th>
-                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                            <th tabindex="0" aria-controls="timesheet_datatable_1" rowspan="1"
                                                 colspan="1">First Name</th>
-                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
+                                            <th tabindex="0" aria-controls="timesheet_datatable_1" rowspan="1"
                                                 colspan="1">Last Name</th>
                                             
                                            
@@ -255,7 +255,7 @@
                     
                         $('#timesheet-modal').modal('show');
                         $("#timesheet-modal-body").html(response);
-                        
+                      
                       
                 },
                 error: function(response) {
@@ -265,37 +265,37 @@
             });
         }
 
-        function delete_timesheet(id) {
+    function delete_timesheet(id) {
 
+        event.preventDefault();
+        let _token = $('meta[name="csrf-token"]').attr('content');
 
-event.preventDefault();
-let _token = $('meta[name="csrf-token"]').attr('content');
-
-$.ajax({
-    url: "<?php echo url('delete_timesheet'); ?>",
-    type: "GET",
-    data: {
+        $.ajax({
+        url: "<?php echo url('delete_timesheet'); ?>",
+        type: "GET",
+        data: {
         id: id
-    },
-    cache: false,
+        },
+        cache: false,
 
-    success: function(response) {
+        success: function(response) {
 
+            $("#delete"+id+"").remove();
 
-        $("#delete"+id+"").remove();
+        },
+        error: function(response) {
 
-    },
-    error: function(response) {
+        }
+
+        });
 
     }
-
-});
-
-}
 
 $('#timesheet-modal').on('hidden.bs.modal', function () {
  location.reload();
 })
 
-    </script>
+
+
+</script>
 @endsection

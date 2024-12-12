@@ -53,15 +53,15 @@
                                             <td>{{$row->client->name}}</td>
                                             <td>{{$row->location->location_name}}</td>
                                             <td>{{$row->job_role}}</td>
-                                            <td>{{$row->ot1_hrs}}</td>
-                                            <td>{{$row->ot2_hrs}}</td>
-                                            <td>{{$row->ot3_hrs}}</td>
-                                            <td>{{$row->ot4_hrs}}</td>
-                                            <td>{{$row->ot5_hrs}}</td>
-                                            <td>{{$row->day8}}</td>
-                                            <td>{{$row->day12}}</td>
-                                            <td>{{$row->nd_days}}</td>
-                                            <td>{{$row->undertime}}</td>
+                                            <td><input value="{{$row->ot1_hrs}}" type="text"  class="form-control form-control-sm ot1_hrs" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="ot1_hrs"></td>
+                                            <td><input value="{{$row->ot2_hrs}}" type="text"  class="form-control form-control-sm ot2_hrs" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="ot2_hrs"></td>
+                                            <td><input value="{{$row->ot3_hrs}}" type="text"  class="form-control form-control-sm ot3_hrs" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="ot3_hrs"></td>
+                                            <td><input value="{{$row->ot4_hrs}}" type="text"  class="form-control form-control-sm ot4_hrs" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="ot4_hrs"></td>
+                                            <td><input value="{{$row->ot5_hrs}}" type="text"  class="form-control form-control-sm ot5_hrs" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="ot5_hrs"></td>
+                                            <td><input value="{{$row->day8}}" type="text"  class="form-control form-control-sm day8" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="day8"></td>
+                                            <td><input value="{{$row->day12}}" type="text"  class="form-control form-control-sm day12" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="day12"></td>
+                                            <td><input value="{{$row->nd_days}}" type="text"  class="form-control form-control-sm nd_days" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="nd_days"></td>
+                                            <td><input value="{{$row->undertime}}" type="text"  class="form-control form-control-sm undertime" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="undertime"></td>
                                             </tr>
                                             
                                         <?php $i++;} ?>
@@ -71,3 +71,26 @@
                         </div>
                     </div>
                 </div>
+
+               
+
+<script>
+    $(".ot1_hrs,.ot2_hrs,.ot3_hrs,.ot4_hrs,.ot5_hrs,.day8,.day12,.nd_days,.undertime").keypress(function(e) {
+    if(e.which == 13) {
+        var id=$(this).attr('data-id');
+        var column=$(this).attr('data-column');
+        var value=$(this).val();
+        $.ajax({
+
+        type:"GET",
+        url:"{{ route('update_entry') }}",
+        dataType: 'text',
+        data: {value:value,id:id,column:column},
+        success: function (res) { }
+        });
+
+    }
+    });
+
+    
+    </script>

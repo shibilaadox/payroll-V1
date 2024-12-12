@@ -240,6 +240,7 @@ Route::get('pdf', [PdfController::class, 'index'])->name('pdf');
 
 Route::get('delete_project_employee', [App\Http\Controllers\ProjectController::class, 'delete_project_employee'])->name('delete_project_employee');
 Route::get('delete_timesheet', [App\Http\Controllers\UserTimesheetController::class, 'delete_timesheet'])->name('delete_timesheet');
+Route::get('update_entry', [App\Http\Controllers\UserTimesheetController::class, 'update_entry'])->name('update_entry');
 
 Route::get('get-locations/{id}', [EmployeeController::class, 'getLocations']);
 

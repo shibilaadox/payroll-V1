@@ -10,8 +10,7 @@
                                         <tr role="row">
                                             <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
                                             colspan="1"></th>
-                                            <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
-                                                colspan="1">Id</th>
+                                            
                                             <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
                                                 colspan="1">Date</th>
                                             <th tabindex="0" aria-controls="timesheet_datatable" rowspan="1"
@@ -48,20 +47,20 @@
                                             <td><a class="text-danger mr-2" onclick="delete_timesheet({{ $row->id }})">
                                 <i class="nav-icon i-Close-Window font-weight-bold fs-16"></i>
                             </a></td>
-                                            <td>{{$i}}</td>
+                                           
                                             <td>{{$row->date}}</td>
                                             <td>{{$row->client->name}}</td>
                                             <td>{{$row->location->location_name}}</td>
                                             <td>{{$row->job_role}}</td>
-                                            <td><input value="{{$row->ot1_hrs}}" type="text"  class="form-control form-control-sm ot1_hrs" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="ot1_hrs"></td>
-                                            <td><input value="{{$row->ot2_hrs}}" type="text"  class="form-control form-control-sm ot2_hrs" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="ot2_hrs"></td>
-                                            <td><input value="{{$row->ot3_hrs}}" type="text"  class="form-control form-control-sm ot3_hrs" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="ot3_hrs"></td>
-                                            <td><input value="{{$row->ot4_hrs}}" type="text"  class="form-control form-control-sm ot4_hrs" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="ot4_hrs"></td>
-                                            <td><input value="{{$row->ot5_hrs}}" type="text"  class="form-control form-control-sm ot5_hrs" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="ot5_hrs"></td>
-                                            <td><input value="{{$row->day8}}" type="text"  class="form-control form-control-sm day8" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="day8"></td>
-                                            <td><input value="{{$row->day12}}" type="text"  class="form-control form-control-sm day12" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="day12"></td>
-                                            <td><input value="{{$row->nd_days}}" type="text"  class="form-control form-control-sm nd_days" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="nd_days"></td>
-                                            <td><input value="{{$row->undertime}}" type="text"  class="form-control form-control-sm undertime" aria-controls="timesheet_datatable" style="width: 55px" data-id="{{$row->id}}" data-column="undertime"></td>
+                                            <td><input value="{{$row->ot1_hrs}}" type="text"  class="form-control form-control-sm ot1_hrs" aria-controls="timesheet_datatable" style="width: 52px" data-id="{{$row->id}}" data-column="ot1_hrs"></td>
+                                            <td><input value="{{$row->ot2_hrs}}" type="text"  class="form-control form-control-sm ot2_hrs" aria-controls="timesheet_datatable" style="width: 52px" data-id="{{$row->id}}" data-column="ot2_hrs"></td>
+                                            <td><input value="{{$row->ot3_hrs}}" type="text"  class="form-control form-control-sm ot3_hrs" aria-controls="timesheet_datatable" style="width:52px" data-id="{{$row->id}}" data-column="ot3_hrs"></td>
+                                            <td><input value="{{$row->ot4_hrs}}" type="text"  class="form-control form-control-sm ot4_hrs" aria-controls="timesheet_datatable" style="width: 52px" data-id="{{$row->id}}" data-column="ot4_hrs"></td>
+                                            <td><input value="{{$row->ot5_hrs}}" type="text"  class="form-control form-control-sm ot5_hrs" aria-controls="timesheet_datatable" style="width: 52px" data-id="{{$row->id}}" data-column="ot5_hrs"></td>
+                                            <td><input value="{{$row->day8}}" type="text"  class="form-control form-control-sm day8" aria-controls="timesheet_datatable" style="width: 52px" data-id="{{$row->id}}" data-column="day8"></td>
+                                            <td><input value="{{$row->day12}}" type="text"  class="form-control form-control-sm day12" aria-controls="timesheet_datatable" style="width: 52px" data-id="{{$row->id}}" data-column="day12"></td>
+                                            <td><input value="{{$row->nd_days}}" type="text"  class="form-control form-control-sm nd_days" aria-controls="timesheet_datatable" style="width: 52px" data-id="{{$row->id}}" data-column="nd_days"></td>
+                                            <td><input value="{{$row->undertime}}" type="text"  class="form-control form-control-sm undertime" aria-controls="timesheet_datatable" style="width: 52px" data-id="{{$row->id}}" data-column="undertime"></td>
                                             </tr>
                                             
                                         <?php $i++;} ?>

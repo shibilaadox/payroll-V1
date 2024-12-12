@@ -303,5 +303,34 @@ class UserTimesheetController extends Controller
 
     }
 
+    public function employee_store()
+    {
+        try {
+
+            $user =  new User;
+            $user->name = $_GET['firstname'] ." " . $_GET['lastname'];
+            $user->employee_code = $_GET['employee_code'];
+            $user->firstname = $_GET['firstname'];
+            $user->lastname = $_GET['lastname'];
+            $user->job_role = $_GET['job_role'];
+            $user->client = $_GET['client_id'];
+            $user->save();
+
+            $id = $user->id;
+
+            $user_detail =  new Userdetail;
+            $user_detail->user_id = $id;
+            $user_detail->location = $_GET['location_id'];
+            $user_detail->save();
+
+            return response()->json(['code' => '200', 'status' => 'Employee added successfully']);
+        } catch (Throwable $e) {
+
+            report($e);
+            return response()->json(['code' => '500', 'status' => $e]);
+        }
+    }
+
+
     
 }

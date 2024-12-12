@@ -30,7 +30,7 @@ class User extends Authenticatable
         'gender',
         'dob',
         'firstname',
-        'latname',
+        'lastname',
         'profile_photo',
         'status',
         'aadhaar_no',

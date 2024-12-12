@@ -7,6 +7,11 @@
                 <h4 class="mb-3 fs-22 font-weight-bold">Timesheet Entries
                     
                 </h4>
+
+                <h4 class="mb-3 fs-22 font-weight-bold">
+                    <div style="float: right"><button type="button" class="btn btn-primary ripple m-1" onclick="add_employee()">
+                            New Employee</button></div>
+                </h4>
                 
 
                 <div class="table-responsive">
@@ -147,11 +152,110 @@
         </div>
     </div>
 
+    {{-- Add modal --}}
+    <div class="modal fade" id="employee-modal" tabindex="-1" role="dialog" aria-labelledby="UnitModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form id="employee_form" name="employee_form" method="POST" class="needs-validation was-validated">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="UnitModalTitle">Add Employee</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-row">
+                        <div class="form-group col-md-12">
+                                <label for="actual_name" class="ul-form__label">Employee_code:</label>
+                                <input type="text" class="form-control" id="employee_code" name="employee_code" placeholder="Enter first name" required>
+
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="actual_name" class="ul-form__label">First Name:</label>
+                                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter first name" required>
+
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="actual_name" class="ul-form__label">Last Name:</label>
+                                <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter first name" required>
+
+                            </div>
+                            <div class="form-group col-md-6">
+                                                <label for="inputEmail1" class="ul-form__label">
+                                                    Job Role:</label> <span class="text-danger">*</span>
+                                                <select class="form-control" name="job_role" id="job_role">
+                                                    <option value="">Select</option>
+
+                                                    <option value="GUARD8">GUARD8</option>
+                                                    <option value="GUARD10">GUARD10</option>
+                                                    <option value="GUARD12">GUARD12</option>
+
+                                                </select>
+                                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="saveBtn">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
     
 @endsection
 
 @section('page-js')
     <script type="text/javascript">
+
+
+        function add_employee() {
+            
+            $('#employee-modal').modal('show');
+        }
+
+        //Submit add model
+        $("#employee_form").on("submit", function(e) {
+            e.preventDefault();
+            var firstname = $("#firstname").val();
+            var lastname = $("#lastname").val();
+            var job_role = $("#job_role").val();
+            var location_id = $("#location_id").val();
+            var client_id = $("#client_id").val();
+            var employee_code = $("#employee_code").val();
+           
+            let _token = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                url: "{{ route('employee_store') }}",
+                type: "GET",
+                data: {firstname:firstname,lastname:lastname,job_role:job_role,client_id:client_id,location_id:location_id,employee_code:employee_code},
+                dataType: 'text',
+                success: function(response) {
+                    // console.log(response.code);
+                    //if (response.code == 200) {
+
+                        $('#department-modal').modal('hide');
+                        window.location.reload();
+
+
+                    //}
+                },
+                error: function(response) {
+                    
+                }
+
+            });
+
+        });
+
 
         $('#client_id').on('change', function() {
         var clientId = $(this).val();

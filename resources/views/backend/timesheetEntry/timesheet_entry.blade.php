@@ -74,11 +74,13 @@
                
 
 <script>
-    $(".ot1_hrs,.ot2_hrs,.ot3_hrs,.ot4_hrs,.ot5_hrs,.day8,.day12,.nd_days,.undertime").keypress(function(e) {
-    if(e.which == 13) {
+    $(".ot1_hrs,.ot2_hrs,.ot3_hrs,.ot4_hrs,.ot5_hrs,.day8,.day12,.nd_days,.undertime").on("input", function() {
+       
+   // if(e.which == 13) {
         var id=$(this).attr('data-id');
         var column=$(this).attr('data-column');
         var value=$(this).val();
+        
         $.ajax({
 
         type:"GET",
@@ -88,7 +90,7 @@
         success: function (res) { }
         });
 
-    }
+    //}
     });
 
     

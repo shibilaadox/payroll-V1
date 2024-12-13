@@ -13,7 +13,7 @@
                             New Employee</button></div>
                 </h4>
                 
-
+                
                 <div class="table-responsive">
                     <div id="timesheet_table_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
                         <div class="row">
@@ -25,7 +25,7 @@
                         <div class="form-row">
                            
 
-
+                       
                             <table id="timesheet_datatable_1" class="display table table-striped table-bordered dataTable"
                                     style="width: 100%;" role="grid" aria-describedby="timesheet_table_info">
                                     <thead>
@@ -398,6 +398,10 @@
 $('#timesheet-modal').on('hidden.bs.modal', function () {
  location.reload();
 })
+
+$('document').ready(function() {
+$('#timesheet_datatable_1').DataTable();
+});
 
 
 

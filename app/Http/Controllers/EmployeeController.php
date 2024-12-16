@@ -241,10 +241,10 @@ class EmployeeController extends Controller
     {
 
         // Validate the incoming request data
-        $request->validate([
-            'department' => 'required', // Add other validation rules as needed
+        //$request->validate([
+            //'department' => 'required', // Add other validation rules as needed
             // Include other fields here as needed
-        ]);
+        //]);
 
         $user = User::find($id);
         $user->name = $request->first_name . " " .$request->middle_name . " " . $request->last_name;
@@ -283,7 +283,7 @@ class EmployeeController extends Controller
         if ($userDetails) {
             // Update user details in the Userdetail model
             
-            $userDetails->department = $request->department_name; // Correct field name
+            $userDetails->department = $request->department; // Correct field name
             $userDetails->designation = $request->designation_name;
             $userDetails->location = $request->location_name;
             $userDetails->joining_date = $request->joining_date;

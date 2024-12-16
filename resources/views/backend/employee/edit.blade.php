@@ -83,7 +83,7 @@
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">Department:</label> <span
                                                     class="text-danger">*</span>
-                                                <select class="form-control" name="department" id="department_name">
+                                                <select class="form-control" name="department" id="department_name" required>
                                                     <option value="">Select</option>
                                                     @foreach ($departments as $department)
                                                         <option value="{{ $department->id }}"
@@ -97,7 +97,7 @@
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Client:</label> <span class="text-danger">*</span>
-                                                <select class="form-control" name="client" id="client">
+                                                <select class="form-control" name="client" id="client" required>
                                                     <option value="">Select</option>
                                                     @foreach ($clients as $client)
                                                         <option value="{{ $client->id }}" {{ $client->id == $user->client ? 'selected' : '' }}>{{ $client->name }}
@@ -109,7 +109,7 @@
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">Location: <span
                                                         class="text-danger">*</span></label>
-                                                <select class="form-control" name="location_name" id="location_name">
+                                                <select class="form-control" name="location_name" id="location_name" required>
                                                     <option value="">Select</option>
                                                     @foreach ($locations as $location)
                                                         <option value="{{ $location->id }}"
@@ -123,7 +123,7 @@
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">Designation: <span
                                                         class="text-danger">*</span></label>
-                                                <select class="form-control" name="designation_name" id="designation_name">
+                                                <select class="form-control" name="designation_name" id="designation_name" required>
                                                     <option value="">Select</option>
                                                     @foreach ($designations as $designation)
                                                         <option value="{{ $designation->id }}"
@@ -161,7 +161,7 @@
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Job Role:</label> <span class="text-danger">*</span>
-                                                <select class="form-control" name="job_role" id="job_role">
+                                                <select class="form-control" name="job_role" id="job_role" required>
                                                     <option value="">Select</option>
 
                                                     <option value="GUARD8" <?php if ($user->job_role == 'GUARD8') {
@@ -181,7 +181,7 @@
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Status:</label> <span class="text-danger">*</span>
-                                                <select class="form-control" name="status" id="status">
+                                                <select class="form-control" name="status" id="status" required>
                                                     <option value="">Select</option>
 
                                                     <option value="1" <?php if ($user->status == 1) {
@@ -400,19 +400,19 @@
                                                     <label for="inputEmail1" class="ul-form__label">
                                                         Present Address:</label> <span class="text-danger">*</span>
                                                     <input type="text" class="form-control" name="present_address"
-                                                        id="present_address" placeholder="Address" required
+                                                        id="present_address" placeholder="Address" 
                                                         value="{{ $useraddresses->residential_address }}"><br>
                                                     <input type="text" class="form-control" name="present_city"
-                                                        id="present_city" placeholder="City" required
+                                                        id="present_city" placeholder="City" 
                                                         value="{{ $useraddresses->residential_city }}"><br>
                                                     <input type="text" class="form-control" name="present_state"
-                                                        id="present_state" placeholder="State" required
+                                                        id="present_state" placeholder="State" 
                                                         value="{{ $useraddresses->residential_state }}"><br>
                                                     <input type="text" class="form-control" name="present_country"
-                                                        id="present_country" placeholder="Country" required
+                                                        id="present_country" placeholder="Country" 
                                                         value="{{ $useraddresses->residential_country }}"><br>
                                                     <input type="text" class="form-control" name="present_national_id"
-                                                        id="present_national_id" placeholder="National ID" required
+                                                        id="present_national_id" placeholder="National ID" 
                                                         value="{{ $useraddresses->present_national_id }}">
                                                 </div>
 
@@ -424,19 +424,19 @@
                                                         class="ul-form__label">Same
                                                         as Present Address</label>
                                                     <input type="text" class="form-control" name="permanent_address"
-                                                        id="permanent_address" placeholder="Address" required
+                                                        id="permanent_address" placeholder="Address" 
                                                         value="{{ $useraddresses->permanent_address }}"><br>
                                                     <input type="text" class="form-control" name="permanent_city"
-                                                        id="permanent_city" placeholder="City" required
+                                                        id="permanent_city" placeholder="City" 
                                                         value="{{ $useraddresses->permanent_city }}"><br>
                                                     <input type="text" class="form-control" name="permanent_state"
-                                                        id="permanent_state" placeholder="State" required
+                                                        id="permanent_state" placeholder="State"
                                                         value="{{ $useraddresses->permanent_state }}"><br>
                                                     <input type="text" class="form-control" name="permanent_country"
-                                                        id="permanent_country" placeholder="Country" required
+                                                        id="permanent_country" placeholder="Country" 
                                                         value="{{ $useraddresses->permanent_country }}"><br>
                                                     <input type="text" class="form-control" name="permanent_national_id"
-                                                        id="permanent_national_id" placeholder="National ID" required
+                                                        id="permanent_national_id" placeholder="National ID" 
                                                         value="{{ $useraddresses->permanent_national_id }}">
                                                 </div>
                                             @else
@@ -462,7 +462,7 @@
                                                         <span class="input-group-text" id="basic-addon2">&#x20B9;</span>
                                                     </div>
                                                     <input type="text" class="form-control" name="annual_ctc"
-                                                        id="annual_ctc" value="{{ $userdetails->annual_ctc_details }}">
+                                                        id="annual_ctc" value="{{ $userdetails->annual_ctc_details }}" required>
                                                 </div>
 
                                             </div>
@@ -470,7 +470,7 @@
                                             <div class="form-group col-md-6 ms-5">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Pay Type:</label>
-                                                <select class="form-control" name="pay_type" id="pay_type">
+                                                <select class="form-control" name="pay_type" id="pay_type" required>
                                                     <option value="">Select a Pay type</option>
                                                     <option @if ($userdetails->salary_pay_type == 'Daily Rate/Weekly Pay') selected @endif>Daily Rate/Weekly Pay</option>
                                                     <option @if ($userdetails->salary_pay_type == 'Daily Rate/Monthly Pay') selected @endif>Daily Rate/Monthly Pay</option>
@@ -487,7 +487,7 @@
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Regular Rate:</label>
                                                 <input type="text" class="form-control" name="regular_rate"
-                                                    id="regular_rate" value="{{ $userdetails->regular_rate_for }}">
+                                                    id="regular_rate" value="{{ $userdetails->regular_rate_for }}" required>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">

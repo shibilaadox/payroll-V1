@@ -78,7 +78,7 @@
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Department:</label> <span class="text-danger">*</span>
-                                                <select class="form-control" name="department_name" id="department_name">
+                                                <select class="form-control" name="department_name" id="department_name" required>
                                                     <option value="">Select</option>
                                                     @foreach ($departments as $department)
                                                         <option value="{{ $department->id }}">{{ $department->name }}
@@ -90,7 +90,7 @@
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Client:</label> <span class="text-danger">*</span>
-                                                <select class="form-control" name="client" id="client">
+                                                <select class="form-control" name="client" id="client" required>
                                                     <option value="">Select</option>
                                                     @foreach ($clients as $client)
                                                         <option value="{{ $client->id }}">{{ $client->name }}
@@ -103,7 +103,7 @@
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Location:</label> <span class="text-danger">*</span>
-                                                <select class="form-control" name="location_name" id="location_name">
+                                                <select class="form-control" name="location_name" id="location_name" required>
                                                     <option value="">Select</option>
                                                     @foreach ($locations as $location)
                                                         <option value="{{ $location->id }}">{{ $location->location_name }}
@@ -116,7 +116,7 @@
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Deignation:</label> <span class="text-danger">*</span>
                                                 <select class="form-control" name="designation_name"
-                                                    id="designation_name">
+                                                    id="designation_name" required>
                                                     <option value="">Select</option>
                                                     @foreach ($designations as $designation)
                                                         <option value="{{ $designation->id }}">{{ $designation->name }}
@@ -134,7 +134,7 @@
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Job Role:</label> <span class="text-danger">*</span>
-                                                <select class="form-control" name="job_role" id="job_role">
+                                                <select class="form-control" name="job_role" id="job_role" required>
                                                     <option value="">Select</option>
 
                                                     <option value="GUARD8">GUARD8</option>
@@ -147,7 +147,7 @@
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Status:</label> <span class="text-danger">*</span>
-                                                <select class="form-control" name="status" id="status">
+                                                <select class="form-control" name="status" id="status" required>
                                                     <option value="">Select</option>
 
                                                     <option value="1">Active</option>
@@ -327,16 +327,16 @@
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Present Address:</label> <span class="text-danger">*</span>
                                                 <input type="text" class="form-control" name="present_address"
-                                                    id="present_address" placeholder="Address" required><br>
+                                                    id="present_address" placeholder="Address"><br>
                                                 <input type="text" class="form-control" name="present_city"
-                                                    id="present_city" placeholder="City" required><br>
+                                                    id="present_city" placeholder="City"><br>
                                                 <input type="text" class="form-control" name="present_state"
-                                                    id="present_state" placeholder="State" required><br>
+                                                    id="present_state" placeholder="State"><br>
                                                 <input type="text" class="form-control" name="present_country"
-                                                    id="present_country" placeholder="Country" required><br>
+                                                    id="present_country" placeholder="Country"><br>
                                                 {{-- <input type="text" class="form-control" name="present_pincode"
-                                                    id="present_pincode" placeholder="Pincode" required> --}}
-                                                    <input type="text" class="form-control" name="present_national_id" id="present_national_id" placeholder="National ID" required>
+                                                    id="present_pincode" placeholder="Pincode"> --}}
+                                                    <input type="text" class="form-control" name="present_national_id" id="present_national_id" placeholder="National ID">
                                             </div>
 
                                             <div class="form-group col-md-6">
@@ -346,16 +346,16 @@
                                                     id="address_checkbox">&nbsp;&nbsp;<label class="ul-form__label">Same
                                                     as Present Address</label>
                                                 <input type="text" class="form-control" name="permanent_address"
-                                                    id="permanent_address" placeholder="Address" required><br>
+                                                    id="permanent_address" placeholder="Address"><br>
                                                 <input type="text" class="form-control" name="permanent_city"
-                                                    id="permanent_city" placeholder="City" required><br>
+                                                    id="permanent_city" placeholder="City"><br>
                                                 <input type="text" class="form-control" name="permanent_state"
-                                                    id="permanent_state" placeholder="State" required><br>
+                                                    id="permanent_state" placeholder="State"><br>
                                                 <input type="text" class="form-control" name="permanent_country"
-                                                    id="permanent_country" placeholder="Country" required><br>
+                                                    id="permanent_country" placeholder="Country"><br>
                                                 {{-- <input type="text" class="form-control" name="permanent_pincode"
-                                                    id="permanent_pincode" placeholder="Pincode" required> --}}
-                                                    <input type="text" class="form-control" name="permanent_national_id" id="permanent_national_id" placeholder="National ID" required>
+                                                    id="permanent_pincode" placeholder="Pincode"> --}}
+                                                    <input type="text" class="form-control" name="permanent_national_id" id="permanent_national_id" placeholder="National ID">
                                             </div>
 
                                         </div>
@@ -558,7 +558,7 @@
                                                         <span class="input-group-text" id="basic-addon2">&#x20B9;</span>
                                                     </div>
                                                     <input type="text" class="form-control" name="annual_ctc"
-                                                        id="annual_ctc">
+                                                        id="annual_ctc" required>
                                                 </div>
 
                                             </div>
@@ -566,7 +566,7 @@
                                             <div class="form-group col-md-6 ms-5">
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Pay Type:</label>
-                                                <select class="form-control" name="pay_type" id="pay_type">
+                                                <select class="form-control" name="pay_type" id="pay_type" required>
                                                     <option value="">Select a Pay type</option>
                                                     <option>Daily Rate/Weekly Pay</option>
                                                     <option>Daily Rate/Monthly Pay</option>
@@ -590,7 +590,7 @@
                                                         <option>Daily Meal Allowance</option>
                                                     </select>-->
                                                 <input type="text" class="form-control" name="regular_rate"
-                                                    id="regular_rate">
+                                                    id="regular_rate" required>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">

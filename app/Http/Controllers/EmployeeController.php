@@ -299,6 +299,14 @@ class EmployeeController extends Controller
             $userDetails->bank_and_account_number = $request->bank_and_account_no;
             $userDetails->tax_identification_number = $request->tax_identification_no;
 
+            $userDetails->annual_ctc_details = $request->annual_ctc;
+            $userDetails->salary_pay_type = $request->pay_type;
+            $userDetails->regular_rate = $request->regular_rate;
+            $userDetails->supervisor_incentive = $request->supervisor_incentive;
+            $userDetails->trans_allowance = $request->trans_allowance;
+            $userDetails->COLA = $request->COLA;
+            $userDetails->daily_meal_allowance = $request->daily_meal_allowance;
+
             // Save the Userdetail model
             $userDetails->save();
         } else {
@@ -370,9 +378,9 @@ class EmployeeController extends Controller
             return redirect()->route('employee.index');
         }
 
-        $request->validate([
+        /*$request->validate([
             'department' => 'required|exists:departments,id',
-        ]);
+        ]);*/
     }
 
     public function destroy($id)

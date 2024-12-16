@@ -487,7 +487,7 @@
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Regular Rate:</label>
                                                 <input type="text" class="form-control" name="regular_rate"
-                                                    id="regular_rate" value="{{ $userdetails->regular_rate_for }}" required>
+                                                    id="regular_rate" value="{{ $userdetails->regular_rate }}" required>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">

@@ -16,7 +16,7 @@
                     <div class="card-body text-start">
                         <h4 class="fw-bold">{{ $employee->firstname }} {{ $employee->lastname }}</h4>
                         <h8>{{ $employee->email }}</h8><br>
-                        <h8>{{ $employee->userdetails->designation ?? 'N/A' }}</h8><br>
+                        <h8>{{ $employee->userdetails->designations->name ?? 'N/A' }}</h8><br>
                         <h8>{{ $employee->userdetails->departments->name ?? 'N/A' }}</h8>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                 <div class="text-secondary">
                     <p>Employee ID: {{ $employee->employee_code ?? 'N/A' }}</p>
                     <p>Full Name: {{ $employee->firstname }} {{ $employee->lastname }}</p>
-                    <p>Designation: {{ $employee->userdetails->designation ?? 'N/A' }}</p>
+                    <p>Designation: {{ $employee->userdetails->designations->name ?? 'N/A' }}</p>
                     <p>Department: {{ $employee->userdetails->departments->name ?? 'N/A' }}</p>
                     <p>Gender: {{ $employee->gender ?? 'N/A' }}</p>
                     <p>Date of Birth: {{ $employee->dob ?? 'N/A' }}</p>
@@ -48,7 +48,7 @@
         <div class="card card-profile-1 mb-4 mt-5 ">
             <div class="card-body text-start ms-5 mt-3">
                 <h6 class="fw-bold">About</h6><br>
-                <p>I am super human</p><br>
+                <p></p><br>
             </div>
         </div>
 

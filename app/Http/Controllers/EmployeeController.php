@@ -255,6 +255,19 @@ class EmployeeController extends Controller
         $user->employee_code = $request->employee_code; 
         $user->client = $request->client; 
         $user->job_role = $request->job_role; 
+        $user->gender = $request->gender;
+        $user->dob = $request->dob;
+
+        if ($request->file('imgfile')) {
+
+            $image = $request->file('imgfile');
+            $img_name = url('') . "/uploads/" . date('mdYHis') . $image->getClientOriginalName();
+            $destinationPath = base_path() . '/public/uploads';
+            $image->move($destinationPath, $img_name);
+            $user->profile_photo = $img_name;
+        } 
+
+        
         $user->save();
 
         $user_address = UserAddress::where('user_id', $user->id)->first();
@@ -295,6 +308,8 @@ class EmployeeController extends Controller
             $userDetails->hdmf_number = $request->hdmf;
             $userDetails->contract_starting_date = $request->contract_start_date;
             $userDetails->contract_ending_date = $request->contract_end_date;
+            $userDetails->blood_group = $request->blood_group;
+            $userDetails->marital_status = $request->marital_status;
 
             $userDetails->bank_and_account_number = $request->bank_and_account_no;
             $userDetails->tax_identification_number = $request->tax_identification_no;
@@ -314,73 +329,10 @@ class EmployeeController extends Controller
             return redirect()->route('employee.index')->with('error', 'User details not found.');
         }
 
+
         toast('User Info Updated Successfully', 'success');
         return redirect()->route('employee.index');
 
-        $user = User::findOrFail($id);
-        $user->name = $request->first_name. " " . $request->middle_name . " " . $request->last_name;
-        $user->email = $request->email;
-        $user->department = $request->department_name;
-        $user->location = $request->location_name;
-        $user->joining_date = $request->joining_date;
-        $user->designation = $request->designation_name;
-        $user->job_role = $request->job_role;
-        $user->status = $request->status;
-        $user->joining_date = $request->joining_date;
-        $user->dob = $request->dob;
-        $user->gender = $request->gender;
-        $user->marital_status = $request->marital_status;
-        $user->blood_group = $request->blood_group;
-        $user->adhaar_no = $request->aadhaar_no;
-        $user->pan_no = $request->pan_no;
-        $user->contract_starting_date = $request->contract_start_date;
-        $user->contract_ending_date = $request->contract_end_date;
-        $user->phone = $request->phone;
-
-        $user->sss_number = $request->sss_no;
-        $user->license_number = $request->license_no;
-        $user->philHealth_number = $request->philhealth_no;
-        $user->license_exp_date = $request->license_expiration_date;
-        $user->hdmf_number = $request->hdmf;
-        $user->bank_and_account_number = $request->bank_and_account_no;
-        $user->tax_identification_number = $request->tax_identification_no;
-
-        if ($request->file('imgfile')) {
-
-            $image = $request->file('imgfile');
-            $img_name = url('') . "/uploads/" . date('mdYHis') . $image->getClientOriginalName();
-            $destinationPath = base_path() . '/public/uploads';
-            $image->move($destinationPath, $img_name);
-            $user->profile_photo = $img_name;
-        }
-
-        $user->residential_address = $request->present_address;
-        $user->residential_city = $request->present_city;
-        $user->residential_state = $request->present_state;
-        $user->residential_country = $request->present_country;
-        $user->residential_pincode = $request->present_pincode;
-        $user->permanent_address = $request->permanent_address;
-        $user->permanent_city = $request->permanent_city;
-        $user->permanent_state = $request->permanent_state;
-        $user->permanent_country = $request->permanent_country;
-        $user->permanent_pincode = $request->permanent_pincode;
-        $user->contract_starting_date = $request->contract_starting_date;
-        $user->contract_ending_date = $request->contract_ending_date;
-        $user->reason_for_leaving = $request->reason_for_leaving;
-        $user->user_type = 'Employee';
-        $user->save();
-
-        if ($user->save()) {
-            toast('User Info Updated Successfully', 'success');
-            return redirect()->route('employee.index');
-        } else {
-            toast('Something went wrong', 'error');
-            return redirect()->route('employee.index');
-        }
-
-        /*$request->validate([
-            'department' => 'required|exists:departments,id',
-        ]);*/
     }
 
     public function destroy($id)
@@ -448,30 +400,24 @@ class EmployeeController extends Controller
 
     public function get_employee_code()
     {
-        $role = $_GET['role'];
 
-        $emp_code = User::where('user_type', 'Employee')->where('job_role', $role)->orderBy('id', 'DESC')->first();
+        $first = substr($_GET['firstname'], 0, 1);
+        $middle = substr($_GET['middlename'], 0, 1);
+        $last = substr($_GET['lastname'], 0, 1);
 
-        if (!empty($emp_code))
-            $employee_code = $emp_code->employee_code;
+        $emp_code = User::where('user_type','Employee')->orderBy('id','DESC')->first();
+
+        if(!empty($emp_code))
+        $employee_code = substr($emp_code->employee_code, -5);
+
+       
 
         else
-            $employee_code = 000;
+        $employee_code = 000001;
+        
+        $new_code = $first.$middle.$last.str_pad($employee_code+1, 5, "0", STR_PAD_LEFT);
 
-        $newcode = substr($employee_code, -3);
-
-        $new_code = str_pad(++$newcode, 3, "0", STR_PAD_LEFT);
-
-        if ($role == "Employee")
-            $new_employee_code = "ANA " . $new_code;
-
-        else if ($role == "Trainee")
-            $new_employee_code = "ANA TR " . $new_code;
-
-        else if ($role == "New Venture")
-            $new_employee_code = "ANA NV " . $new_code;
-
-        return $new_employee_code;
+        return $new_code;
     }
 
     public function get_client_code()

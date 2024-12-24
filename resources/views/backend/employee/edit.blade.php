@@ -34,7 +34,7 @@
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Employee Code:</label> <span class="text-danger">*</span>
                                                 <input type="text" class="form-control" id="employee_code"
-                                                    placeholder="Employee Code" name="employee_code"  value="{{ $user->employee_code }}">
+                                                    placeholder="Employee Code" name="employee_code"  value="{{ $user->employee_code }}" readonly>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail1" class="ul-form__label">
@@ -264,8 +264,8 @@
                                                         @if ($userdetails->marital_status == 'Married') selected @endif>Married</option>
                                                     <option value="Widowed"
                                                         @if ($userdetails->marital_status == 'Widowed') selected @endif>Widowed</option>
-                                                    <option value="Separated"
-                                                        @if ($userdetails->marital_status == 'Seperated') selected @endif>Separated</option>
+                                                    <option value="Seperated"
+                                                        @if ($userdetails->marital_status == 'Seperated') selected @endif>Seperated</option>
                                                     <option value="Divorced"
                                                         @if ($userdetails->marital_status == 'Divorced') selected @endif>Divorced</option>
                                                 </select>
@@ -316,11 +316,11 @@
                                         <div class="form-row col-md-12">
 
                                             <div class="form-group col-md-6">
-                                                <label for="inputEmail1" class="ul-form__label">
+                                                <!--<label for="inputEmail1" class="ul-form__label">
                                                     Aadhaar:</label> <span class="text-danger">*</span>
                                                 <input type="text" class="form-control" id="aadhaar_no"
                                                     placeholder="Enter Aadhaar No" name="aadhaar_no"
-                                                    value="{{ $userdetails->adhaar_no }}">
+                                                    value="{{ $userdetails->adhaar_no }}">-->
 
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     SSS No.:</label> <span class="text-danger">*</span>
@@ -348,11 +348,11 @@
                                             </div>
 
                                             <div class="form-group col-md-6">
-                                                <label for="inputEmail1" class="ul-form__label">
+                                                <!--<label for="inputEmail1" class="ul-form__label">
                                                     PAN:</label> <span class="text-danger">*</span>
                                                 <input type="text" class="form-control" id="pan_no"
                                                     placeholder="Enter Pan No" name="pan_no"
-                                                    value="{{ $userdetails->pan_no }}">
+                                                    value="{{ $userdetails->pan_no }}">-->
 
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     License No.:</label> <span class="text-danger">*</span>

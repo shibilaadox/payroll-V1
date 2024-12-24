@@ -1,3 +1,4 @@
+<?php use App\Models\UserTimesheet;?>
 @extends('layouts.master')
 @section('page-css')
     <style>
@@ -47,10 +48,14 @@
                                 <i class="nav-icon i-Pen-2 font-weight-bold fs-16"></i>
                             </a>
 
+                            <?php $timesheet_entry = UserTimesheet::where('user_id',$row->id)->first();
+                            if(empty($timesheet_entry)){?>
+
                             <a class="text-danger mr-2" onclick="delete_user('{{ $row->id }}')"
-                                title="Disbale employee">
+                                title="Disable employee">
                                 <i class="nav-icon i-Close-Window font-weight-bold fs-16"></i>
                             </a>
+                            <?php } ?>
 
                         </div>
                     </div>

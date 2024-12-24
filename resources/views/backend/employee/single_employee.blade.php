@@ -22,20 +22,20 @@
         <hr>
 
         <!-- Tab Navigation -->
-        <ul class="nav nav-tabs">
+        <!--<ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link {{ request('tab') == 'profile' || !request()->has('tab') ? 'active' : '' }}"
                    href="{{ route('employee.profile', ['tab' => 'profile', 'id' => $employee->id]) }}">Profile</a>
-            </li>
-            <li class="nav-item">
+            </li>-->
+            <!--<li class="nav-item">
                 <a class="nav-link {{ request('tab') == 'projects' ? 'active' : '' }}"
                    href="{{ route('employee.projects', ['tab' => 'projects', 'id' => $employee->id]) }}">Projects</a>
-            </li>
-            <li class="nav-item">
+            </li>-->
+            <!--<li class="nav-item">
                 <a class="nav-link {{ request('tab') == 'timesheet' ? 'active' : '' }}"
                    href="{{ route('employee.timesheet', ['tab' => 'timesheet', 'id' => $employee->id]) }}">Timesheet</a>
-            </li>
-        </ul>
+            </li>-->
+        <!--</ul>-->
 
          <!-- Tab Content -->
          <div class="tab-content">

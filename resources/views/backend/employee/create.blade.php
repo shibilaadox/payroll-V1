@@ -33,7 +33,7 @@
                                                 <label for="inputEmail1" class="ul-form__label">
                                                     Employee Code:</label> <span class="text-danger">*</span>
                                                 <input type="text" class="form-control" id="employee_code"
-                                                    placeholder="Employee Code" name="employee_code">
+                                                    placeholder="Employee Code" name="employee_code" readonly>
                                             </div>
 
 
@@ -1041,6 +1041,30 @@
             showDropdowns: true,
             minYear: 1901,
             maxYear: parseInt(moment().format('YYYY'), 10)
+        });
+
+        $("#email").keyup(function() {
+
+var firstname = $("#first_name").val();
+var lastname = $("#last_name").val();
+var middlename = $("#middle_name").val();
+
+$.ajax({
+
+    type: "GET",
+    url: "<?php echo url('get_employee_code'); ?>",
+    dataType: 'text',
+    cache: false,
+    data: {
+        firstname: firstname,
+        lastname: lastname,
+        middlename: middlename,
+    },
+    success: function(res) {
+
+        $("#employee_code").val(res);
+    }
+});
         });
 
         $("#job_role").change(function() {

@@ -77,8 +77,8 @@
                                     ?>
                                     <td><button class="btn btn-sm btn-success" onclick="edit_client('{{$row->id}}')" type="button"><i class="nav-icon i-Pen-2 font-weight-bold"></i></button>
                                     <button class="btn btn-danger btn-sm ml-3" onclick="delete_client('{{$row->id}}')" type="button"><i class="nav-icon i-Close-Window font-weight-bold"></i></button>
-                                    <a href="{{route('client.details', $row->id)}}" class="btn btn-primary btn-sm ml-3" style="float: right;
-    position: absolute;" type="button"><i class="nav-icon i-File-Clipboard-Text--Image" title="Details"></i></a>
+                                    <!--<a href="{{route('client.details', $row->id)}}" class="btn btn-primary btn-sm ml-3" style="float: right;
+    position: absolute;" type="button"><i class="nav-icon i-File-Clipboard-Text--Image" title="Details"></i></a>-->
                                 </td>
                                     </tr>
                                     <?php $i++;} ?>

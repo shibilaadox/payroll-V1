@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Deduction;
 use Illuminate\Http\Request;
 use App\Models\Rate;
+use App\Models\OvertimeRate;
+use App\Models\SssRate;
 use App\Models\User;
 use DataTables;
 use Throwable;
@@ -185,5 +187,21 @@ class RateController extends Controller
         $deduction->delete();
 
 
+    }
+
+    public function overtime_rate()
+    {
+        $data['rate'] = OvertimeRate::get();
+        $rate = OvertimeRate::all();
+
+        return view('backend.rate.overtime_rate',['data'=>$data]);
+    }
+
+    public function sss_rate()
+    {
+        $data['rate'] = SssRate::get();
+        $rate = SssRate::all();
+
+        return view('backend.rate.sss_rate',['data'=>$data]);
     }
 }

@@ -228,6 +228,21 @@
             </li>
 
             <li class="nav-item">
+                <a class="{{ Route::currentRouteName()=='overtime_rate' ? 'open' : '' }}" href="{{route('overtime_rate')}}">
+                    <i class="nav-icon i-File-Clipboard-Text--Image"></i>
+                    <span class="item-name">{{__('Overtime Rate')}}</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="{{ Route::currentRouteName()=='sss_rate' ? 'open' : '' }}" href="{{route('sss_rate')}}">
+                    <i class="nav-icon i-File-Clipboard-Text--Image"></i>
+                    <span class="item-name">{{__('SSS Rate')}}</span>
+                </a>
+            </li>
+
+
+            <li class="nav-item">
                 <a class="{{ Route::currentRouteName()=='payrolls_hourly.index' ? 'open' : '' }}" href="{{route('payrolls_hourly.index')}}">
                     <i class="nav-icon i-File-Clipboard-Text--Image"></i>
                     <span class="item-name">{{__('Pay Runs')}}</span>

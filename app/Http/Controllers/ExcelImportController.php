@@ -9,6 +9,8 @@ use App\Imports\EmployeeTimesheetImportClass;
 use App\Imports\EmployeeTimesheetHourlyImportClass;
 use App\Imports\DeductionsImport;
 use App\Imports\RatesImport;
+use App\Imports\OvertimeRatesImport;
+use App\Imports\SssRatesImport;
 use App\Models\EmployeeTimesheet;
 use Carbon;
 
@@ -83,5 +85,38 @@ class ExcelImportController extends Controller
  
         return redirect()->back()->with('success', 'Excel file imported successfully!');
     }
+
+    public function import_overtime_rate(Request $request)
+    {
+        // Validate the uploaded file
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+ 
+        // Get the uploaded file
+        $file = $request->file('file');
+ 
+        // Process the Excel file
+        Excel::import(new OvertimeRatesImport, $file);
+ 
+        return redirect()->back()->with('success', 'Excel file imported successfully!');
+    }
+
+    public function import_sss_rate(Request $request)
+    {
+        // Validate the uploaded file
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+ 
+        // Get the uploaded file
+        $file = $request->file('file');
+ 
+        // Process the Excel file
+        Excel::import(new SssRatesImport, $file);
+ 
+        return redirect()->back()->with('success', 'Excel file imported successfully!');
+    }
+    
     
 }

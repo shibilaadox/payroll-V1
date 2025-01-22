@@ -224,7 +224,13 @@ Route::get('import-excel', [App\Http\Controllers\ExcelImportController::class,'i
 Route::post('/import_hourly-excel', [App\Http\Controllers\ExcelImportController::class,'import_hourly'])->name('import_hourly.excel');
 Route::post('/import_deduction-excel', [App\Http\Controllers\ExcelImportController::class,'import_deduction'])->name('import_deduction.excel');
 Route::post('/import_rate-excel', [App\Http\Controllers\ExcelImportController::class,'import_rate'])->name('import_rate.excel');
+Route::post('/import_overtime_rate-excel', [App\Http\Controllers\ExcelImportController::class,'import_overtime_rate'])->name('import_overtime_rate.excel');
 
+Route::get('overtime_rate', [App\Http\Controllers\RateController::class,'overtime_rate'])->name('overtime_rate');
+
+Route::post('/import_sss_rate-excel', [App\Http\Controllers\ExcelImportController::class,'import_sss_rate'])->name('import_sss_rate.excel');
+
+Route::get('sss_rate', [App\Http\Controllers\RateController::class,'sss_rate'])->name('sss_rate');
 
 Route::get('/user-timesheets', [UserTimesheetController::class, 'index'])->name('userTimesheet.index');
 Route::post('/user-timesheets', [UserTimesheetController::class, 'store'])->name('userTimesheet.store');

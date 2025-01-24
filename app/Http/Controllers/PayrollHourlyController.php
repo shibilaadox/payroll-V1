@@ -39,25 +39,20 @@ class PayrollHourlyController extends Controller
 
         })->where('user_type','Employee')->where('status',1)->get();
 
-        $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
-
+        $j = 0 ;$TOTAL_UA=0;$TOTAL_OT=0;$TOTAL_GP = 0; $NET_PAY = 0;$TOTAL_RP = 0;$TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
+       
         foreach ($data['employees'] as $row1){
 
-            $TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
-
-
+            $TOTAL_overtime=0;$TOTAL_UA=0;$TOTAL_OT=0;$TOTAL_RP = 0;
+            
             foreach($row1->usertimesheet as $row){
-
-
+                
+                
                 if($row1->id == $row->user_id){
-
-                    $EMHDMF=0;$EMPH=0;$EMSSS=0;$tax=0;$DEDUCTION=0;
                     
                     $j++;
 
                     $id = $row->user_id;
-
-                    $no_8_days = $no_8_days + $row->day8;
 
                     $RegP = $row->day8*$row->day8_rate;
 
@@ -69,6 +64,7 @@ class PayrollHourlyController extends Controller
                     $Pay12 = $row->day8_rate*$row->day12;
 
                     $UA = $row->undertime * ($row->day8_rate/60);
+                    $TOTAL_UA = $TOTAL_UA+$UA;
 
                     $ot_rate = OvertimeRate::first();
 
@@ -87,6 +83,7 @@ class PayrollHourlyController extends Controller
                     $ot13 = $row->ot13_hrs*$ot_rate->rate13;
 
                     $OT = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
+                    $TOTAL_OT + $TOTAL_OT+$OT;
 
                     $role = $row->posicode;
 
@@ -103,63 +100,57 @@ class PayrollHourlyController extends Controller
                     $SI = $row->incentive;
 
                     $GP = $RegP + $ND + $OT+$COLA + $SI - $UA;
-
-                    $role_data = Roles::first();
-                    $EMPH_per = $role_data->philhealth;
-
-                    if($GP<10000)
-                    $EMPH = 500;
-                    else if($GP>10000.01 && $GP<99999.99)
-                    $EMPH = $GP * $EMPH_per;
-                    else
-                    $EMPH = 5000;
-                    $TOTAL_EMPH = $TOTAL_EMPH+$EMPH;
-
-                    $EMHDMF_per = $role_data->hdmf;
-                    if($GP<1500)
-                    $EMHDMF = $GP * $EMHDMF_per;
-                    else
-                    $EMHDMF = 200;
-                    $TOTAL_EMHDMF = $TOTAL_EMHDMF+$EMHDMF;
-
-                    //$taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
-
+                    
                     $TOTAL_GP = $TOTAL_GP + $GP;
 
-                    $deductions = $EMPH+$EMHDMF+$EMSSS;
-
-                    $taxable_income = $RegP+$OT-($UA+$EMSSS+$EMHDMF+$EMPH);
-
-                    $sss_rates = SssRate::all();
-
-                    foreach($sss_rates as $row2)
-                    {
-                        if($taxable_income<=$row2->limit)
-                        $EMSSS = $row2->emply;
-                    }
-                    
-                    $TOTAL_EMSSS = $TOTAL_EMSSS+$EMSSS;
-
-                    if($taxable_income<=20833)
-                    $tax = 0;
-                    else if($taxable_income>20833 && $GP<33332)
-                    $tax = 0 + (15* ($taxable_income - 20833)/100);
-                    else if($taxable_income>33333 && $GP<66666)
-                    $tax = 1875+ (20* ($taxable_income - 33333)/100);
-                    else if($taxable_income>66666 && $GP<166666)
-                    $tax = 8541.80+(25* ($taxable_income - 66667)/100);
-                    else if($taxable_income>166666 && $GP<666666)
-                    $tax = 33541.80+(30* ($taxable_income - 166667)/100);
-                    else if($taxable_income>666666)
-                    $tax = 183541.80+(35* ($taxable_income - 666667)/100);
-                    $TOTAL_tax = $TOTAL_tax+$tax;
-                    
-
-                    $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
-                    $TOTAL_DEDUCTION = $TOTAL_DEDUCTION+$DEDUCTION;
                 }
 
             }
+
+            $taxable_income = $TOTAL_RP+$TOTAL_OT-($TOTAL_UA);
+
+            if($taxable_income<10000)
+            $EMPH = 0;
+            else 
+            $EMPH = (5 * $taxable_income)/100;
+
+            $EMHDMF = 200;
+            
+            $sss_rates = SssRate::all();
+
+            foreach($sss_rates as $row2)
+            {
+                if($taxable_income<=$row2->limit)
+                {
+                    $EMSSS = $row2->emply;
+                    break;
+                }
+            }
+            
+
+            if($taxable_income<=20833)
+            $tax = 0;
+            else if($taxable_income>20833 && $GP<33332)
+            $tax = 0 + (15* ($taxable_income - 20833)/100);
+            else if($taxable_income>33333 && $GP<66666)
+            $tax = 1875+ (20* ($taxable_income - 33333)/100);
+            else if($taxable_income>66666 && $GP<166666)
+            $tax = 8541.80+(25* ($taxable_income - 66667)/100);
+            else if($taxable_income>166666 && $GP<666666)
+            $tax = 33541.80+(30* ($taxable_income - 166667)/100);
+            else if($taxable_income>666666)
+            $tax = 183541.80+(35* ($taxable_income - 666667)/100);
+            
+
+            $deductions = $EMPH+$EMHDMF+$EMSSS;
+
+            $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
+            $TOTAL_DEDUCTION = $TOTAL_DEDUCTION+$DEDUCTION;
+            $TOTAL_EMPH = $TOTAL_EMPH+$EMPH;
+            $TOTAL_EMHDMF = $TOTAL_EMHDMF+$EMHDMF;
+            $TOTAL_EMSSS = $TOTAL_EMSSS+$EMSSS;
+            $TOTAL_tax = $TOTAL_tax+$tax;
+
         }
 
         $TOTAL_deductions = $TOTAL_EMHDMF+$TOTAL_EMPH+$TOTAL_EMSSS;
@@ -175,12 +166,7 @@ class PayrollHourlyController extends Controller
      */
     public function create()
     {
-        /*if(isset($_GET['region']) && $_GET['region']!=""  && $_GET['region']!="All"){
-            $data['list'] = $data['list']->whereHas('station', function ($query) {
-                return $query->where('region', $_GET['region']);
-            });
-        }*/
-
+       
         $data['employee_count'] = User::with('usertimesheet')->has('usertimesheet')->whereHas('usertimesheet', function ($query) {
 
             return $query->where('month',date('m',strtotime("-1 month")));
@@ -193,23 +179,19 @@ class PayrollHourlyController extends Controller
 
         })->with('userdetails')->where('user_type','Employee')->where('status',1)->get();
 
-        $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
-
+        $j = 0 ;$TOTAL_UA=0;$TOTAL_OT=0;$TOTAL_GP = 0; $NET_PAY = 0;$TOTAL_RP = 0;$TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
+       
         foreach ($data['employees'] as $row1){
-            
-            $TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
+           $TOTAL_overtime=0;$TOTAL_UA=0;$TOTAL_OT=0;$TOTAL_RP = 0;
+       
             foreach($row1->usertimesheet as $row){
                 
                 
                 if($row1->id == $row->user_id){
-                    $EMHDMF=0;$EMPH=0;$EMSSS=0;$tax=0;$DEDUCTION=0;
                     
-
                     $j++;
 
                     $id = $row->user_id;
-
-                    $no_8_days = $no_8_days + $row->day8;
 
                     $RegP = $row->day8*$row->day8_rate;
 
@@ -221,6 +203,7 @@ class PayrollHourlyController extends Controller
                     $Pay12 = $row->day8_rate*$row->day12;
 
                     $UA = $row->undertime * ($row->day8_rate/60);
+                    $TOTAL_UA = $TOTAL_UA+$UA;
 
                     $ot_rate = OvertimeRate::first();
 
@@ -239,6 +222,7 @@ class PayrollHourlyController extends Controller
                     $ot13 = $row->ot13_hrs*$ot_rate->rate13;
 
                     $OT = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
+                    $TOTAL_OT + $TOTAL_OT+$OT;
 
                     $role = $row->posicode;
 
@@ -255,74 +239,68 @@ class PayrollHourlyController extends Controller
                     $SI = $row->incentive;
 
                     $GP = $RegP + $ND + $OT+$COLA + $SI - $UA;
-
-                    $role_data = Roles::first();
-                    $EMPH_per = $role_data->philhealth;
-
-                    if($GP<10000)
-                    $EMPH = 500;
-                    else if($GP>10000.01 && $GP<99999.99)
-                    $EMPH = $GP * $EMPH_per;
-                    else
-                    $EMPH = 5000;
-
-                    $TOTAL_EMPH = $TOTAL_EMPH+$EMPH;
-
-
-                    $EMHDMF_per = $role_data->hdmf;
-                    if($GP<1500)
-                    $EMHDMF = $GP * $EMHDMF_per;
-                    else
-                    $EMHDMF = 200;
-                    $TOTAL_EMHDMF = $TOTAL_EMHDMF+$EMHDMF;
-
                     
-                    //$taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
-
                     $TOTAL_GP = $TOTAL_GP + $GP;
 
-                    $deductions = $EMPH+$EMHDMF+$EMSSS;
-
-                    $taxable_income = $RegP+$OT-($UA+$EMSSS+$EMHDMF+$EMPH);
-
-                    $sss_rates = SssRate::all();
-
-                    foreach($sss_rates as $row2)
-                    {
-                        if($taxable_income<=$row2->limit)
-                        $EMSSS = $row2->emply;
-                    }
-                    
-                    $TOTAL_EMSSS = $TOTAL_EMSSS+$EMSSS;
-
-                    if($taxable_income<=20833)
-                    $tax = 0;
-                    else if($taxable_income>20833 && $GP<33332)
-                    $tax = 0 + (15* ($taxable_income - 20833)/100);
-                    else if($taxable_income>33333 && $GP<66666)
-                    $tax = 1875+ (20* ($taxable_income - 33333)/100);
-                    else if($taxable_income>66666 && $GP<166666)
-                    $tax = 8541.80+(25* ($taxable_income - 66667)/100);
-                    else if($taxable_income>166666 && $GP<666666)
-                    $tax = 33541.80+(30* ($taxable_income - 166667)/100);
-                    else if($taxable_income>666666)
-                    $tax = 183541.80+(35* ($taxable_income - 666667)/100);
-                    $TOTAL_tax = $TOTAL_tax+$tax;
-
-                    $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
-                    $TOTAL_DEDUCTION = $TOTAL_DEDUCTION+$DEDUCTION;
                 }
 
             }
+
+            $taxable_income = $TOTAL_RP+$TOTAL_OT-($TOTAL_UA);
+
+            if($taxable_income<10000)
+            $EMPH = 0;
+            else 
+            $EMPH = (5 * $taxable_income)/100;
+
+            $EMHDMF = 200;
+            
+            $sss_rates = SssRate::all();
+
+            foreach($sss_rates as $row2)
+            {
+                if($taxable_income<=$row2->limit)
+                {
+                    $EMSSS = $row2->emply;
+                    break;
+                }
+            }
+            
+
+            if($taxable_income<=20833)
+            $tax = 0;
+            else if($taxable_income>20833 && $GP<33332)
+            $tax = 0 + (15* ($taxable_income - 20833)/100);
+            else if($taxable_income>33333 && $GP<66666)
+            $tax = 1875+ (20* ($taxable_income - 33333)/100);
+            else if($taxable_income>66666 && $GP<166666)
+            $tax = 8541.80+(25* ($taxable_income - 66667)/100);
+            else if($taxable_income>166666 && $GP<666666)
+            $tax = 33541.80+(30* ($taxable_income - 166667)/100);
+            else if($taxable_income>666666)
+            $tax = 183541.80+(35* ($taxable_income - 666667)/100);
+            
+
+            $deductions = $EMPH+$EMHDMF+$EMSSS;
+
+            $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
+            $TOTAL_DEDUCTION = $TOTAL_DEDUCTION+$DEDUCTION;
+            $TOTAL_EMPH = $TOTAL_EMPH+$EMPH;
+            $TOTAL_EMHDMF = $TOTAL_EMHDMF+$EMHDMF;
+            $TOTAL_EMSSS = $TOTAL_EMSSS+$EMSSS;
+            $TOTAL_tax = $TOTAL_tax+$tax;
+
         }
 
         $TOTAL_deductions = $TOTAL_EMHDMF+$TOTAL_EMPH+$TOTAL_EMSSS;
 
         $data['gross_pay_total'] = $TOTAL_GP;
-        $data['net_pay_total'] = $TOTAL_GP - $TOTAL_deductions - $tax - $TOTAL_DEDUCTION;
+        $data['net_pay_total'] = $TOTAL_GP - $TOTAL_deductions - $TOTAL_tax - $TOTAL_DEDUCTION;
         $data['EMHMDF'] = $TOTAL_EMHDMF;
         $data['EMPH'] = $TOTAL_EMPH;
         $data['EMSSS'] = $TOTAL_EMSSS;
+        $data['TAX'] = $TOTAL_tax;
+       
         $data['other_ded'] = $TOTAL_DEDUCTION;
         $data['deduction_total'] = $TOTAL_deductions+$TOTAL_DEDUCTION;
         return view('backend.payroll_hourly.payroll_details', ['data' => $data]);
@@ -399,22 +377,20 @@ class PayrollHourlyController extends Controller
 
         })->with('userdetails')->where('user_type','Employee')->where('status',1)->get();
 
-        $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;
 
+        $j = 0 ;$TOTAL_UA=0;$TOTAL_OT=0;$TOTAL_GP = 0; $NET_PAY = 0;$TOTAL_RP = 0;$TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
+       
         foreach ($data['employees'] as $row1){
-
-            $TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
+           $TOTAL_overtime=0;$TOTAL_UA=0;$TOTAL_OT=0;$TOTAL_RP = 0;
+       
             foreach($row1->usertimesheet as $row){
-
-
+                
+                
                 if($row1->id == $row->user_id){
-
-                    $EMHDMF=0;$EMPH=0;$EMSSS=0;$tax=0;$DEDUCTION=0;
+                    
                     $j++;
 
                     $id = $row->user_id;
-
-                    $no_8_days = $no_8_days + $row->day8;
 
                     $RegP = $row->day8*$row->day8_rate;
 
@@ -426,6 +402,7 @@ class PayrollHourlyController extends Controller
                     $Pay12 = $row->day8_rate*$row->day12;
 
                     $UA = $row->undertime * ($row->day8_rate/60);
+                    $TOTAL_UA = $TOTAL_UA+$UA;
 
                     $ot_rate = OvertimeRate::first();
 
@@ -444,6 +421,7 @@ class PayrollHourlyController extends Controller
                     $ot13 = $row->ot13_hrs*$ot_rate->rate13;
 
                     $OT = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
+                    $TOTAL_OT + $TOTAL_OT+$OT;
 
                     $role = $row->posicode;
 
@@ -460,64 +438,57 @@ class PayrollHourlyController extends Controller
                     $SI = $row->incentive;
 
                     $GP = $RegP + $ND + $OT+$COLA + $SI - $UA;
-
-                    $role_data = Roles::first();
-                    $EMPH_per = $role_data->philhealth;
-
-                    if($GP<10000)
-                    $EMPH = 500;
-                    else if($GP>10000.01 && $GP<99999.99)
-                    $EMPH = $GP * $EMPH_per;
-                    else
-                    $EMPH = 5000;
-                    $TOTAL_EMPH = $TOTAL_EMPH+$EMPH;
-
-
-                    $EMHDMF_per = $role_data->hdmf;
-                    if($GP<1500)
-                    $EMHDMF = $GP * $EMHDMF_per;
-                    else
-                    $EMHDMF = 200;
-                    $TOTAL_EMHDMF = $TOTAL_EMHDMF+$EMHDMF;
-
                     
-                    //$taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
-
                     $TOTAL_GP = $TOTAL_GP + $GP;
 
-                    $deductions = $EMPH+$EMHDMF+$EMSSS;
-
-                    $taxable_income = $RegP+$OT-($UA+$EMSSS+$EMHDMF+$EMPH);
-
-                    $sss_rates = SssRate::all();
-
-                    foreach($sss_rates as $row2)
-                    {
-                        if($taxable_income<=$row2->limit)
-                        $EMSSS = $row2->emply;
-                    }
-                    
-                    $TOTAL_EMSSS = $TOTAL_EMSSS+$EMSSS;
-
-                    if($taxable_income<=20833)
-                    $tax = 0;
-                    else if($taxable_income>20833 && $GP<33332)
-                    $tax = 0 + (15* ($taxable_income - 20833)/100);
-                    else if($taxable_income>33333 && $GP<66666)
-                    $tax = 1875+ (20* ($taxable_income - 33333)/100);
-                    else if($taxable_income>66666 && $GP<166666)
-                    $tax = 8541.80+(25* ($taxable_income - 66667)/100);
-                    else if($taxable_income>166666 && $GP<666666)
-                    $tax = 33541.80+(30* ($taxable_income - 166667)/100);
-                    else if($taxable_income>666666)
-                    $tax = 183541.80+(35* ($taxable_income - 666667)/100);
-                    $TOTAL_tax = $TOTAL_tax+$tax;
-
-                    $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
-                    $TOTAL_DEDUCTION = $TOTAL_DEDUCTION+$DEDUCTION;
                 }
 
             }
+
+            $taxable_income = $TOTAL_RP+$TOTAL_OT-($TOTAL_UA);
+
+            if($taxable_income<10000)
+            $EMPH = 0;
+            else 
+            $EMPH = (5 * $taxable_income)/100;
+
+            $EMHDMF = 200;
+            
+            $sss_rates = SssRate::all();
+
+            foreach($sss_rates as $row2)
+            {
+                if($taxable_income<=$row2->limit)
+                {
+                    $EMSSS = $row2->emply;
+                    break;
+                }
+            }
+            
+
+            if($taxable_income<=20833)
+            $tax = 0;
+            else if($taxable_income>20833 && $GP<33332)
+            $tax = 0 + (15* ($taxable_income - 20833)/100);
+            else if($taxable_income>33333 && $GP<66666)
+            $tax = 1875+ (20* ($taxable_income - 33333)/100);
+            else if($taxable_income>66666 && $GP<166666)
+            $tax = 8541.80+(25* ($taxable_income - 66667)/100);
+            else if($taxable_income>166666 && $GP<666666)
+            $tax = 33541.80+(30* ($taxable_income - 166667)/100);
+            else if($taxable_income>666666)
+            $tax = 183541.80+(35* ($taxable_income - 666667)/100);
+            
+
+            $deductions = $EMPH+$EMHDMF+$EMSSS;
+
+            $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
+            $TOTAL_DEDUCTION = $TOTAL_DEDUCTION+$DEDUCTION;
+            $TOTAL_EMPH = $TOTAL_EMPH+$EMPH;
+            $TOTAL_EMHDMF = $TOTAL_EMHDMF+$EMHDMF;
+            $TOTAL_EMSSS = $TOTAL_EMSSS+$EMSSS;
+            $TOTAL_tax = $TOTAL_tax+$tax;
+
         }
 
         $TOTAL_deductions = $TOTAL_EMHDMF+$TOTAL_EMPH+$TOTAL_EMSSS;
@@ -527,6 +498,8 @@ class PayrollHourlyController extends Controller
         $data['EMHMDF'] = $TOTAL_EMHDMF;
         $data['EMPH'] = $TOTAL_EMPH;
         $data['EMSSS'] = $TOTAL_EMSSS;
+        $data['TAX'] = $TOTAL_tax;
+       
         $data['other_ded'] = $TOTAL_DEDUCTION;
         $data['deduction_total'] = $TOTAL_deductions+$TOTAL_DEDUCTION;
         return view('backend.payroll_hourly.payroll_details_approve', ['data' => $data]);
@@ -562,111 +535,108 @@ class PayrollHourlyController extends Controller
         })->where('id',$id)->first();
 
 
-        $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;
+        $j = 0 ;$no_8_days=0;$TOTAL_UA=0;$TOTAL_OT=0;$TOTAL_GP = 0; $NET_PAY = 0;$TOTAL_RP = 0;$TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;
 
                                         foreach($data['employee']->usertimesheet as $row){
 
+                                
                                             $j++;
 
+                                            $id = $row->user_id;
+
                                             $no_8_days = $no_8_days + $row->day8;
-
+                        
                                             $RegP = $row->day8*$row->day8_rate;
-
+                        
                                             $TOTAL_RP = $TOTAL_RP+$RegP;
-
+                        
                                             if($row->day12==4)
                                             $Pay12 = $row->day12_rate-$RegP;
                                             else
                                             $Pay12 = $row->day8_rate*$row->day12;
-
+                        
                                             $UA = $row->undertime * ($row->day8_rate/60);
-
+                                            $TOTAL_UA = $TOTAL_UA+$UA;
+                        
                                             $ot_rate = OvertimeRate::first();
-
-                    $ot1 = $row->ot1_hrs*$ot_rate->rate1;
-                    $ot2 = $row->o21_hrs*$ot_rate->rate2;
-                    $ot3 = $row->ot3_hrs*$ot_rate->rate3;
-                    $ot4 = $row->ot4_hrs*$ot_rate->rate4;
-                    $ot5 = $row->ot5_hrs*$ot_rate->rate5;
-                    $ot6 = $row->ot6_hrs*$ot_rate->rate6;
-                    $ot7 = $row->ot7_hrs*$ot_rate->rate7;
-                    $ot8 = $row->ot8_hrs*$ot_rate->rate8;
-                    $ot9 = $row->ot9_hrs*$ot_rate->rate9;
-                    $ot10 = $row->ot10_hrs*$ot_rate->rate10;
-                    $ot11 = $row->ot11_hrs*$ot_rate->rate11;
-                    $ot12 = $row->ot12_hrs*$ot_rate->rate12;
-                    $ot13 = $row->ot13_hrs*$ot_rate->rate13;
-
-                    $OT = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
-
+                        
+                                            $ot1 = $row->ot1_hrs*$ot_rate->rate1;
+                                            $ot2 = $row->o21_hrs*$ot_rate->rate2;
+                                            $ot3 = $row->ot3_hrs*$ot_rate->rate3;
+                                            $ot4 = $row->ot4_hrs*$ot_rate->rate4;
+                                            $ot5 = $row->ot5_hrs*$ot_rate->rate5;
+                                            $ot6 = $row->ot6_hrs*$ot_rate->rate6;
+                                            $ot7 = $row->ot7_hrs*$ot_rate->rate7;
+                                            $ot8 = $row->ot8_hrs*$ot_rate->rate8;
+                                            $ot9 = $row->ot9_hrs*$ot_rate->rate9;
+                                            $ot10 = $row->ot10_hrs*$ot_rate->rate10;
+                                            $ot11 = $row->ot11_hrs*$ot_rate->rate11;
+                                            $ot12 = $row->ot12_hrs*$ot_rate->rate12;
+                                            $ot13 = $row->ot13_hrs*$ot_rate->rate13;
+                        
+                                            $OT = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
+                                            $TOTAL_OT + $TOTAL_OT+$OT;
+                        
                                             $role = $row->posicode;
-
+                        
                                             $rate_data = Rate::first();
-
+                        
                                             $ND_rate = $rate_data->nd;
-
+                        
                                             $COLA_rate = $rate_data->cola;
-
+                        
                                             $COLA = $COLA_rate * $j;
-
+                        
                                             $ND = $ND_rate * $row->nd_days;
-
+                        
                                             $SI = $row->incentive;
-
+                        
                                             $GP = $RegP + $ND + $OT+$COLA + $SI - $UA;
-
-                                            $role_data = Roles::first();
-                                            $EMPH_per = $role_data->philhealth;
-
-                                            if($GP<10000)
-                                            $EMPH = 500;
-                                            else if($GP>10000.01 && $GP<99999.99)
-                                            $EMPH = $GP * $EMPH_per;
-                                            else
-                                            $EMPH = 5000;
-
-
-                                            $EMHDMF_per = $role_data->hdmf;
-                                            if($GP<1500)
-                                            $EMHDMF = $GP * $EMHDMF_per;
-                                            else
-                                            $EMHDMF = 200;
-
-                                           
-                                            //$taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
-
+                                            
                                             $TOTAL_GP = $TOTAL_GP + $GP;
-
-                                            
-
-                                            
-                                            $taxable_income = $RegP+$OT-($UA+$EMHDMF+$EMPH);
-
-                    $sss_rates = SssRate::all();
-
-                    foreach($sss_rates as $row2)
-                    {
-                        if($taxable_income<=$row2->limit)
-                        $EMSSS = $row2->emply;
-                    }
-                    
-                   
-
-                    $deductions = $EMPH+$EMHDMF+$EMSSS;
-
-                    if($taxable_income<=20833)
-                    $tax = 0;
-                    else if($taxable_income>20833 && $GP<33332)
-                    $tax = 0 + (15* ($taxable_income - 20833)/100);
-                    else if($taxable_income>33333 && $GP<66666)
-                    $tax = 1875+ (20* ($taxable_income - 33333)/100);
-                    else if($taxable_income>66666 && $GP<166666)
-                    $tax = 8541.80+(25* ($taxable_income - 66667)/100);
-                    else if($taxable_income>166666 && $GP<666666)
-                    $tax = 33541.80+(30* ($taxable_income - 166667)/100);
-                    else if($taxable_income>666666)
-                    $tax = 183541.80+(35* ($taxable_income - 666667)/100);
-                   
+                        
+                                       
+                        
+                                    $taxable_income = $TOTAL_RP+$TOTAL_OT-($TOTAL_UA);
+                        
+                                    if($taxable_income<10000)
+                                    $EMPH = 0;
+                                    else 
+                                    $EMPH = (5 * $taxable_income)/100;
+                        
+                                    $EMHDMF = 200;
+                                    
+                                    $sss_rates = SssRate::all();
+                        
+                                    foreach($sss_rates as $row2)
+                                    {
+                                        if($taxable_income<=$row2->limit)
+                                        {
+                                            $EMSSS = $row2->emply;
+                                            break;
+                                        }
+                                    }
+                                    
+                        
+                                    if($taxable_income<=20833)
+                                    $tax = 0;
+                                    else if($taxable_income>20833 && $GP<33332)
+                                    $tax = 0 + (15* ($taxable_income - 20833)/100);
+                                    else if($taxable_income>33333 && $GP<66666)
+                                    $tax = 1875+ (20* ($taxable_income - 33333)/100);
+                                    else if($taxable_income>66666 && $GP<166666)
+                                    $tax = 8541.80+(25* ($taxable_income - 66667)/100);
+                                    else if($taxable_income>166666 && $GP<666666)
+                                    $tax = 33541.80+(30* ($taxable_income - 166667)/100);
+                                    else if($taxable_income>666666)
+                                    $tax = 183541.80+(35* ($taxable_income - 666667)/100);
+                                    
+                        
+                                    $deductions = $EMPH+$EMHDMF+$EMSSS;
+                        
+                                    $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
+                                    $TOTAL_DEDUCTION = $TOTAL_DEDUCTION+$DEDUCTION;
+                                   
 
                                           }
 

@@ -112,13 +112,15 @@
                                     
                                     <?php $i=1;foreach ($data['employees'] as $row1){ 
 
-                                      $j = 0 ;$TOTAL_GP = 0; $no_8_days = 0;$NET_PAY = 0;$TOTAL_RP = 0;$DEDUCTIONS = 0;$EMSSS=0;$TOTAL_overtime = 0;
-
+$j = 0 ;$TOTAL_overtime=0;$no_8_days=0;$TOTAL_UA=0;$TOTAL_OT=0;$TOTAL_GP = 0; $NET_PAY = 0;$TOTAL_RP = 0;$TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
+       
                                       foreach($row1->usertimesheet as $row){
 
                                         if($row1->id == $row->user_id){
 
                                           $j++;
+
+                                          $id = $row->user_id;
 
                                           $no_8_days = $no_8_days + $row->day8;
                       
@@ -132,6 +134,7 @@
                                           $Pay12 = $row->day8_rate*$row->day12;
                               
                                           $UA = $row->undertime * ($row->day8_rate/60);
+                                          $TOTAL_UA = $TOTAL_UA+$UA;
                               
                                           $ot_rate = OvertimeRate::first();
 
@@ -150,6 +153,7 @@
                     $ot13 = $row->ot13_hrs*$ot_rate->rate13;
 
                     $OT = $ot1+$ot2+$ot3+$ot4+$ot5+$ot6+$ot7+$ot8+$ot9+$ot10+$ot11+$ot12+$ot13;
+                    $TOTAL_OT + $TOTAL_OT+$OT;
                     
                                           $role = $row->posicode;
                       
@@ -170,58 +174,53 @@
                                           $TOTAL_overtime = $TOTAL_overtime + $overtime ;
                               
                                           $GP = $RegP + $ND + $OT+$COLA + $SI - $UA;
-                                          
-                                          $role_data = Roles::first();
-                                          $EMPH_per = $role_data->philhealth;
-                      
-                                          if($GP<10000)
-                                          $EMPH = 500;
-                                          else if($GP>10000.01 && $GP<99999.99)
-                                          $EMPH = $GP * $EMPH_per;
-                                          else
-                                          $EMPH = 5000;
-                      
-                      
-                                          $EMHDMF_per = $role_data->hdmf;
-                                          if($GP<1500)
-                                          $EMHDMF = $GP * $EMHDMF_per;
-                                          else
-                                          $EMHDMF = 200;
-                                        
-                                          
-                                          //$taxable_income = $RegP + $Pay12 + $ot1 + $ot2+$ot3+$ot4+$ot5+$SI+$ND-$EMHDMF-$EMPH-$EMSSS;
                       
                                           $TOTAL_GP = $TOTAL_GP + $GP;
 
-                                          $DEDUCTION = Deduction::where('user_id',$row->user_id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
-                                          $deductions = $EMPH+$EMHDMF+$EMSSS;
-                      
-                                          $taxable_income = $RegP+$OT-($UA+$EMSSS+$EMHDMF+$EMPH);
-
-                    $sss_rates = SssRate::all();
-
-                    foreach($sss_rates as $row2)
-                    {
-                        if($taxable_income<=$row2->limit)
-                        $EMSSS = $row2->emply;
-                    }
-                    
-                    
-
-                    if($taxable_income<=20833)
-                    $tax = 0;
-                    else if($taxable_income>20833 && $GP<33332)
-                    $tax = 0 + (15* ($taxable_income - 20833)/100);
-                    else if($taxable_income>33333 && $GP<66666)
-                    $tax = 1875+ (20* ($taxable_income - 33333)/100);
-                    else if($taxable_income>66666 && $GP<166666)
-                    $tax = 8541.80+(25* ($taxable_income - 66667)/100);
-                    else if($taxable_income>166666 && $GP<666666)
-                    $tax = 33541.80+(30* ($taxable_income - 166667)/100);
-                    else if($taxable_income>666666)
-                    $tax = 183541.80+(35* ($taxable_income - 666667)/100);
                     
                                         } }
+
+                                        $taxable_income = $TOTAL_RP+$TOTAL_OT-($TOTAL_UA);
+
+            if($taxable_income<10000)
+            $EMPH = 0;
+            else 
+            $EMPH = (5 * $taxable_income)/100;
+
+            $EMHDMF = 200;
+            
+            $sss_rates = SssRate::all();
+
+            foreach($sss_rates as $row2)
+            {
+                if($taxable_income<=$row2->limit)
+                {
+                    $EMSSS = $row2->emply;
+                    break;
+                }
+            }
+            
+
+            if($taxable_income<=20833)
+            $tax = 0;
+            else if($taxable_income>20833 && $GP<33332)
+            $tax = 0 + (15* ($taxable_income - 20833)/100);
+            else if($taxable_income>33333 && $GP<66666)
+            $tax = 1875+ (20* ($taxable_income - 33333)/100);
+            else if($taxable_income>66666 && $GP<166666)
+            $tax = 8541.80+(25* ($taxable_income - 66667)/100);
+            else if($taxable_income>166666 && $GP<666666)
+            $tax = 33541.80+(30* ($taxable_income - 166667)/100);
+            else if($taxable_income>666666)
+            $tax = 183541.80+(35* ($taxable_income - 666667)/100);
+            
+
+            $deductions = $EMPH+$EMHDMF+$EMSSS;
+
+            $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
+            $TOTAL_DEDUCTION = $TOTAL_DEDUCTION+$DEDUCTION;
+            
+
                                       
                                       ?>
                                         <tr>

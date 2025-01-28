@@ -204,25 +204,26 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 col-sm-12">
-            <div class="card mb-4" style="height:350px;">
-                <div class="card-header d-flex align-items-center border-0 bg-info">
-                    <h3 class="w-70 float-left card-title m-0" style="color:white;font-size:15px;">
-                        {{ __('Employees by Age Group') }}</h3>
-                </div>
-                <div class="card-body">
+        <div class="col-lg-6 col-sm-6">
+    <div class="card mb-4">
+        <div class="card-header d-flex align-items-center border-0 bg-info">
+            <h3 class="w-70 float-left card-title m-0" style="color:white;font-size:15px;">
+                {{ __('Payment--Last 6 Months') }}</h3>
+        </div>
+        <div class="card-body">
 
-                    <div class="m-widget3__item">
-
-
-                        <canvas id="myChart4" width="450" height="250"></canvas>
+            <div class="m-widget3__item">
 
 
+                <canvas id="myChart8" width="450"></canvas>
 
-                    </div>
-                </div>
+
+
             </div>
         </div>
+    </div>
+</div>
+
 
 
     </div>
@@ -363,25 +364,6 @@
 
     <div class="row" style="margin-top:3%">
 
-<div class="col-lg-6 col-sm-6">
-    <div class="card mb-4">
-        <div class="card-header d-flex align-items-center border-0 bg-info">
-            <h3 class="w-70 float-left card-title m-0" style="color:white;font-size:15px;">
-                {{ __('Payment--Last 6 Months') }}</h3>
-        </div>
-        <div class="card-body">
-
-            <div class="m-widget3__item">
-
-
-                <canvas id="myChart8" width="450"></canvas>
-
-
-
-            </div>
-        </div>
-    </div>
-</div>
 
 </div>
 @endsection
@@ -615,8 +597,8 @@
         });
 
 
-        var chartDiv4 = $("#myChart4");
-        var age_group = <?php echo $data['age_group']; ?>;
+        /*var chartDiv4 = $("#myChart4");
+        var age_group = <?php //echo $data['age_group']; ?>;
         labels4 = [];
         data4 = [];
 
@@ -653,7 +635,7 @@
                 maintainAspectRatio: false,
                 is3D: true,
             }
-        });
+        });*/
 
 
         var chartDiv6 = $("#myChart6");

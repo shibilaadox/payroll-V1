@@ -171,7 +171,7 @@ class HomeController extends Controller
 
         $users = User::where('user_type','Employee')->get();
 
-        $age_20_30 = 0;
+        /*$age_20_30 = 0;
         $age_30_40 = 0;
         $age_40_50 = 0;
         $age_50_60 = 0;
@@ -206,7 +206,7 @@ class HomeController extends Controller
 
         $data_age_group[3]['values'] = [$age_50_60];
 
-        $data['age_group']= json_encode($data_age_group);
+        $data['age_group']= json_encode($data_age_group);*/
 
         $data['employee_departments'] = User::leftJoin('userdetails', 'userdetails.user_id', '=', 'users.id')->join('departments', 'userdetails.department', '=', 'departments.id')->select(DB::raw("count(department) as count"),'departments.name as dep_name')->groupBy('department')->get();
 

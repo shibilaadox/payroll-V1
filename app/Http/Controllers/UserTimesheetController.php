@@ -138,7 +138,7 @@ class UserTimesheetController extends Controller
             }
         }
 
-            $data_employee = UserTimesheet::with('client')->with('location')->where('user_id',$request->user_id)->where('month',date('m'))->get();
+            $data_employee = UserTimesheet::with('client')->with('location')->where('user_id',$request->user_id)->where('month',$request->month)->get();
 
             return view('backend.timesheetEntry.timesheet_entry',compact('data_employee'));
     }

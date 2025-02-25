@@ -28,7 +28,7 @@ class UserTimesheetController extends Controller
 
     public function store(Request $request)
     {
-        $last_employee_data = UserTimesheet::where('month',date('m'))->where('user_id',$request->user_id)->first();
+        $last_employee_data = UserTimesheet::where('month',$request->month)->where('year',$request->year)->where('payroll_period_start',$request->payroll_period_start)->where('payroll_period_end',$request->payroll_period_end)->where('user_id',$request->user_id)->first();
         if(empty($last_employee_data)){
         $rate8 = Rate::select('rate8')->first();
         $rate12 = Rate::select('rate12')->first();
@@ -49,13 +49,13 @@ class UserTimesheetController extends Controller
             
             $date = date('F Y');//Current Month Year
         
-            $fDay = date('Y-m-01');
-            $hDay = date('Y-m-d', (strtotime($fDay)+ (86400 * 15)));
-            $lDay = date("Y-m-t");
+            $fDay = date($request->year.'-'.$request->month.'-01');
+            $hDay = date($request->year.'-'.$request->month.'-d', (strtotime($fDay)+ (86400 * 15)));
+            $lDay = date($request->year.'-'.$request->month.'-t', strtotime($hDay));
 
             if($request->week_number=="B"){
 
-                $date = date('Y-m-d', (strtotime($fDay)+ (86400 * 15)));
+                $date = date($request->year.'-'.$request->month.'-d', (strtotime($fDay)+ (86400 * 15)));
                 
                 while ($date >= $hDay && $date <= $lDay) {
                   
@@ -90,7 +90,7 @@ class UserTimesheetController extends Controller
                     UserTimesheet::create($input);
 
                    
-                    $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));//Adds 1 day onto current date
+                    $date = date($request->year."-".$request->month."-d", strtotime("+1 day", strtotime($date)));//Adds 1 day onto current date
                     
                 }
             }
@@ -131,14 +131,14 @@ class UserTimesheetController extends Controller
                     if(empty($last_data))
                     UserTimesheet::create($input);
 
-                    $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));//Adds 1 day onto current date
+                    $date = date($request->year."-".$request->month."-d", strtotime("+1 day", strtotime($date)));//Adds 1 day onto current date
                     
                 } 
             
             }
         }
 
-            $data_employee = UserTimesheet::with('client')->with('location')->where('user_id',$request->user_id)->where('month',$request->month)->get();
+            $data_employee = UserTimesheet::with('client')->with('location')->where('user_id',$request->user_id)->where('month',$request->month)->where('year',$request->year)->where('payroll_period_start',$request->payroll_period_start)->where('payroll_period_end',$request->payroll_period_end)->get();
 
             return view('backend.timesheetEntry.timesheet_entry',compact('data_employee'));
     }

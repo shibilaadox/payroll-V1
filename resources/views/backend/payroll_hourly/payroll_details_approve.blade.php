@@ -107,7 +107,7 @@
                     
                                 <?php $i=1;foreach ($data['employees'] as $row1){ 
 
-$j = 0 ;$TOTAL_overtime=0;$no_8_days=0;$TOTAL_UA=0;$TOTAL_OT=0;$TOTAL_GP = 0; $NET_PAY = 0;$TOTAL_RP = 0;$TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
+$j = 0 ;$TOTAL_overtime=0;$no_8_days=0;$no_12_days=0;$no_days=0;$TOTAL_UA=0;$TOTAL_OT=0;$TOTAL_GP = 0; $NET_PAY = 0;$TOTAL_RP = 0;$TOTAL_DEDUCTION=0;$TOTAL_EMHDMF=0;$TOTAL_EMPH=0;$TOTAL_EMSSS=0;$TOTAL_tax=0;
        
                                       foreach($row1->usertimesheet as $row){
 
@@ -118,6 +118,10 @@ $j = 0 ;$TOTAL_overtime=0;$no_8_days=0;$TOTAL_UA=0;$TOTAL_OT=0;$TOTAL_GP = 0; $N
                                           $id = $row->user_id;
 
                                           $no_8_days = $no_8_days + $row->day8;
+
+                                          $no_12_days = $no_12_days + $row->day12;
+
+                                          $no_days = $no_8_days + $no_12_days;
                       
                                           $RegP = $row->day8*$row->day8_rate;
                       
@@ -226,7 +230,7 @@ $j = 0 ;$TOTAL_overtime=0;$no_8_days=0;$TOTAL_UA=0;$TOTAL_OT=0;$TOTAL_GP = 0; $N
                                             <th scope="row">{{ $i++ }}</th>
                                             <td><?php echo $row1->firstname." ".$row1->lastname?></td>
                                             <td><?php 
-                                            echo $no_8_days;
+                                            echo $no_days;
                                             ?>
                                             </td>
                                            

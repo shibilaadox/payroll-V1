@@ -56,12 +56,12 @@ class PayrollHourlyController extends Controller
 
                     $RegP = $row->day8*$row->day8_rate;
 
-                    $TOTAL_RP = $TOTAL_RP+$RegP;
-
                     if($row->day12==4)
                     $Pay12 = $row->day12_rate-$RegP;
                     else
                     $Pay12 = $row->day8_rate*$row->day12;
+
+                    $TOTAL_RP = $TOTAL_RP+$RegP+$Pay12;
 
                     $UA = $row->undertime * ($row->day8_rate/60);
                     $TOTAL_UA = $TOTAL_UA+$UA;
@@ -195,12 +195,12 @@ class PayrollHourlyController extends Controller
 
                     $RegP = $row->day8*$row->day8_rate;
 
-                    $TOTAL_RP = $TOTAL_RP+$RegP;
-
                     if($row->day12==4)
                     $Pay12 = $row->day12_rate-$RegP;
                     else
                     $Pay12 = $row->day8_rate*$row->day12;
+
+                    $TOTAL_RP = $TOTAL_RP+$RegP+$Pay12;
 
                     $UA = $row->undertime * ($row->day8_rate/60);
                     $TOTAL_UA = $TOTAL_UA+$UA;
@@ -394,12 +394,12 @@ class PayrollHourlyController extends Controller
 
                     $RegP = $row->day8*$row->day8_rate;
 
-                    $TOTAL_RP = $TOTAL_RP+$RegP;
-
                     if($row->day12==4)
                     $Pay12 = $row->day12_rate-$RegP;
                     else
                     $Pay12 = $row->day8_rate*$row->day12;
+
+                    $TOTAL_RP = $TOTAL_RP+$RegP+$Pay12;
 
                     $UA = $row->undertime * ($row->day8_rate/60);
                     $TOTAL_UA = $TOTAL_UA+$UA;
@@ -548,12 +548,12 @@ class PayrollHourlyController extends Controller
                         
                                             $RegP = $row->day8*$row->day8_rate;
                         
-                                            $TOTAL_RP = $TOTAL_RP+$RegP;
-                        
                                             if($row->day12==4)
                                             $Pay12 = $row->day12_rate-$RegP;
                                             else
                                             $Pay12 = $row->day8_rate*$row->day12;
+
+                                            $TOTAL_RP = $TOTAL_RP+$RegP+$Pay12;
                         
                                             $UA = $row->undertime * ($row->day8_rate/60);
                                             $TOTAL_UA = $TOTAL_UA+$UA;
@@ -698,12 +698,12 @@ class PayrollHourlyController extends Controller
 
                     $RegP = $row->day8*$row->day8_rate;
 
-                    $TOTAL_RP = $TOTAL_RP+$RegP;
-
                     if($row->day12==4)
                     $Pay12 = $row->day12_rate-$RegP;
                     else
                     $Pay12 = $row->day8_rate*$row->day12;
+
+                    $TOTAL_RP = $TOTAL_RP+$RegP+$Pay12;
 
                     $UA = $row->undertime * ($row->day8_rate/60);
 

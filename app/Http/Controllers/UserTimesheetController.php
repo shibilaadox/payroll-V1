@@ -76,9 +76,9 @@ class UserTimesheetController extends Controller
                     $input['ot11_hrs'] = 0;
                     $input['ot12_hrs'] = 0;
                     $input['ot13_hrs'] = 0;
-                    $input['day8'] = 0;
+                    $input['day8'] = 8.00;
                     $input['day8_rate'] = $rate8->rate8;
-                    $input['day12'] = 0;
+                    $input['day12'] = 4.00;
                     $input['day12_rate'] = $rate12->rate12;
                     $input['nd_days'] = 0;
                     $input['incentive'] = 0;

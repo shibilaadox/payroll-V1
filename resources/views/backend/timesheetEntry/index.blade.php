@@ -78,12 +78,12 @@
                             <div class="form-group col-md-3">
                                 <label for="month" class="ul-form__label">Month:</label>
                                 <input type="text" class="form-control" id="month" name="month"
-                                    placeholder="MM" required value=<?php echo date('m')?>>
+                                    placeholder="MM" required readonly>
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="year" class="ul-form__label">Year:</label>
                                 <input type="text" class="form-control" id="year" name="year"
-                                    placeholder="YYYY" required value="<?php echo date('Y')?>">
+                                    placeholder="YYYY" required readonly>
                             </div>
                            
                         </div>
@@ -118,6 +118,17 @@
 
 @section('page-js')
     <script type="text/javascript">
+
+        $("#payroll_period_end").click(function(){
+            var date = $("#payroll_period_start").val();
+            var dt = new Date( $("#payroll_period_start").val());
+            var year_input = dt.getFullYear();
+            var month_input = (dt.getMonth() < 10 ? '0' : '') + (dt.getMonth()+1);
+
+            $("#month").val(month_input);
+            $("#year").val(year_input);
+
+        })
 
         $('#client_id').on('change', function() {
         var clientId = $(this).val();

@@ -124,13 +124,13 @@ $j = 0 ;$TOTAL_overtime=0;$no_8_days=0;$no_12_days=0;$no_days=0;$TOTAL_UA=0;$TOT
                                           $no_days = $no_8_days + $no_12_days;
                       
                                           $RegP = $row->day8*$row->day8_rate;
-                      
-                                          $TOTAL_RP = $TOTAL_RP+$RegP;
-                              
+
                                           if($row->day12==4)
                                           $Pay12 = $row->day12_rate-$RegP;
                                           else
                                           $Pay12 = $row->day8_rate*$row->day12;
+
+                                          $TOTAL_RP = $TOTAL_RP+$RegP+$Pay12;
                               
                                           $UA = $row->undertime * ($row->day8_rate/60);
                                           $TOTAL_UA = $TOTAL_UA+$UA;
@@ -331,7 +331,7 @@ $j = 0 ;$TOTAL_overtime=0;$no_8_days=0;$no_12_days=0;$no_days=0;$TOTAL_UA=0;$TOT
            let _token = $('meta[name="csrf-token"]').attr('content');
            
            $.ajax({
-                   url: "<?php echo url('get_payslip_hourly'); ?>",
+            url: "{{ route('payrolls_hourly.get_payslip_hourly',['payroll_period_start'=>$_GET['payroll_period_start'],'payroll_period_end'=>$_GET['payroll_period_end'],'client'=>$_GET['client']]) }}",
                    type: "GET",
                    data: {id:id},
                    cache: false,

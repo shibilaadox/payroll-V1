@@ -7,7 +7,7 @@
                 
                 <h4 class="card-title mb-3" style="text-align: end;margin-left:70%"><button type="button"
                                 class="btn btn-primary ripple m-1"><a style="color: white"
-                                    href="{{ route('payrolls_hourly.approve_payroll_hourly') }}">
+                                    href="{{ route('payrolls_hourly.approve_payroll_hourly',['payroll_period_start'=>$_GET['payroll_period_start'],'payroll_period_end'=>$_GET['payroll_period_end'],'client'=>$_GET['client']])}}">
                                     Approve</a></button></h4>
                
             </div>

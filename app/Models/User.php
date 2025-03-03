@@ -96,7 +96,7 @@ class User extends Authenticatable
 
     public function usertimesheet()
     {
-        return $this->hasMany(\App\Models\UserTimesheet::class, "user_id", "id");
+        return $this->hasMany(\App\Models\UserTimesheet::class, "user_id", "id")->with('client')->with('location');
     }
 
     public function useraddress()

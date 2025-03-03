@@ -252,6 +252,8 @@ Route::get('employee_store', [App\Http\Controllers\UserTimesheetController::clas
 
 Route::get('get-locations/{id}', [EmployeeController::class, 'getLocations']);
 
+Route::get('detailed_timesheet/{payroll_period_start}/{payroll_period_end}/{client}', [App\Http\Controllers\UserTimesheetController::class, 'detailed_timesheet'])->name('detailed_timesheet');
+
 });
 
 

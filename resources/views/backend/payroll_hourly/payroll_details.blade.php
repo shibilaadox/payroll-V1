@@ -227,7 +227,7 @@ $j = 0 ;$TOTAL_overtime=0;$no_8_days=0;$no_12_days=0;$no_days=0;$TOTAL_UA=0;$TOT
                                       ?>
                                         <tr>
                                             <th scope="row">{{ $i }}</th>
-                                            <td><?php echo $row1->firstname." ".$row1->lastname?></td>
+                                            <td onclick="detailed_entry('{{$row1->id}}')"><?php echo $row1->firstname." ".$row1->lastname?></td>
                                             <td><?php 
                                             
                                             
@@ -287,6 +287,36 @@ $j = 0 ;$TOTAL_overtime=0;$no_8_days=0;$no_12_days=0;$no_days=0;$TOTAL_UA=0;$TOT
                             </table>
                         </div>
 
+
+                        {{-- Add modal --}}
+                        <div class="modal fade" id="details-modal-id" tabindex="-1" role="dialog" aria-labelledby="TimesheetModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document"
+            style="max-width: 90%; margin: 0; top: 0; bottom: 0; left: 5%; right: 5%; display: flex;">
+            <div class="modal-content">
+                
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="UnitModalTitle">Detailed Timesheet</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                       
+                    </div>
+                    <div class="modal-body" id="details-modal">
+
+
+                        
+
+
+</div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('page-js')
@@ -296,6 +326,30 @@ $j = 0 ;$TOTAL_overtime=0;$no_8_days=0;$no_12_days=0;$no_days=0;$TOTAL_UA=0;$TOT
     $(".app-footer").hide();
 
     $('#user_table').DataTable();
+
+   
+    function detailed_entry(id) {
+
+event.preventDefault();
+   let _token = $('meta[name="csrf-token"]').attr('content');
+   
+   $.ajax({
+    url: "{{ route('detailed_timesheet',['payroll_period_start'=>$_GET['payroll_period_start'],'payroll_period_end'=>$_GET['payroll_period_end'],'client'=>$_GET['client']]) }}",
+           type: "GET",
+           data: {id:id},
+           cache: false,
+               
+           success: function(response) {
+
+               
+               $('#details-modal-id').modal('show');
+               $("#details-modal").html(response);
+           
+           }
+
+       });
+
+}
     
 </script>
 

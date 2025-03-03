@@ -332,5 +332,24 @@ class UserTimesheetController extends Controller
     }
 
 
+    public function detailed_timesheet($payroll_period_start,$payroll_period_end,$client)
+    {
+        $id = $_GET['id'];
+        
+        $data['employee'] = User::with('userdetails')->with(['usertimesheet' => function ($query) use($client,$payroll_period_start,$payroll_period_end){
+
+            return $query->where('payroll_period_start',$payroll_period_start)->where('payroll_period_end',$payroll_period_end)->where('client_id',$client);
+
+        }])->has('usertimesheet')->whereHas('usertimesheet', function ($query) use($client,$payroll_period_start,$payroll_period_end){
+
+            return $query->where('payroll_period_start',$payroll_period_start)->where('payroll_period_end',$payroll_period_end)->where('client_id',$client);
+
+        })->where('id',$id)->get();
+
+        return view('backend.timesheetEntry.detailed_entry',['data'=>$data]);
+
+    }
+
+
     
 }

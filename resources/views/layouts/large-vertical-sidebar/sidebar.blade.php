@@ -249,7 +249,7 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+           <!-- <li class="nav-item">
                 <a class="{{ Route::currentRouteName()=='payrolls_hourly.payroll_history_hourly' ? 'open' : '' }}" href="{{route('payrolls_hourly.payroll_history_hourly')}}">
                     <i class="nav-icon i-File-Clipboard-Text--Image"></i>
                     <span class="item-name">{{__('Payroll History')}}</span>
@@ -261,7 +261,7 @@
                     <i class="nav-icon i-File-Clipboard-Text--Image"></i>
                     <span class="item-name">Employee's Payroll</span>
                 </a>
-            </li>
+            </li>-->
 
 
         </ul>

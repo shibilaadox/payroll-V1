@@ -219,7 +219,18 @@ $j = 0 ;$TOTAL_overtime=0;$no_8_days=0;$no_12_days=0;$no_days=0;$TOTAL_UA=0;$TOT
 
             $deductions = $EMPH+$EMHDMF+$EMSSS;
 
-            $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
+            $time=strtotime($_GET['payroll_period_start']);
+            $month=date("m",$time);
+            $month_words = date("F",$time);
+
+            $day_start = date("d",strtotime($_GET['payroll_period_start']));
+            $day_end = date("d",strtotime($_GET['payroll_period_end']));
+            if($day_start==01 && $day_end==15)
+            $week = "A";
+            else
+            $week = "B";
+
+            $DEDUCTION = Deduction::where('user_id',$id)->where('month',$month)->sum('ded_amount');
             $TOTAL_DEDUCTION = $TOTAL_DEDUCTION+$DEDUCTION;
             
 
@@ -277,7 +288,7 @@ $j = 0 ;$TOTAL_overtime=0;$no_8_days=0;$no_12_days=0;$no_days=0;$TOTAL_UA=0;$TOT
                                             $NET_PAY = $TOTAL_GP - $deductions - $tax - $DEDUCTION;
                                             echo "₱".number_format($NET_PAY,2);
                                             ?></td>
-                                            <td><?php $status = Paymentstatus::where('user_id',$row1->id)->where('month',date('F',strtotime('last month')))->first();
+                                            <td><?php $status = Paymentstatus::where('user_id',$row1->id)->where('month',$month_words)->where('week',$week)->first();
                                                       if(empty($status))echo "<span style='color: red;'>Yet to pay</span>";else if($status->status==1)echo "<span style='color: green;'>Paid On ".$status->created_at->format('d/m/Y')."</span>";
                                             
                                             ?></td>

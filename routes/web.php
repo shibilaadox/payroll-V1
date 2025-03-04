@@ -203,7 +203,7 @@ Route::get('get_payslip_employee', [App\Http\Controllers\PayrollController::clas
 //Payroll Hourly routes
 Route::resource('payrolls_hourly', PayrollHourlyController::class);
 Route::get('approve_payroll_hourly', [App\Http\Controllers\PayrollHourlyController::class, 'approve_payroll_hourly'])->name('payrolls_hourly.approve_payroll_hourly');
-Route::get('record_payment_hourly', [App\Http\Controllers\PayrollHourlyController::class, 'record_payment_hourly'])->name('payrolls_hourly.record_payment_hourly');
+Route::get('record_payment_hourly/{payroll_period_start}/{payroll_period_end}', [App\Http\Controllers\PayrollHourlyController::class, 'record_payment_hourly'])->name('payrolls_hourly.record_payment_hourly');
 Route::get('get_payslip_hourly/{payroll_period_start}/{payroll_period_end}/{client}', [App\Http\Controllers\PayrollHourlyController::class, 'get_payslip_hourly'])->name('payrolls_hourly.get_payslip_hourly');
 Route::get('payroll_history_hourly', [App\Http\Controllers\PayrollHourlyController::class, 'payroll_history_hourly'])->name('payrolls_hourly.payroll_history_hourly');
 Route::get('payroll_employee_hourly', [App\Http\Controllers\PayrollHourlyController::class, 'payroll_employee_hourly'])->name('payrolls_hourly.payroll_employee_hourly');

@@ -215,8 +215,17 @@ $j = 0 ;$TOTAL_overtime=0;$no_8_days=0;$no_12_days=0;$no_days=0;$TOTAL_UA=0;$TOT
             
 
             $deductions = $EMPH+$EMHDMF+$EMSSS;
+            $time=strtotime($_GET['payroll_period_start']);
+            $month=date("m",$time);
+            $month_words=date("F",$time);
+            $day_start = date("d",strtotime($_GET['payroll_period_start']));
+            $day_end = date("d",strtotime($_GET['payroll_period_end']));
+            if($day_start==01 && $day_end==15)
+            $week = "A";
+            else
+            $week = "B";
 
-            $DEDUCTION = Deduction::where('user_id',$id)->where('month',date('F',strtotime('last month')))->sum('ded_amount');
+            $DEDUCTION = Deduction::where('user_id',$id)->where('month',$month)->sum('ded_amount');
             $TOTAL_DEDUCTION = $TOTAL_DEDUCTION+$DEDUCTION;
             
 
@@ -226,7 +235,11 @@ $j = 0 ;$TOTAL_overtime=0;$no_8_days=0;$no_12_days=0;$no_days=0;$TOTAL_UA=0;$TOT
                          
                                             <?php 
                                             $NET_PAY = $TOTAL_GP - $deductions - $tax - $DEDUCTION;?>
-                                            <th scope="row"><input type="checkbox" name="user_status_id" value="{{$row1->id}},{{$NET_PAY}}"></th>
+                                            <th scope="row"><?php $status = Paymentstatus::where('user_id',$row1->id)->where('month',$month_words)->where('week',$week)->first();
+                                            if(empty($status)){?>
+                                            <input type="checkbox" name="user_status_id" value="{{$row1->id}},{{$NET_PAY}}">
+                                            <?php } ?>
+                                            </th>
                                             <th scope="row">{{ $i++ }}</th>
                                             <td onclick="detailed_entry('{{$row1->id}}')"><?php echo $row1->firstname." ".$row1->lastname?></td>
                                             <td><?php 
@@ -239,7 +252,7 @@ $j = 0 ;$TOTAL_overtime=0;$no_8_days=0;$no_12_days=0;$no_days=0;$TOTAL_UA=0;$TOT
                                             ?></td>
                                             <td>Cheque</td>
                                             <td><button type="button" class="btn btn-primary btn-m ripple m-1" onclick="get_payslip('{{$row1->id}}')">view</button></div></td>
-                                            <td><?php $status = Paymentstatus::where('user_id',$row1->id)->where('month',date('F',strtotime('last month')))->first();
+                                            <td><?php $status = Paymentstatus::where('user_id',$row1->id)->where('month',$month_words)->where('week',$week)->first();
                                                       if(empty($status))echo "<span style='color: red;'>Yet to pay</span>";else if($status->status==1)echo "<span style='color: green;'>Paid On ".$status->created_at->format('d/m/Y')."</span>";
                                             
                                             ?></td>
@@ -339,7 +352,7 @@ $j = 0 ;$TOTAL_overtime=0;$no_8_days=0;$no_12_days=0;$no_days=0;$TOTAL_UA=0;$TOT
             });
         
            $.ajax({
-                   url: "<?php echo url('record_payment_hourly'); ?>",
+                   url: "<?php echo url('record_payment_hourly',['payroll_period_start'=>$_GET['payroll_period_start'],'payroll_period_end'=>$_GET['payroll_period_end']]); ?>",
                    type: "GET",
                    data: {id:id},
                    cache: false,
@@ -398,7 +411,7 @@ event.preventDefault();
            }
 
        });
-
+    }
     
 </script>
 

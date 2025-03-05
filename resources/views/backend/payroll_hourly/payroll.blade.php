@@ -1,3 +1,6 @@
+
+<?php $fDay = date('Y-m-01');
+        $hDay = date('Y-m-d', (strtotime($fDay)+ (86400 * 15))-1);?>
 @extends('layouts.master')
 
 @section('main-content')
@@ -11,14 +14,15 @@
              
             <div class="breadcrumb">
             <div class="form-group col-md-4">
+               
                                 <label for="payroll_period_start" class="ul-form__label">Payroll Start Date:</label>
                                 <input type="date" class="form-control filter_payroll" id="payroll_period_start"
-                                    name="payroll_period_start" required>
+                                    name="payroll_period_start" required value={{$fDay}}>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="payroll_period_end" class="ul-form__label">Payroll End Date:</label>
                                 <input type="date" class="form-control filter_payroll" id="payroll_period_end"
-                                    name="payroll_period_end" required>
+                                    name="payroll_period_end" required value={{$hDay}}>
                             </div> 
 
                             <div class="form-group col-md-4">
@@ -31,11 +35,11 @@
                                 </select>
                             </div>
             </div>
-            <?php if($data['employee']>0){?>
+            <?php //if($data['employee']>0){?>
             <h4 class="card-title mb-3" style="text-align: end;"><button type="button"
                                 class="btn btn-primary ripple m-1" id="view_details">
                                     View Details</a></button></h4>
-            <?php } ?>
+            <?php //} ?>
             <div class="row mb-12">
                 <div class="col-md-4 mb-4">
                     <div class="card o-hidden">
